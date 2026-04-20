@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOOGEEONE</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: #fff;
+  color: #111;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ───────── NAV ───────── */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 2rem;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  cursor: pointer;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  align-items: stretch;
+}
+
+.nav-menu > li {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.nav-menu > li > a {
+  display: flex;
+  align-items: center;
+  padding: 0 1.1rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: #333;
+  transition: color 0.15s;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.nav-menu > li:hover > a { color: #000; }
+
+.sub-menu {
+  display: none;
+  position: absolute;
+  top: 52px; left: 0;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-top: none;
+  min-width: 180px;
+  padding: 0.4rem 0;
+  z-index: 600;
+}
+
+.nav-menu > li:hover .sub-menu { display: block; }
+
+.sub-menu a {
+  display: block;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: #666;
+  transition: color 0.15s;
+  cursor: pointer;
+}
+
+.sub-menu a:hover { color: #000; }
+
+.hamburger {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  flex-direction: column; gap: 4px; align-items: center; justify-content: center;
+  width: 40px;
+}
+.hamburger span { display: block; width: 20px; height: 1px; background: #111; }
+
+.mobile-panel {
+  display: none;
+  position: fixed; top: 52px; left: 0; right: 0; bottom: 0;
+  background: #fff; z-index: 490; overflow-y: auto;
+  padding: 1.5rem 2rem;
+}
+.mobile-panel.open { display: block; }
+.mobile-panel a {
+  display: block; padding: 0.8rem 0;
+  font-size: 0.78rem; letter-spacing: 0.15em;
+  border-bottom: 1px solid #f0f0f0; color: #333;
+  cursor: pointer;
+}
+.mobile-panel a.indent { padding-left: 1rem; color: #999; font-size: 0.72rem; }
+
+/* ───────── SECTIONS ───────── */
+.page { margin-top: 52px; }
+.section { display: none; }
+.section.active { display: block; }
+
+/* ───────── HOME ───────── */
+#home {
+  min-height: calc(100vh - 52px);
+  display: flex; align-items: center; justify-content: center;
+  background: #fff;
+}
+
+.home-center { text-align: center; padding: 3rem 2rem; }
+
+.home-logo {
+  font-size: clamp(2rem, 6vw, 3.8rem);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  margin-bottom: 1.2rem;
+}
+
+.home-tagline {
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  color: #aaa;
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+}
+
+.home-nav {
+  display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap;
+}
+
+.home-nav a {
+  font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: #999; border-bottom: 1px solid transparent;
+  padding-bottom: 2px; transition: all 0.2s; cursor: pointer;
+}
+.home-nav a:hover { color: #111; border-bottom-color: #111; }
+
+/* ───────── PORTFOLIO ───────── */
+#portfolio { padding: 3rem 2rem 5rem; }
+
+.section-heading {
+  font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase;
+  color: #aaa; margin-bottom: 2rem; padding-bottom: 1rem;
+  border-bottom: 1px solid #e8e8e8;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+
+.filter-tabs { display: flex; gap: 1.5rem; }
+
+.ftab {
+  background: none; border: none; cursor: pointer;
+  font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: #bbb; border-bottom: 1px solid transparent; padding-bottom: 2px;
+  font-family: inherit; transition: all 0.15s;
+}
+.ftab.on { color: #111; border-bottom-color: #111; }
+.ftab:hover { color: #555; }
+
+.photo-masonry { columns: 3; column-gap: 6px; }
+
+.photo-masonry .ph {
+  break-inside: avoid; margin-bottom: 6px;
+  overflow: hidden; cursor: pointer;
+}
+
+.photo-masonry .ph img {
+  width: 100%; display: block;
+  transition: transform 0.5s ease;
+}
+.photo-masonry .ph:hover img { transform: scale(1.03); }
+
+/* ───────── RESERVATION ───────── */
+#reservation { padding: 3rem 2rem 5rem; }
+
+.res-intro {
+  font-size: 0.78rem; color: #888; line-height: 2.2;
+  max-width: 560px; margin-bottom: 3rem;
+}
+
+.res-cards {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 0; border: 1px solid #e8e8e8;
+}
+
+.res-card {
+  padding: 2.2rem 1.8rem 3rem;
+  border-right: 1px solid #e8e8e8;
+}
+.res-card:last-child { border-right: none; }
+
+.res-img {
+  width: 100%; aspect-ratio: 3/4; object-fit: cover;
+  display: block; margin-bottom: 1.6rem; filter: grayscale(8%);
+}
+
+.res-eyebrow {
+  font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase;
+  color: #bbb; margin-bottom: 0.5rem;
+}
+
+.res-title {
+  font-size: 1rem; font-weight: 500; letter-spacing: 0.08em; margin-bottom: 1rem;
+}
+
+.res-body {
+  font-size: 0.76rem; line-height: 2.1; color: #777; margin-bottom: 1.2rem;
+}
+
+.res-points {
+  font-size: 0.74rem; line-height: 2.1; color: #999; margin-bottom: 1.5rem;
+}
+
+.res-points strong {
+  display: block; font-size: 0.6rem; letter-spacing: 0.22em;
+  text-transform: uppercase; color: #bbb; margin-bottom: 0.5rem; font-weight: 400;
+}
+
+.btn-reserve {
+  display: inline-block; padding: 0.65rem 1.4rem;
+  background: #111; color: #fff; font-size: 0.66rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  font-family: inherit; border: none; cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-reserve:hover { background: #333; }
+
+/* ───────── CONTACT ───────── */
+#contact { padding: 3rem 2rem 5rem; }
+
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: start;
+}
+
+.contact-left > p {
+  font-size: 0.78rem; line-height: 2.4; color: #777; margin-bottom: 2rem;
+}
+
+.contact-row {
+  padding: 0.9rem 0; border-bottom: 1px solid #f0f0f0;
+  display: flex; flex-direction: column; gap: 0.25rem;
+}
+
+.clabel {
+  font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: #bbb;
+}
+
+.cvalue { font-size: 0.82rem; color: #333; line-height: 1.8; }
+.cvalue a { border-bottom: 1px solid #e8e8e8; transition: border-color 0.2s; }
+.cvalue a:hover { border-color: #111; }
+
+.contact-right h3 {
+  font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase;
+  color: #aaa; margin-bottom: 1.2rem;
+}
+
+.contact-right p {
+  font-size: 0.78rem; line-height: 2.6; color: #666;
+}
+
+/* ───────── GUIDE ───────── */
+#guide { padding: 3rem 2rem 5rem; }
+
+.guide-block { margin-bottom: 2.8rem; }
+
+.guide-block-title {
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em;
+  margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid #e8e8e8;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+
+.guide-block-title::before {
+  content: '!';
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; background: #111; color: #fff;
+  font-size: 0.6rem; border-radius: 50%; flex-shrink: 0;
+}
+
+.guide-list { list-style: none; }
+
+.guide-list li {
+  font-size: 0.78rem; line-height: 1; color: #555;
+  padding: 0.65rem 0; border-bottom: 1px solid #f5f5f5;
+  display: flex; gap: 0.6rem; align-items: flex-start;
+}
+
+.guide-list li::before { content: '•'; color: #ccc; flex-shrink: 0; margin-top: 0.05rem; }
+.guide-list li a { border-bottom: 1px solid #e0e0e0; color: #555; }
+.guide-list li a:hover { color: #111; }
+
+/* ───────── FOOTER ───────── */
+footer {
+  border-top: 1px solid #e8e8e8;
+  padding: 2rem;
+  text-align: center;
+}
+
+footer p { font-size: 0.68rem; color: #bbb; line-height: 2; }
+
+/* ───────── RESPONSIVE ───────── */
+@media (max-width: 860px) {
+  .nav-menu { display: none; }
+  .hamburger { display: flex; }
+  .photo-masonry { columns: 2; }
+  .res-cards { grid-template-columns: 1fr; }
+  .res-card { border-right: none; border-bottom: 1px solid #e8e8e8; }
+  .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .section-heading { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 480px) {
+  .photo-masonry { columns: 1; }
+  .nav-inner { padding: 0 1.2rem; }
+  #portfolio, #reservation, #contact, #guide { padding: 2rem 1.2rem 4rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div id="nav">
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showSection('home')">YOOGEEONE</div>
+    <ul class="nav-menu">
+      <li>
+        <a onclick="showSection('portfolio')">PORTFOLIO</a>
+        <div class="sub-menu">
+          <a onclick="showSection('portfolio');setFilter('all')">ALL</a>
+          <a onclick="showSection('portfolio');setFilter('archive')">WORK ARCHIVE</a>
+          <a onclick="showSection('portfolio');setFilter('ads')">ADVERTISEMENT</a>
+          <a onclick="showSection('portfolio');setFilter('portrait')">PORTRAIT</a>
+          <a onclick="showSection('portfolio');setFilter('fashion')">FASHION</a>
+        </div>
+      </li>
+      <li>
+        <a onclick="showSection('reservation')">RESERVATION</a>
+        <div class="sub-menu">
+          <a onclick="showSection('reservation')">ESSENTIAL</a>
+          <a onclick="showSection('reservation')">SIGNATURE</a>
+          <a onclick="showSection('reservation')">FASHION / COMMERCIAL</a>
+        </div>
+      </li>
+      <li>
+        <a onclick="showSection('contact')">CONTACT</a>
+        <div class="sub-menu">
+          <a onclick="showSection('contact')">QUOTATION REQUEST</a>
+          <a onclick="showSection('contact')">FIND US</a>
+        </div>
+      </li>
+      <li><a onclick="showSection('guide')">GUIDE</a></li>
+    </ul>
+    <button class="hamburger" onclick="document.getElementById('mobilePanel').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</div>
+
+<!-- MOBILE PANEL -->
+<div class="mobile-panel" id="mobilePanel">
+  <a onclick="go('portfolio');setFilter('all')">PORTFOLIO</a>
+  <a class="indent" onclick="go('portfolio');setFilter('archive')">Work Archive</a>
+  <a class="indent" onclick="go('portfolio');setFilter('ads')">Advertisement</a>
+  <a class="indent" onclick="go('portfolio');setFilter('portrait')">Portrait</a>
+  <a class="indent" onclick="go('portfolio');setFilter('fashion')">Fashion</a>
+  <a onclick="go('reservation')">RESERVATION</a>
+  <a class="indent" onclick="go('reservation')">Essential</a>
+  <a class="indent" onclick="go('reservation')">Signature</a>
+  <a class="indent" onclick="go('reservation')">Fashion / Commercial</a>
+  <a onclick="go('contact')">CONTACT</a>
+  <a onclick="go('guide')">GUIDE</a>
+</div>
+
+<div class="page">
+
+  <!-- HOME -->
+  <div id="home" class="section active">
+    <div class="home-center">
+      <div class="home-logo">YOOGEEONE</div>
+      <p class="home-tagline">Photography · Seoul · Studio 석양대로</p>
+      <nav class="home-nav">
+        <a onclick="showSection('portfolio')">Portfolio</a>
+        <a onclick="showSection('reservation')">Reservation</a>
+        <a onclick="showSection('contact')">Contact</a>
+        <a onclick="showSection('guide')">Guide</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO -->
+  <div id="portfolio" class="section">
+    <div style="padding:3rem 2rem 5rem;">
+      <div class="section-heading">
+        <span>Portfolio — Work Archive · Commercial</span>
+        <div class="filter-tabs">
+          <button class="ftab on" onclick="setFilter('all',this)">All</button>
+          <button class="ftab" onclick="setFilter('archive',this)">Archive</button>
+          <button class="ftab" onclick="setFilter('ads',this)">Ads</button>
+          <button class="ftab" onclick="setFilter('portrait',this)">Portrait</button>
+          <button class="ftab" onclick="setFilter('fashion',this)">Fashion</button>
+        </div>
+      </div>
+      <div class="photo-masonry" id="grid">
+        <div class="ph" data-cat="fashion"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt=""></div>
+        <div class="ph" data-cat="portrait"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80" alt=""></div>
+        <div class="ph" data-cat="ads"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80" alt=""></div>
+        <div class="ph" data-cat="archive"><img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80" alt=""></div>
+        <div class="ph" data-cat="fashion"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80" alt=""></div>
+        <div class="ph" data-cat="portrait"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=80" alt=""></div>
+        <div class="ph" data-cat="archive"><img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=600&q=80" alt=""></div>
+        <div class="ph" data-cat="ads"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80" alt=""></div>
+        <div class="ph" data-cat="fashion"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80" alt=""></div>
+        <div class="ph" data-cat="portrait"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&q=80" alt=""></div>
+        <div class="ph" data-cat="archive"><img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&q=80" alt=""></div>
+        <div class="ph" data-cat="ads"><img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=600&q=80" alt=""></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESERVATION -->
+  <div id="reservation" class="section">
+    <div style="padding:3rem 2rem 5rem;">
+      <div class="section-heading"><span>Reservation</span></div>
+      <p class="res-intro">스튜디오 석양대로는 사전 예약제로만 운영합니다.<br>아래 패키지를 확인하신 후 카카오톡 채널 또는 전화로 문의해 주세요.</p>
+      <div class="res-cards">
+        <div class="res-card">
+          <img class="res-img" src="https://cdn.imweb.me/thumbnail/20260123/b913bb5c0be54.jpg" alt="Essential" onerror="this.src='https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80'">
+          <p class="res-eyebrow">Package 01</p>
+          <h3 class="res-title">ESSENTIAL ARCHIVE</h3>
+          <p class="res-body">유행에 흔들리지 않는 작가의 시선으로 인물을 기록합니다. 우리가 정의한 고유의 톤과 대비, 날카로운 질감 속에 인물의 본질을 담아냅니다. 복잡한 고민 없이, 스튜디오가 지향하는 예술적 아카이브의 주인공이 되어보세요.</p>
+          <div class="res-points">
+            <strong>Select Point.</strong>
+            사전 미팅을 통해 작가와 직접 대화하며 작업의 방향성을 의논합니다.<br>
+            복잡한 포즈나 표정 연출에 대한 부담을 덜어드립니다.<br>
+            작가의 톤과 무드 안에서 가장 완벽한 순간을 세팅합니다.<br>
+            작가 특유의 안목과 결과물을 신뢰하는 분들에게 추천합니다.
+          </div>
+          <a href="http://pf.kakao.com/_QccGn/chat" class="btn-reserve">예약하기</a>
+        </div>
+        <div class="res-card">
+          <img class="res-img" src="https://cdn.imweb.me/thumbnail/20260121/503ed3a9bea31.jpg" alt="Signature" onerror="this.src='https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80'">
+          <p class="res-eyebrow">Package 02</p>
+          <h3 class="res-title">STANDARD ARCHIVE</h3>
+          <p class="res-body">유행에 흔들리지 않는 작가의 시선으로 인물을 기록합니다. 우리가 정의한 고유의 톤과 대비, 날카로운 질감 속에 인물의 본질을 담아냅니다.</p>
+          <div class="res-points">
+            <strong>Select Point.</strong>
+            작가와 호흡하며 촬영의 방향을 함께 그릴 수 있습니다.<br>
+            이미 설계된 작가의 톤과 무드 안에서 가장 완벽한 순간을 세팅합니다.<br>
+            스튜디오의 고유한 색채가 짙게 밴 기록을 원하는 경우 권장합니다.<br>
+            작가가 정의한 톤 속에서 인물 본연의 힘이 드러나는 순간을 포착합니다.
+          </div>
+          <a href="http://pf.kakao.com/_QccGn/chat" class="btn-reserve">예약하기</a>
+        </div>
+        <div class="res-card">
+          <img class="res-img" src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80" alt="Fashion Commercial">
+          <p class="res-eyebrow">Package 03</p>
+          <h3 class="res-title">FASHION / COMMERCIAL</h3>
+          <p class="res-body">패션 화보 및 광고 촬영 전용 패키지입니다. 브랜드 룩북, SNS 콘텐츠, 광고 소재 제작에 최적화된 전문 서비스를 제공합니다.</p>
+          <div class="res-points">
+            <strong>Select Point.</strong>
+            견적 요청서 작성 후 스케쥴 조율을 진행합니다.<br>
+            모델리스트 전달 및 선택이 가능합니다.<br>
+            최종 견적서 및 예약금 안내 후 촬영이 확정됩니다.
+          </div>
+          <a href="http://pf.kakao.com/_QccGn/chat" class="btn-reserve">문의하기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div id="contact" class="section">
+    <div style="padding:3rem 2rem 5rem;">
+      <div class="section-heading"><span>Contact</span></div>
+      <div class="contact-grid">
+        <div class="contact-left">
+          <p>촬영 문의는 카카오톡 채널 또는 전화로 연락주세요.<br>견적 문의 시 촬영 목적, 희망 일시, 참고 이미지를 함께 보내주시면 빠른 안내가 가능합니다.</p>
+          <div class="contact-row">
+            <span class="clabel">카카오톡</span>
+            <span class="cvalue"><a href="http://pf.kakao.com/_QccGn/chat">채널 채팅 바로가기</a></span>
+          </div>
+          <div class="contact-row">
+            <span class="clabel">전화</span>
+            <span class="cvalue"><a href="tel:0507-1302-3765">0507-1302-3765</a></span>
+          </div>
+          <div class="contact-row">
+            <span class="clabel">위치</span>
+            <span class="cvalue">서울시 송파구 가락동 154-4 지하1층<br><span style="color:#bbb;font-size:0.74rem;">스튜디오 석양대로</span></span>
+          </div>
+          <div class="contact-row">
+            <span class="clabel">운영 방식</span>
+            <span class="cvalue">사전 예약제 · 당일 방문 불가</span>
+          </div>
+        </div>
+        <div class="contact-right">
+          <h3>Quotation Request</h3>
+          <p>
+            견적 요청 시 아래 내용을 함께 알려주세요.<br><br>
+            — 촬영 목적 및 종류<br>
+            — 희망 촬영 일시<br>
+            — 참고 이미지 또는 콘셉트<br>
+            — 예상 인원 및 예산 범위<br><br>
+            <span style="color:#bbb;font-size:0.74rem;">
+              대표 유지원<br>
+              사업자등록번호 777-55-00231<br>
+              통신판매업신고 2021-서울강남-00258
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUIDE -->
+  <div id="guide" class="section">
+    <div style="padding:3rem 2rem 5rem;">
+      <div class="section-heading"><span>Guide</span></div>
+
+      <div class="guide-block">
+        <div class="guide-block-title">룩북 · 광고 촬영 예약 안내</div>
+        <ul class="guide-list">
+          <li>견적 요청서 작성</li>
+          <li>전화 및 카카오톡 채널 상담 진행 — <a href="http://pf.kakao.com/_QccGn/chat">카카오톡 상담 바로가기</a> / tel. 0507-1302-3765</li>
+          <li>촬영 스케쥴 조율</li>
+          <li>모델리스트 전달 및 선택</li>
+          <li>최종 견적서 및 예약금 안내</li>
+          <li>예약금 입금 후 스케쥴 픽스</li>
+        </ul>
+      </div>
+
+      <div class="guide-block">
+        <div class="guide-block-title">프로필 촬영 예약 안내</div>
+        <ul class="guide-list">
+          <li>전화 및 카카오톡 채널 상담 진행 — <a href="http://pf.kakao.com/_QccGn/chat">카카오톡 상담 바로가기</a> / tel. 0507-1302-3765</li>
+          <li>촬영 스케쥴 조율</li>
+          <li>예약금 안내</li>
+          <li>예약금 입금 후 스케쥴 픽스</li>
+        </ul>
+      </div>
+
+      <div class="guide-block">
+        <div class="guide-block-title">예약 안내</div>
+        <ul class="guide-list">
+          <li>스튜디오 석양대로는 사전 예약제로만 운영합니다.</li>
+          <li>예약은 전화, 카카오톡 채널, 홈페이지 예약 폼을 통해 접수하실 수 있습니다.</li>
+          <li>원활한 일정 관리를 위하여 총 촬영비의 30%를 선입금해 주셔야 예약이 확정됩니다.</li>
+          <li>예약금 입금이 확인되지 않을 시 예약은 자동으로 취소될 수 있습니다.</li>
+          <li>두 팀 이상이 동일한 시간대에 예약하실 경우, 먼저 예약금이 입금된 촬영을 우선 진행합니다.</li>
+          <li>잔액은 촬영 당일 현장에서 결제하시거나 사전 계좌이체로 납부하실 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <div class="guide-block">
+        <div class="guide-block-title">예약 변경 및 취소 · 예약금 환불 규정</div>
+        <ul class="guide-list">
+          <li>예약일 변경은 촬영일 기준 14일 전까지 1회에 한하여 가능하며, 이후에는 일정 변경이 불가합니다.</li>
+          <li>예약금은 어떠한 요청에도 환불되지 않습니다. 신중한 예약을 부탁드립니다.</li>
+          <li>스튜디오 귀책사유로 촬영이 취소될 경우 예약금을 환불해 드립니다.</li>
+          <li>고객님의 개인 사정에 의한 당일 취소 또는 무단 불참 시에도 예약금은 환불되지 않습니다.</li>
+          <li>10분 이상 지각 시 촬영은 자동으로 노쇼 처리되며 비용은 환불되지 않습니다.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>/ 석양대로 / 대표 유지원 / 사업자 등록번호 777-55-00231 /</p>
+  <p>/ 통신판매업신고번호 2021-서울강남-00258 /</p>
+  <p>/ 서울시 송파구 가락동 154-4 지하1층 / 호스팅제공자 (주)아임웹</p>
+  <p style="margin-top:0.5rem;">Copyright ⓒ 2026 YOOGEEONE All rights reserved.</p>
+</footer>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('mobilePanel').classList.remove('open');
+  window.scrollTo(0, 0);
+}
+
+function go(id) {
+  showSection(id);
+}
+
+function setFilter(cat, btn) {
+  if (btn) {
+    document.querySelectorAll('.ftab').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+  }
+  document.querySelectorAll('#grid .ph').forEach(el => {
+    el.style.display = (cat === 'all' || el.dataset.cat === cat) ? 'block' : 'none';
+  });
+}
+</script>
+</body>
+</html>
