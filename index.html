@@ -532,8 +532,19 @@
     document.querySelectorAll('.page').forEach(p => {
       p.classList.toggle('active', p.id === 'page-' + id);
     });
+    window.location.hash = id;
     window.scrollTo(0, 0);
+    if (id === 'contact') initMap();
   }
+
+  // 페이지 로드시 해시 확인
+  (function() {
+    var hash = window.location.hash.replace('#', '');
+    var valid = ['home', 'work', 'contact', 'guide'];
+    if (hash && valid.indexOf(hash) !== -1) {
+      showPage(hash);
+    }
+  })();
 
   function filterWork(cat) {
     document.querySelectorAll('.work-item').forEach(item => {
