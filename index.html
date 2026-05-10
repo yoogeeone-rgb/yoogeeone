@@ -192,7 +192,7 @@
     margin-top: 48px;
   }
   .home-grid-item {
-    aspect-ratio: 4/5;
+    aspect-ratio: 3/4;
     overflow: hidden;
     background: #ddd;
     cursor: pointer;
@@ -214,7 +214,7 @@
     margin-top: 48px;
   }
   .work-item {
-    aspect-ratio: 4/5;
+    aspect-ratio: 3/4;
     overflow: hidden;
     background: #e0e0dc;
     cursor: pointer;
@@ -345,6 +345,9 @@
     <div class="home-grid-item" onclick="openLightbox(this.querySelector('img').src)">
       <img src="images/home/home_6.JPG" alt="">
     </div>
+    <div class="home-grid-item"></div>
+    <div class="home-grid-item"></div>
+    <div class="home-grid-item"></div>
   </div>
   <footer>
     <span class="footer-name">YOOGEEONE — Fashion Photographer</span>
@@ -358,14 +361,7 @@
     <h1 class="page-title">Work</h1>
     <nav class="main-menu">
       <div class="menu-drop active">
-        <button onclick="showPage('work')">Work <span class="drop-arrow">▾</span></button>
-        <div class="dropdown">
-          <a href="#" onclick="filterWork('all');return false;" id="dd-all" class="active">All</a>
-          <a href="#" onclick="filterWork('editorial');return false;" id="dd-editorial">Editorial</a>
-          <a href="#" onclick="filterWork('lookbook');return false;" id="dd-lookbook">Lookbook</a>
-          <a href="#" onclick="filterWork('ads');return false;" id="dd-ads">Ads</a>
-          <a href="#" onclick="filterWork('portrait');return false;" id="dd-portrait">Portrait</a>
-        </div>
+        <button onclick="showPage('work')">Work</button>
       </div>
       <a href="#" onclick="showPage('contact');return false;">Contact</a>
       <a href="#" onclick="showPage('guide');return false;">Guide</a>
