@@ -319,7 +319,7 @@
 <!-- TOP NAV -->
 <div class="top-nav">
   <button class="nav-logo" onclick="showPage('home')">
-    <img src="images/SSBLVD_white.png" alt="YOOGEEONE" style="height: 80px; display: block;">
+    <img src="images/SSBLVD_white.png" alt="YOOGEEONE" style="height: 100px; display: block;">
   </button>
 </div>
 
@@ -592,7 +592,7 @@
   function initMap() {
     var mapEl = document.getElementById('map');
     if (!mapEl || typeof naver === 'undefined') return;
-    var center = new naver.maps.LatLng(37.49842877205628, 127.12449497776642);
+    var center = new naver.maps.LatLng(37.498428, 127.127065);
     var map = new naver.maps.Map(mapEl, { center: center, zoom: 17 });
     var marker = new naver.maps.Marker({ position: center, map: map });
     var infowindow = new naver.maps.InfoWindow({
