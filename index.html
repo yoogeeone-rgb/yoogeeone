@@ -297,6 +297,20 @@
   }
   .footer-name { font-size: 12px; letter-spacing: 0.08em; color: var(--gray); }
   .footer-copy { font-size: 11px; color: var(--light); }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .top-nav { padding: 12px 16px; }
+    .top-nav img { height: 48px !important; }
+    .page-header { padding: 24px 16px 0; }
+    .page-title { margin-bottom: 16px; }
+    .main-menu > a { margin-right: 20px; font-size: 13px; }
+    .filter-bar { padding-top: 6px; }
+    .filter-btn { margin-right: 16px; font-size: 12px; }
+    .contact-body { padding: 24px 16px 60px; }
+    .guide-body { padding: 24px 16px 60px; }
+    footer { padding: 20px 16px; flex-direction: column; gap: 8px; align-items: flex-start; }
+  }
 </style>
 </head>
 <body>
@@ -304,7 +318,7 @@
 <!-- TOP NAV -->
 <div class="top-nav">
   <button class="nav-logo" onclick="showPage('home')">
-    <img src="images/SSBLVD_white.png" alt="YOOGEEONE" style="height: 90px; display: block;">
+    <img src="images/SSBLVD_white.png" alt="YOOGEEONE" style="height: 100px; display: block;">
   </button>
 </div>
 
