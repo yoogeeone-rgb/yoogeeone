@@ -699,6 +699,7 @@ function alignServiceFilter() {
 
 window.addEventListener('load', alignServiceFilter);
 window.addEventListener('resize', alignServiceFilter);
+var mapInited = false;
 function initMap() {
   if (mapInited) return;
   var mapEl = document.getElementById('map');
