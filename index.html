@@ -228,7 +228,23 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
   .service-filter-bar { padding-top:6px; }
   .service-filter-btn { font-size:12px; margin-right:16px; }
   .home-grid { margin-left:16px; }
-  .work-grid { margin-left:16px; }
+  .work-grid {
+    display:flex;
+    flex-direction:row;
+    overflow-x:scroll;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    gap:2px;
+    margin-left:0;
+    margin-top:24px;
+    scrollbar-width:none;
+  }
+  .work-grid::-webkit-scrollbar { display:none; }
+  .work-item {
+    flex:0 0 80vw;
+    scroll-snap-align:start;
+    aspect-ratio:3/4;
+  }
   .contact-body { padding:24px 16px 0; }
   .studio-section { padding:32px 16px 60px; }
   .guide-body { padding:24px 16px 60px; max-width:100%; }
