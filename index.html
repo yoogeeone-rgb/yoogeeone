@@ -218,10 +218,12 @@ footer { border-top:1px solid var(--light); padding:24px 48px; display:flex; jus
 @media (max-width:768px) {
   .page-header { padding:24px 16px 0; }
   .page-title { font-size:clamp(48px,14vw,80px); }
+  .page-title-row { margin-bottom:16px; }
   .page-logo img { height:48px !important; }
   .main-menu > a { margin-right:20px; font-size:13px; }
   .filter-bar { padding-top:6px; }
   .filter-btn { margin-right:16px; font-size:12px; }
+  .service-filter-bar { padding-top:6px; }
   .service-filter-btn { font-size:12px; margin-right:16px; }
   .home-grid { margin-left:16px; }
   .work-grid { margin-left:16px; }
@@ -230,12 +232,13 @@ footer { border-top:1px solid var(--light); padding:24px 48px; display:flex; jus
   .guide-body { padding:24px 16px 60px; }
   footer { padding:20px 16px; flex-direction:column; gap:8px; align-items:flex-start; }
   #map { height:300px !important; }
-  .service-content { grid-template-columns:1fr; gap:0; margin:40px 16px; min-height:auto; }
+  .service-content { grid-template-columns:1fr; gap:0; margin:24px 16px; min-height:auto; }
   .service-content-img { aspect-ratio:4/3; }
-  .service-content-text { padding-top:32px; }
+  .service-content-text { padding-top:24px; }
   .service-slideshow { margin:0 16px; }
   .slide-controls { margin:0 16px; }
-  .service-slide { grid-template-columns:1fr; }
+  .service-slide { display:block; }
+  .service-slide-img { aspect-ratio:4/3; width:100%; }
   .studio-grid { grid-template-columns:1fr; }
 }
 </style>
