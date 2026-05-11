@@ -175,7 +175,44 @@ footer { border-top:1px solid var(--light); padding:24px 48px; display:flex; jus
 .footer-name { font-size:12px; letter-spacing:0.08em; color:var(--gray); }
 .footer-copy { font-size:11px; color:var(--gray); }
 
-/* MOBILE */
+/* FLOATING KAKAO BUTTON */
+.kakao-float {
+  position:fixed;
+  bottom:36px;
+  right:36px;
+  z-index:400;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  cursor:pointer;
+  text-decoration:none;
+  transition:transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.kakao-float:hover { transform:translateY(-6px); }
+.kakao-float-icon {
+  width:56px;
+  height:56px;
+  background:#FEE500;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 16px rgba(0,0,0,0.3);
+}
+.kakao-float-icon svg { width:28px; height:28px; }
+.kakao-float-label {
+  font-size:14px;
+  font-family:var(--sans);
+  letter-spacing:0.04em;
+  color:#f0ede6;
+  white-space:nowrap;
+  word-break:keep-all;
+  text-align:center;
+}
+@media (max-width:768px) {
+  .kakao-float { bottom:24px; right:20px; }
+}
 @media (max-width:768px) {
   .page-header { padding:24px 16px 0; }
   .page-title { font-size:clamp(48px,14vw,80px); }
@@ -526,6 +563,16 @@ footer { border-top:1px solid var(--light); padding:24px 48px; display:flex; jus
   </div>
   <footer><span class="footer-name">YOOGEEONE — Fashion Photographer</span><span class="footer-copy">© 2026</span></footer>
 </div>
+
+<!-- KAKAO FLOAT -->
+<a class="kakao-float" href="http://pf.kakao.com/_QccGn/chat" target="_blank">
+  <div class="kakao-float-icon">
+    <svg viewBox="0 0 24 24" fill="#3A1D1D" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 3C6.477 3 2 6.582 2 11c0 2.89 1.733 5.417 4.333 6.933L5.5 21l3.833-2.033C10.067 19.32 11.017 19.5 12 19.5c5.523 0 10-3.582 10-8s-4.477-8.5-10-8.5z"/>
+    </svg>
+  </div>
+  <span class="kakao-float-label">카카오톡<br>상담</span>
+</a>
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
