@@ -237,8 +237,9 @@ footer { border-top:1px solid var(--light); padding:24px 48px; display:flex; jus
   .service-content-text { padding-top:24px; }
   .service-slideshow { margin:0 16px; }
   .slide-controls { margin:0 16px; }
-  .service-slide { display:block; }
-  .service-slide-img { aspect-ratio:4/3; width:100%; }
+  .service-slide { display:flex; }
+  .service-slide .service-slide-img:nth-child(2) { display:none; }
+  .service-slide .service-slide-img:nth-child(1) { width:100%; aspect-ratio:3/4; }
   .studio-grid { grid-template-columns:1fr; }
 }
 </style>
