@@ -89,6 +89,7 @@ body { background:var(--white); color:var(--black); font-family:var(--sans); fon
 
 /* SERVICE */
 .service-filter-bar { display:flex; align-items:baseline; border-bottom:1px solid var(--light); padding-top:10px; }
+.service-sub-bar { display:flex; align-items:baseline; border-bottom:1px solid var(--light); padding-top:10px; }
 .service-filter-btn { background:none; border:none; border-bottom:2px solid transparent; padding:8px 0; margin-right:28px; font-family:var(--sans); font-size:17px; font-weight:400; letter-spacing:0.04em; color:var(--gray); cursor:pointer; position:relative; top:1px; transition:color 0.15s; }
 .service-filter-btn:hover { color:var(--black); }
 .service-filter-btn.active { color:var(--black); border-bottom:2px solid var(--black); font-weight:500; }
@@ -239,8 +240,12 @@ footer { border-top:1px solid var(--light); padding:24px 48px; display:flex; jus
       <a href="#" onclick="showPage('guide');return false;">Guide</a>
     </nav>
     <div class="service-filter-bar">
-      <button class="service-filter-btn active" onclick="showService('fashion')" id="sf-fashion">Fashion</button>
-      <button class="service-filter-btn" onclick="showService('essential')" id="sf-essential">Essential</button>
+      <button class="service-filter-btn active" onclick="showServiceTop('fashion')" id="sf-fashion">Fashion</button>
+      <span style="color:var(--light); font-size:18px; position:relative; top:1px; margin-right:28px;">|</span>
+      <button class="service-filter-btn" onclick="showServiceTop('portrait')" id="sf-portrait">Portrait</button>
+    </div>
+    <div class="service-sub-bar" id="service-sub-bar" style="display:none; padding-left:120px;">
+      <button class="service-filter-btn active" onclick="showService('essential')" id="sf-essential">Essential</button>
       <button class="service-filter-btn" onclick="showService('signature')" id="sf-signature">Signature</button>
     </div>
   </div>
@@ -566,10 +571,33 @@ document.addEventListener('keydown', e => {
 var slideIndexes = { fashion:0, essential:0, signature:0 };
 var slideTimers = {};
 
+function showServiceTop(id) {
+  var subBar = document.getElementById('service-sub-bar');
+  if (id === 'fashion') {
+    subBar.style.display = 'none';
+    ['fashion','essential','signature'].forEach(s => {
+      document.getElementById('sp-' + s).classList.remove('active');
+    });
+    document.getElementById('sp-fashion').classList.add('active');
+    document.getElementById('sf-fashion').classList.add('active');
+    document.getElementById('sf-portrait').classList.remove('active');
+  } else {
+    subBar.style.display = 'flex';
+    document.getElementById('sf-fashion').classList.remove('active');
+    document.getElementById('sf-portrait').classList.add('active');
+    // Essential을 기본으로
+    showService('essential');
+  }
+}
+
 function showService(id) {
   ['fashion','essential','signature'].forEach(s => {
-    document.getElementById('sp-' + s).classList.toggle('active', s === id);
-    document.getElementById('sf-' + s).classList.toggle('active', s === id);
+    document.getElementById('sp-' + s).classList.remove('active');
+  });
+  document.getElementById('sp-' + id).classList.add('active');
+  ['essential','signature'].forEach(s => {
+    var btn = document.getElementById('sf-' + s);
+    if (btn) btn.classList.toggle('active', s === id);
   });
 }
 
