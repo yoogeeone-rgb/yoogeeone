@@ -208,8 +208,10 @@ footer { border-top:1px solid var(--light); padding:24px 48px; display:flex; jus
       <button class="filter-btn active" onclick="filterWork('all')" id="fb-all">All</button>
       <button class="filter-btn" onclick="filterWork('editorial')" id="fb-editorial">Editorial</button>
       <button class="filter-btn" onclick="filterWork('lookbook')" id="fb-lookbook">Lookbook</button>
+      <button class="filter-btn" onclick="filterWork('beauty')" id="fb-beauty">Beauty</button>
       <button class="filter-btn" onclick="filterWork('ads')" id="fb-ads">Ads</button>
       <button class="filter-btn" onclick="filterWork('portrait')" id="fb-portrait">Portrait</button>
+      <button class="filter-btn" onclick="filterWork('event')" id="fb-event">Event</button>
     </div>
   </div>
   <div class="work-grid" id="work-grid">
@@ -239,12 +241,12 @@ footer { border-top:1px solid var(--light); padding:24px 48px; display:flex; jus
       <a href="#" onclick="showPage('contact');return false;">Contact</a>
       <a href="#" onclick="showPage('guide');return false;">Guide</a>
     </nav>
-    <div class="service-filter-bar">
+    <div class="service-filter-bar" id="service-filter-bar">
       <button class="service-filter-btn active" onclick="showServiceTop('fashion')" id="sf-fashion">Fashion</button>
       <span style="color:var(--light); font-size:18px; position:relative; top:1px; margin-right:28px;">|</span>
       <button class="service-filter-btn" onclick="showServiceTop('portrait')" id="sf-portrait">Portrait</button>
     </div>
-    <div class="service-sub-bar" id="service-sub-bar" style="display:none; padding-left:120px;">
+    <div class="service-sub-bar" id="service-sub-bar" style="display:none;">
       <button class="service-filter-btn active" onclick="showService('essential')" id="sf-essential">Essential</button>
       <button class="service-filter-btn" onclick="showService('signature')" id="sf-signature">Signature</button>
     </div>
@@ -525,6 +527,9 @@ function showPage(id) {
   if (id === 'contact') {
     setTimeout(initMap, 200);
   }
+  if (id === 'service') {
+    setTimeout(alignServiceFilter, 100);
+  }
 }
 
 (function() {
@@ -655,7 +660,19 @@ window.addEventListener('load', function() {
   });
 });
 
-var mapInited = false;
+function alignServiceFilter() {
+  if (window.innerWidth <= 768) return;
+  var workBtn = document.querySelector('#page-service .main-menu a:first-child');
+  var filterBar = document.getElementById('service-filter-bar');
+  var subBar = document.getElementById('service-sub-bar');
+  if (!workBtn || !filterBar) return;
+  var offset = workBtn.getBoundingClientRect().width + 32;
+  filterBar.style.paddingLeft = offset + 'px';
+  subBar.style.paddingLeft = offset + 'px';
+}
+
+window.addEventListener('load', alignServiceFilter);
+window.addEventListener('resize', alignServiceFilter);
 function initMap() {
   if (mapInited) return;
   var mapEl = document.getElementById('map');
