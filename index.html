@@ -632,25 +632,71 @@ document.addEventListener('keydown', e => {
 /* ── SLIDESHOW ── */
 var slideIndexes = { fashion:0, essential:0, signature:0 };
 var slideTimers = {};
+var slideTotalSlides = { fashion:5, essential:5, signature:5 };
 
 function slideTo(id, idx) {
-  var slides = document.getElementById('slides-' + id);
-  var total = slides.children.length;
+  var track = document.getElementById('slides-' + id);
+  var total = track.children.length;
   idx = (idx + total) % total;
   slideIndexes[id] = idx;
-  slides.style.transform = 'translateX(-' + (idx * 100) + '%)';
+  track.style.transition = 'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)';
+  track.style.transform = 'translateX(-' + (idx * 100) + '%)';
   document.querySelectorAll('#dots-' + id + ' .slide-dot').forEach((d, i) => {
     d.classList.toggle('active', i === idx);
   });
 }
+
 function slideMove(id, dir) {
-  slideTo(id, slideIndexes[id] + dir);
-  clearInterval(slideTimers[id]);
-  slideTimers[id] = setInterval(() => slideTo(id, slideIndexes[id] + 1), 4000);
+  var track = document.getElementById('slides-' + id);
+  var total = track.children.length;
+  var current = slideIndexes[id];
+  var next = (current + dir + total) % total;
+
+  // 마지막→처음 or 처음→마지막 순간에 순간이동 트릭
+  if (dir === 1 && current === total - 1) {
+    // 마지막에서 다음: 순간이동 후 슬라이드
+    track.style.transition = 'none';
+    track.style.transform = 'translateX(-' + (-1 * 100) + '%)';
+    setTimeout(() => {
+      track.style.transition = 'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)';
+      track.style.transform = 'translateX(0%)';
+      slideIndexes[id] = 0;
+      updateDots(id, 0);
+    }, 20);
+    return;
+  }
+  if (dir === -1 && current === 0) {
+    // 처음에서 이전: 순간이동 후 슬라이드
+    track.style.transition = 'none';
+    track.style.transform = 'translateX(-' + (total * 100) + '%)';
+    setTimeout(() => {
+      track.style.transition = 'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)';
+      track.style.transform = 'translateX(-' + ((total - 1) * 100) + '%)';
+      slideIndexes[id] = total - 1;
+      updateDots(id, total - 1);
+    }, 20);
+    return;
+  }
+
+  slideTo(id, next);
+  resetTimer(id);
 }
+
+function updateDots(id, idx) {
+  var total = document.getElementById('slides-' + id).children.length;
+  document.querySelectorAll('#dots-' + id + ' .slide-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === idx);
+  });
+}
+
+function resetTimer(id) {
+  clearInterval(slideTimers[id]);
+  slideTimers[id] = setInterval(() => slideMove(id, 1), 4000);
+}
+
 window.addEventListener('load', function() {
   ['fashion','essential','signature'].forEach(function(id) {
-    slideTimers[id] = setInterval(() => slideTo(id, slideIndexes[id] + 1), 4000);
+    slideTimers[id] = setInterval(() => slideMove(id, 1), 4000);
     var el = document.getElementById('slides-' + id);
     if (!el) return;
     var startX = 0, dragging = false;
