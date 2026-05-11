@@ -517,7 +517,9 @@ function showPage(id) {
   });
   window.location.hash = id;
   window.scrollTo(0, 0);
-  if (id === 'contact') setTimeout(initMap, 100);
+  if (id === 'contact') {
+    setTimeout(initMap, 200);
+  }
 }
 
 (function() {
@@ -625,6 +627,7 @@ window.addEventListener('load', function() {
   });
 });
 
+var mapInited = false;
 function initMap() {
   if (mapInited) return;
   var mapEl = document.getElementById('map');
