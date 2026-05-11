@@ -670,6 +670,7 @@ function openLightbox(src) {
   if (lbIndex === -1) lbIndex = 0;
   document.getElementById('lb-img').src = lbImages[lbIndex];
   document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 function moveLight(dir) {
   lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
@@ -677,6 +678,7 @@ function moveLight(dir) {
 }
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
 }
 document.addEventListener('keydown', e => {
   if (!document.getElementById('lightbox').classList.contains('open')) return;
@@ -693,6 +695,11 @@ document.addEventListener('keydown', e => {
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
   }, { passive:true });
+  lb.addEventListener('touchmove', function(e) {
+    var dx = Math.abs(e.touches[0].clientX - touchStartX);
+    var dy = Math.abs(e.touches[0].clientY - touchStartY);
+    if (dx > dy) e.preventDefault(); // 좌우 스와이프면 세로 스크롤 막기
+  }, { passive:false });
   lb.addEventListener('touchend', function(e) {
     var dx = e.changedTouches[0].clientX - touchStartX;
     var dy = e.changedTouches[0].clientY - touchStartY;
