@@ -294,10 +294,9 @@ footer { border-top:1px solid var(--light); padding:24px 48px; display:flex; jus
       <button class="service-filter-btn active" onclick="showServiceTop('fashion')" id="sf-fashion">Fashion</button>
       <span style="color:var(--light);font-size:18px;position:relative;top:1px;margin-right:28px;">|</span>
       <button class="service-filter-btn" onclick="showServiceTop('portrait')" id="sf-portrait">Portrait</button>
-    </div>
-    <div class="service-sub-bar" id="service-sub-bar" style="display:none;">
-      <button class="service-filter-btn active" onclick="showService('essential')" id="sf-essential">Essential</button>
-      <button class="service-filter-btn" onclick="showService('signature')" id="sf-signature">Signature</button>
+      <span id="service-sub-sep" style="color:var(--light);font-size:18px;position:relative;top:1px;margin-right:28px;display:none;">—</span>
+      <button class="service-filter-btn" onclick="showService('essential')" id="sf-essential" style="display:none;">Essential</button>
+      <button class="service-filter-btn" onclick="showService('signature')" id="sf-signature" style="display:none;">Signature</button>
     </div>
   </div>
 
@@ -565,15 +564,21 @@ function filterWork(cat) {
 
 /* ── SERVICE FILTER ── */
 function showServiceTop(id) {
-  var subBar = document.getElementById('service-sub-bar');
+  var sep = document.getElementById('service-sub-sep');
+  var essential = document.getElementById('sf-essential');
+  var signature = document.getElementById('sf-signature');
   if (id === 'fashion') {
-    subBar.style.display = 'none';
+    sep.style.display = 'none';
+    essential.style.display = 'none';
+    signature.style.display = 'none';
     ['essential','signature'].forEach(s => document.getElementById('sp-' + s).classList.remove('active'));
     document.getElementById('sp-fashion').classList.add('active');
     document.getElementById('sf-fashion').classList.add('active');
     document.getElementById('sf-portrait').classList.remove('active');
   } else {
-    subBar.style.display = 'flex';
+    sep.style.display = 'inline-block';
+    essential.style.display = 'inline-block';
+    signature.style.display = 'inline-block';
     document.getElementById('sf-fashion').classList.remove('active');
     document.getElementById('sf-portrait').classList.add('active');
     showService('essential');
@@ -593,11 +598,8 @@ function alignServiceFilter() {
   if (window.innerWidth <= 768) return;
   var workBtn = document.querySelector('#page-service .main-menu a:first-child');
   var filterBar = document.getElementById('service-filter-bar');
-  var subBar = document.getElementById('service-sub-bar');
   if (!workBtn || !filterBar) return;
-  var offset = workBtn.offsetWidth + 32;
-  filterBar.style.paddingLeft = offset + 'px';
-  subBar.style.paddingLeft = offset + 'px';
+  filterBar.style.paddingLeft = (workBtn.offsetWidth + 32) + 'px';
 }
 window.addEventListener('load', alignServiceFilter);
 window.addEventListener('resize', alignServiceFilter);
