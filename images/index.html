@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOOGEEONE — Fashion Photographer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=jxliu0otlu"></script>
+<style>
+:root {
+  --black: #f0ede6;
+  --white: #1a1a1a;
+  --gray: #aaa9a5;
+  --light: #2e2e2e;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'DM Sans', 'Noto Sans KR', sans-serif;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--white); color:var(--black); font-family:var(--sans); font-weight:300; -webkit-font-smoothing:antialiased; max-width:1440px; margin:0 auto; }
+
+/* PAGES */
+.page { display:none; }
+.page.active { display:block; }
+
+/* PAGE HEADER */
+.page-header { padding:48px 48px 0; }
+
+.page-title-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:28px;
+}
+.page-title {
+  font-family:var(--serif);
+  font-size:clamp(64px,10vw,120px);
+  font-weight:400;
+  line-height:1;
+  letter-spacing:-0.01em;
+}
+.page-logo {
+  background:none;
+  border:none;
+  cursor:pointer;
+  flex-shrink:0;
+  margin-left:24px;
+  margin-top:4px;
+}
+.page-logo img { height:80px; display:block; }
+
+/* MAIN MENU */
+.main-menu { display:flex; align-items:stretch; border-bottom:1px solid var(--light); }
+.main-menu > a {
+  font-family:var(--sans); font-size:18px; font-weight:500; letter-spacing:0.06em;
+  text-transform:uppercase; color:var(--black); text-decoration:none;
+  padding:12px 0; margin-right:32px;
+  border-bottom:2px solid transparent; position:relative; top:1px;
+  transition:color 0.15s; display:inline-block; white-space:nowrap;
+}
+.main-menu > a:hover { color:var(--gray); }
+.main-menu > a.active { border-bottom:2px solid var(--black); }
+
+/* FILTER BAR */
+.filter-bar { display:flex; align-items:baseline; border-bottom:1px solid var(--light); padding-top:10px; flex-wrap:wrap; }
+.filter-btn {
+  background:none; border:none; border-bottom:2px solid transparent;
+  padding:8px 0; margin-right:28px; font-family:var(--sans); font-size:17px;
+  font-weight:400; letter-spacing:0.04em; color:var(--gray);
+  cursor:pointer; position:relative; top:1px; transition:color 0.15s; white-space:nowrap;
+}
+.filter-btn:hover { color:var(--black); }
+.filter-btn.active { color:var(--black); border-bottom:2px solid var(--black); font-weight:500; }
+
+/* SERVICE FILTER */
+.service-filter-bar { display:flex; align-items:baseline; border-bottom:1px solid var(--light); padding-top:10px; }
+.service-sub-bar { display:flex; align-items:baseline; border-bottom:1px solid var(--light); padding-top:10px; }
+.service-filter-btn {
+  background:none; border:none; border-bottom:2px solid transparent;
+  padding:8px 0; margin-right:28px; font-family:var(--sans); font-size:17px;
+  font-weight:400; letter-spacing:0.04em; color:var(--gray);
+  cursor:pointer; position:relative; top:1px; transition:color 0.15s; white-space:nowrap;
+}
+.service-filter-btn:hover { color:var(--black); }
+.service-filter-btn.active { color:var(--black); border-bottom:2px solid var(--black); font-weight:500; }
+
+/* HOME GRID */
+.home-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:#111110; margin-top:48px; margin-left:48px; }
+.home-grid-item { aspect-ratio:3/4; overflow:hidden; background:#2a2a2a; cursor:pointer; }
+.home-grid-item img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(0.9); transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+.home-grid-item:hover img { transform:scale(1.06); }
+
+/* WORK GRID */
+.work-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:#111110; margin-top:48px; margin-left:48px; }
+.work-item { aspect-ratio:3/4; overflow:hidden; background:#2a2a2a; cursor:pointer; }
+.work-item img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(0.9); transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+.work-item:hover img { transform:scale(1.06); }
+
+/* SERVICE */
+.service-panel { display:none; }
+.service-panel.active { display:block; }
+.service-content { display:grid; grid-template-columns:1fr 1fr; min-height:600px; margin:80px 48px 60px; gap:80px; }
+.service-content-img { overflow:hidden; background:#2a2a2a; aspect-ratio:4/5; }
+.service-content-img img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(0.9); }
+.service-content-text { display:flex; flex-direction:column; justify-content:flex-start; }
+.service-eyebrow { font-size:11px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gray); margin-bottom:14px; }
+.service-title { font-family:var(--serif); font-size:clamp(32px,4vw,52px); font-weight:400; color:var(--black); line-height:1.1; margin-bottom:28px; }
+.service-desc { font-size:16px; line-height:1.95; color:var(--gray); letter-spacing:0; word-break:keep-all; margin-bottom:40px; }
+.service-select-title { font-size:17px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gray); margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--light); }
+.service-select-list { list-style:none; display:flex; flex-direction:column; gap:12px; margin-bottom:48px; }
+.service-select-list li { font-size:16px; color:var(--gray); line-height:1.75; letter-spacing:0; word-break:keep-all; padding-left:16px; position:relative; }
+.service-select-list li::before { content:'—'; position:absolute; left:0; color:var(--light); font-size:11px; top:2px; }
+.service-book-btn {
+  display:inline-block; font-size:13px; font-weight:400; letter-spacing:0.12em;
+  text-transform:uppercase; color:var(--black); border:1px solid var(--black);
+  border-radius:999px; padding:14px 36px; background:none; cursor:pointer;
+  transition:background 0.18s, color 0.18s; text-decoration:none; align-self:flex-start;
+}
+.service-book-btn:hover { background:var(--black); color:var(--white); }
+
+/* PORTRAIT COMPARE */
+.portrait-compare { display:grid; grid-template-columns:1fr 1fr; gap:2px; background:#111110; margin:48px 48px 0; overflow:hidden; }
+.portrait-card { background:#252525; padding:48px 40px; display:flex; flex-direction:column; }
+.portrait-card-premium { border:1.5px solid rgba(240,237,230,0.3); }
+.portrait-card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.portrait-eyebrow { font-size:11px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gray); }
+.portrait-badge { font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:#1a1a1a; background:#c8c8c4; padding:4px 12px; border-radius:999px; }
+.portrait-title { font-family:var(--serif); font-size:clamp(32px,4vw,48px); font-weight:400; color:var(--black); line-height:1; margin-bottom:24px; }
+.portrait-desc { font-size:16px; line-height:1.9; color:var(--gray); letter-spacing:0; word-break:keep-all; margin-bottom:28px; }
+.portrait-divider { border:none; border-top:1px solid var(--light); margin-bottom:24px; }
+.portrait-list { list-style:none; display:flex; flex-direction:column; gap:14px; margin-bottom:40px; }
+.portrait-list li { font-size:16px; color:var(--gray); line-height:1.7; letter-spacing:0; word-break:keep-all; padding-left:16px; position:relative; }
+.portrait-list li::before { content:'—'; position:absolute; left:0; color:var(--light); font-size:11px; top:2px; }
+.portrait-sub { font-size:16px; color:var(--gray); margin-top:4px; display:block; }
+.portrait-gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:#111110; margin:48px 48px 0; }
+.portrait-gallery-col { display:contents; }
+.portrait-gallery-item { overflow:hidden; background:#2a2a2a; aspect-ratio:3/4; }
+.portrait-gallery-item img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(0.9); transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+.portrait-gallery-item:hover img { transform:scale(1.06); }
+@media (max-width:768px) {
+  .portrait-gallery { grid-template-columns:repeat(3,1fr); margin:24px 16px 0; }
+  .portrait-gallery-item { aspect-ratio:1/1; }
+}
+.portrait-btn { display:block; text-align:center; font-size:13px; font-weight:400; letter-spacing:0.12em; text-transform:uppercase; color:var(--black); border:1px solid var(--black); border-radius:999px; padding:14px 0; background:none; cursor:pointer; transition:background 0.18s, color 0.18s; text-decoration:none; }
+.portrait-btn:hover { background:var(--black); color:var(--white); }
+.portrait-btn-filled { background:var(--black); color:var(--white); }
+.portrait-btn-filled:hover { background:transparent; color:var(--black); }
+@media (max-width:768px) {
+  .portrait-compare { grid-template-columns:1fr; margin:24px 16px 0; }
+  .portrait-card { padding:32px 20px; }
+}
+.service-slideshow { position:relative; overflow:hidden; border-top:1px solid var(--light); margin:0 48px; }
+.service-slides { display:flex; transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94); }
+.service-slide { display:grid; grid-template-columns:1fr 1fr; gap:2px; flex-shrink:0; width:100%; background:#111110; }
+.service-slide-img { aspect-ratio:3/4; overflow:hidden; background:#2a2a2a; cursor:pointer; }
+.service-slide-img img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(0.9); }
+.slide-controls { display:flex; align-items:center; justify-content:center; gap:24px; padding:20px 0; border-top:1px solid var(--light); margin:0 48px; }
+.slide-btn { background:none; border:none; color:var(--gray); cursor:pointer; font-size:20px; padding:8px 16px; transition:color 0.15s; font-family:var(--sans); }
+.slide-btn:hover { color:var(--black); }
+.slide-dots { display:flex; gap:8px; align-items:center; }
+.slide-dot { width:6px; height:6px; border-radius:50%; background:transparent; border:1px solid var(--gray); cursor:pointer; transition:background 0.2s; }
+.slide-dot.active { background:var(--black); border-color:var(--black); }
+
+/* CONTACT */
+.contact-body { padding:40px 48px 0; }
+.contact-list { list-style:none; }
+.contact-list li { display:flex; justify-content:space-between; align-items:center; padding:20px 0; border-bottom:1px solid var(--light); }
+.contact-list li:first-child { border-top:1px solid var(--light); }
+.contact-label { font-size:17px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gray); }
+.contact-val { font-size:16px; color:var(--black); text-decoration:none; transition:color 0.15s; letter-spacing:0; word-break:keep-all; }
+.contact-val:hover { color:var(--gray); }
+
+.studio-section { padding:48px 48px 80px; }
+.studio-label { font-size:17px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gray); margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid var(--light); }
+.studio-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; background:#111110; }
+.studio-item { aspect-ratio:3/2; overflow:hidden; background:#2a2a2a; }
+.studio-item img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(0.9); transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+.studio-item:hover img { transform:scale(1.06); }
+
+/* GUIDE */
+.guide-body { padding:40px 48px 80px; max-width:780px; }
+.guide-section { margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid var(--light); }
+.guide-section:last-child { border-bottom:none; }
+.guide-section-title { font-size:17px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gray); margin-bottom:16px; }
+.guide-table { width:100%; border-collapse:collapse; font-size:16px; }
+.guide-table tr { border-bottom:1px solid var(--light); }
+.guide-table tr:last-child { border-bottom:none; }
+.guide-table td { padding:13px 0; font-weight:300; line-height:1.6; vertical-align:top; letter-spacing:0; word-break:keep-all; }
+.guide-table td:first-child { width:160px; color:var(--gray); font-size:16px; padding-right:24px; }
+
+/* LIGHTBOX */
+.lightbox { position:fixed; inset:0; background:rgba(26,26,26,0.96); z-index:500; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.3s; cursor:pointer; }
+.lightbox.open { opacity:1; pointer-events:all; }
+.lightbox img { max-width:80vw; max-height:88vh; object-fit:contain; cursor:default; }
+.lb-close { position:absolute; top:28px; right:40px; background:none; border:none; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(240,237,230,0.5); cursor:pointer; transition:color 0.15s; }
+.lb-close:hover { color:#f0ede6; }
+.lb-arrow { position:absolute; top:50%; transform:translateY(-50%); background:none; border:none; color:rgba(240,237,230,0.4); cursor:pointer; font-size:32px; padding:20px; transition:color 0.15s; line-height:1; }
+.lb-arrow:hover { color:#f0ede6; }
+.lb-prev { left:24px; }
+.lb-next { right:24px; }
+
+/* FOOTER */
+footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; }
+.footer-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.footer-name { font-size:12px; letter-spacing:0.08em; color:var(--gray); }
+.footer-copy { font-size:11px; color:var(--gray); }
+.footer-info { font-size:11px; color:var(--gray); line-height:1.8; letter-spacing:0; word-break:keep-all; padding-top:0; }
+
+/* FLOATING KAKAO BUTTON */
+.kakao-float {
+  position:fixed;
+  bottom:36px;
+  right:36px;
+  z-index:400;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  cursor:pointer;
+  text-decoration:none;
+  transition:transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.kakao-float:hover { transform:translateY(-6px); }
+.kakao-float-icon {
+  width:56px;
+  height:56px;
+  background:#FEE500;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 16px rgba(0,0,0,0.3);
+}
+.kakao-float-icon svg { width:28px; height:28px; }
+.kakao-float-label {
+  font-size:14px;
+  font-family:var(--sans);
+  letter-spacing:0.04em;
+  color:#f0ede6;
+  white-space:nowrap;
+  word-break:keep-all;
+  text-align:center;
+  transition:color 0.2s;
+}
+.kakao-float:hover .kakao-float-label { color:#ffffff; }
+@media (max-width:768px) {
+  .kakao-float { bottom:24px; right:20px; }
+}
+@media (max-width:768px) {
+  .page-header { padding:24px 16px 0; }
+  .page-title { font-size:clamp(48px,14vw,80px); }
+  .page-title-row { margin-bottom:16px; }
+  .page-logo img { height:48px !important; }
+  .main-menu > a { margin-right:20px; font-size:13px; }
+  .filter-bar {
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    padding-bottom:0;
+  }
+  .filter-bar::-webkit-scrollbar { display:none; }
+  .filter-btn { flex-shrink:0; margin-right:20px; font-size:14px; }
+  .service-filter-bar { padding-top:6px; }
+  .service-filter-btn { font-size:12px; margin-right:16px; }
+  .home-grid { margin-left:16px; }
+  .work-grid { margin-left:16px; }
+  .contact-body { padding:24px 16px 0; }
+  .studio-section { padding:32px 16px 60px; }
+  .guide-body { padding:24px 16px 60px; max-width:100%; }
+  .guide-table td:first-child { width:auto; white-space:nowrap; padding-right:16px; font-size:14px; }
+  footer { padding:20px 16px; }
+  .footer-top { flex-direction:column; gap:4px; align-items:flex-start; }
+  #map { height:300px !important; }
+  .service-content { grid-template-columns:1fr; gap:0; margin:24px 16px; min-height:auto; }
+  .service-content-img { aspect-ratio:4/3; }
+  .service-content-text { padding-top:24px; }
+  .service-slideshow { margin:0 16px; }
+  .slide-controls { margin:0 16px; }
+  .service-slide { display:flex; }
+  .service-slide .service-slide-img:nth-child(2) { display:none; }
+  .service-slide .service-slide-img:nth-child(1) { width:100%; aspect-ratio:3/4; }
+  .studio-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="page-header">
+    <div class="page-title-row">
+      <h1 class="page-title">YOOGEEONE</h1>
+      <button class="page-logo" onclick="showPage('home')">
+        <img src="images/SSBLVD_white.png" alt="SSBLVD">
+      </button>
+    </div>
+    <nav class="main-menu">
+      <a href="#" onclick="showPage('work');return false;">Work</a>
+      <a href="#" onclick="showPage('service');return false;">Service</a>
+      <a href="#" onclick="showPage('contact');return false;">Contact</a>
+      <a href="#" onclick="showPage('guide');return false;">Guide</a>
+    </nav>
+  </div>
+  <div class="home-grid">
+    <div class="home-grid-item" onclick="openLightbox(this.querySelector('img').src)"><img src="images/home/home_1.JPG" alt=""></div>
+    <div class="home-grid-item" onclick="openLightbox(this.querySelector('img').src)"><img src="images/home/home_2.JPG" alt=""></div>
+    <div class="home-grid-item" onclick="openLightbox(this.querySelector('img').src)"><img src="images/home/home_3.JPG" alt=""></div>
+    <div class="home-grid-item" onclick="openLightbox(this.querySelector('img').src)"><img src="images/home/home_4.jpg" alt=""></div>
+    <div class="home-grid-item" onclick="openLightbox(this.querySelector('img').src)"><img src="images/home/home_5.JPG" alt=""></div>
+    <div class="home-grid-item" onclick="openLightbox(this.querySelector('img').src)"><img src="images/home/home_6.JPG" alt=""></div>
+    <div class="home-grid-item"></div>
+    <div class="home-grid-item"></div>
+    <div class="home-grid-item"></div>
+  </div>
+  <footer><div class="footer-info">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258<br>서울시 송파구 가락동 154-4 지하1층</div></footer>
+</div>
+
+<!-- WORK -->
+<div class="page" id="page-work">
+  <div class="page-header">
+    <div class="page-title-row">
+      <h1 class="page-title">Work</h1>
+      <button class="page-logo" onclick="showPage('home')">
+        <img src="images/SSBLVD_white.png" alt="SSBLVD">
+      </button>
+    </div>
+    <nav class="main-menu">
+      <a href="#" class="active" onclick="showPage('work');return false;">Work</a>
+      <a href="#" onclick="showPage('service');return false;">Service</a>
+      <a href="#" onclick="showPage('contact');return false;">Contact</a>
+      <a href="#" onclick="showPage('guide');return false;">Guide</a>
+    </nav>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterWork('all')" id="fb-all">All</button>
+      <button class="filter-btn" onclick="filterWork('editorial')" id="fb-editorial">Editorial</button>
+      <button class="filter-btn" onclick="filterWork('lookbook')" id="fb-lookbook">Lookbook</button>
+      <button class="filter-btn" onclick="filterWork('beauty')" id="fb-beauty">Beauty</button>
+      <button class="filter-btn" onclick="filterWork('ads')" id="fb-ads">Ads</button>
+      <button class="filter-btn" onclick="filterWork('portrait')" id="fb-portrait">Portrait</button>
+      <button class="filter-btn" onclick="filterWork('event')" id="fb-event">Event</button>
+    </div>
+  </div>
+  <div class="work-grid" id="work-grid">
+    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=700&q=80" alt=""></div>
+    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1526413232644-8a40f03cc03b?w=700&q=80" alt=""></div>
+    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=700&q=80" alt=""></div>
+    <div class="work-item" data-cat="ads" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=700&q=80" alt=""></div>
+    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1554412933-514a83d2f3c8?w=700&q=80" alt=""></div>
+    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=700&q=80" alt=""></div>
+    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=700&q=80" alt=""></div>
+    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=700&q=80" alt=""></div>
+    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1536766768598-e09213fdcf22?w=700&q=80" alt=""></div>
+    <div class="work-item" data-cat="event" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=700&q=80" alt=""></div>
+    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=700&q=80" alt=""></div>
+    <div class="work-item" data-cat="ads" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=700&q=80" alt=""></div>
+  </div>
+  <footer><div class="footer-info">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258<br>서울시 송파구 가락동 154-4 지하1층</div></footer>
+</div>
+
+<!-- SERVICE -->
+<div class="page" id="page-service">
+  <div class="page-header">
+    <div class="page-title-row">
+      <h1 class="page-title">Service</h1>
+      <button class="page-logo" onclick="showPage('home')">
+        <img src="images/SSBLVD_white.png" alt="SSBLVD">
+      </button>
+    </div>
+    <nav class="main-menu">
+      <a href="#" onclick="showPage('work');return false;">Work</a>
+      <a href="#" class="active" onclick="showPage('service');return false;">Service</a>
+      <a href="#" onclick="showPage('contact');return false;">Contact</a>
+      <a href="#" onclick="showPage('guide');return false;">Guide</a>
+    </nav>
+    <div class="service-filter-bar" id="service-filter-bar">
+      <button class="service-filter-btn active" onclick="showServiceTop('fashion')" id="sf-fashion">Commercial</button>
+      <span style="color:var(--light);font-size:18px;position:relative;top:1px;margin-left:28px;margin-right:28px;">|</span>
+      <button class="service-filter-btn" onclick="showServiceTop('portrait')" id="sf-portrait">Profile</button>
+    </div>
+  </div>
+
+  <!-- FASHION -->
+  <div class="service-panel active" id="sp-fashion">
+    <div class="service-content">
+      <div class="service-content-img"><img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=900&q=80" alt=""></div>
+      <div class="service-content-text">
+        <div class="service-eyebrow">Fashion / Commercial</div>
+        <h2 class="service-title">Fashion &amp;<br>Commercial</h2>
+        <p class="service-desc">단순한 상업적 결과물을 넘어, 브랜드가 지향하는 고유의 가치를 정교한 시각적 언어로 번역하여 기록합니다.<br><br>빠르게 소비되고 사라지는 유행에 매몰되지 않는 작가만의 미학적 관점을 바탕으로 브랜드가 가진 독보적인 질감과 무드를 영원히 변치 않는 하나의 작품으로 완성합니다.<br><br>우리는 이미지를 포착하는 것에 그치지 않습니다. 브랜드의 서사가 가장 완벽하게 구현되는 예술적 지점을 치열하게 고민하고 함께 탐색합니다.</p>
+        <div class="service-select-title">Select Point.</div>
+        <ul class="service-select-list">
+          <li>브랜드의 아이덴티티를 관통하는 정교한 비주얼 디렉팅 — 사전 미팅을 통해 컬렉션의 콘셉트를 심도 있게 분석하고, 작가의 시선이 결합된 최적의 톤을 구축합니다.</li>
+          <li>피사체와 제품의 존재감을 드러내는 압도적인 선예도 — 강렬한 대비와 정밀한 조명 설계를 통해, 상업적 실용성과 예술적 완성도가 공존하는 결과물을 제공합니다.</li>
+          <li>협업의 가치를 극대화하는 유기적인 현장 운용 — 각 분야의 전문가들이 모여 최상의 시너지를 낼 수 있도록 몰입도 높은 촬영 환경을 조성합니다.</li>
+        </ul>
+        <a class="service-book-btn" href="#" onclick="showPage('contact');return false;">예약하기</a>
+      </div>
+    </div>
+    <div class="service-slideshow">
+      <div class="service-slides" id="slides-fashion">
+        <div class="service-slide"><div class="service-slide-img"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=700&q=80" alt=""></div><div class="service-slide-img"><img src="https://images.unsplash.com/photo-1554412933-514a83d2f3c8?w=700&q=80" alt=""></div></div>
+        <div class="service-slide"><div class="service-slide-img"><img src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=700&q=80" alt=""></div><div class="service-slide-img"><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=700&q=80" alt=""></div></div>
+        <div class="service-slide"><div class="service-slide-img"><img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=700&q=80" alt=""></div><div class="service-slide-img"><img src="https://images.unsplash.com/photo-1536766768598-e09213fdcf22?w=700&q=80" alt=""></div></div>
+        <div class="service-slide"><div class="service-slide-img"><img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=700&q=80" alt=""></div><div class="service-slide-img"><img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=700&q=80" alt=""></div></div>
+        <div class="service-slide"><div class="service-slide-img"><img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=700&q=80" alt=""></div><div class="service-slide-img"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=700&q=80" alt=""></div></div>
+      </div>
+    </div>
+    <div class="slide-controls">
+      <button class="slide-btn" onclick="slideMove('fashion',-1)">←</button>
+      <div class="slide-dots" id="dots-fashion">
+        <div class="slide-dot active" onclick="slideTo('fashion',0)"></div>
+        <div class="slide-dot" onclick="slideTo('fashion',1)"></div>
+        <div class="slide-dot" onclick="slideTo('fashion',2)"></div>
+        <div class="slide-dot" onclick="slideTo('fashion',3)"></div>
+        <div class="slide-dot" onclick="slideTo('fashion',4)"></div>
+      </div>
+      <button class="slide-btn" onclick="slideMove('fashion',1)">→</button>
+    </div>
+  </div>
+
+  <!-- PORTRAIT (Essential + Premium 나란히) -->
+  <div class="service-panel" id="sp-essential">
+    <div class="service-content">
+      <div class="service-content-img"><img src="https://images.unsplash.com/photo-1526413232644-8a40f03cc03b?w=900&q=80" alt=""></div>
+      <div class="service-content-text">
+        <div class="service-eyebrow">Portrait</div>
+        <h2 class="service-title">Sunset BLVD.<br>Profile Package</h2>
+        <p class="service-desc">작가의 시선으로 인물의 본질을 담아냅니다.<br><br>유행에 흔들리지 않는 고유의 톤과 대비, 날카로운 질감 속에서 당신만의 이미지를 완성합니다.<br><br>단순히 사진을 찍는 것에 그치지 않습니다. 사전 미팅을 통해 작가와 직접 대화하며 촬영의 방향을 함께 그려나가고, 표현하고자 하는 분위기와 작가의 시선이 만나는 지점을 함께 고민합니다.<br><br>충분한 촬영 시간과 셔터 찬스를 제공합니다. 카메라 앞이 낯설어도 괜찮습니다. 서두르지 않는 호흡 속에서 자연스럽게 편해질 수 있도록, 처음부터 끝까지 함께합니다.<br><br>기본 프로필부터 전문 헤어 & 메이크업 아티스트가 함께하는 프리미엄 화보 촬영까지 — 복잡한 포즈나 표정 연출에 대한 부담 없이, 작가의 톤과 무드 안에서 가장 완벽한 순간을 담아드립니다. 스튜디오 석양대로가 지향하는 예술적 아카이브의 주인공이 되어보세요.</p>
+      </div>
+    </div>
+    <div class="portrait-compare">
+
+      <!-- ESSENTIAL -->
+      <div class="portrait-card">
+        <div class="portrait-card-header">
+          <span class="portrait-eyebrow">Portrait</span>
+        </div>
+        <h2 class="portrait-title">Essential</h2>
+        <p class="portrait-desc" style="padding-bottom:96px;">각자의 고유한 선과 분위기에 맞춰 작가의 시선으로 인물의 본질을 담아내는데 집중합니다.</p>
+        <div class="portrait-divider"></div>
+        <div class="service-select-title" style="margin-bottom:16px; margin-top:auto;">Select Point.</div>
+        <ul class="portrait-list">
+          <li>작가의 감각으로 재해석한 최적의 톤과 무드를 제안합니다.</li>
+          <li>사전 미팅을 통해 작가와 직접 대화하며 작업의 방향성을 의논합니다.</li>
+          <li>색감 보정된 원본 전체와 보정본 2장을 제공합니다.</li>
+        </ul>
+        <a class="portrait-btn" style="margin-top:auto;" href="#" onclick="showPage('contact');return false;">예약하기</a>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="portrait-card portrait-card-premium">
+        <div class="portrait-card-header">
+          <span class="portrait-eyebrow">Portrait</span>
+          <span class="portrait-badge">One Day, One Team</span>
+        </div>
+        <h2 class="portrait-title">Premium</h2>
+        <p class="portrait-desc">최상의 비주얼을 위해 아티스트 팀이 결합한 하이엔드 화보입니다.<br>하루 단 한 팀, 최선의 컨디션으로 당신에게 몰입합니다.</p>
+        <div class="portrait-divider"></div>
+        <div class="service-select-title" style="margin-bottom:16px;">Select Point.</div>
+        <ul class="portrait-list">
+          <li>하루 단 한 팀만 촬영하여 최상의 퀄리티와 컨디션을 제공합니다.</li>
+          <li>사전 미팅을 통해 작가와 직접 대화하며 작업의 방향성을 의논합니다.</li>
+          <li>전문 헤어 & 메이크업 아티스트가 촬영 전체를 케어합니다.</li>
+          <li>고객의 의견이 충실히 반영되도록 실시간 모니터링 및 현장 1:1 정밀 리터칭을 제공합니다.</li>
+          <li>모든 분야의 프로페셔널을 위하여 가장 완벽한 컨셉을 구현합니다.<br><span class="portrait-sub">배우 · 모델 · 뷰티 · 아티스트 · 전문직 등</span></li>
+        </ul>
+        <a class="portrait-btn portrait-btn-filled" href="#" onclick="showPage('contact');return false;">예약하기</a>
+      </div>
+
+    </div>
+
+    <!-- 이미지 그리드: PC는 나란히, 모바일은 세로 -->
+    <div class="portrait-gallery">
+      <div class="portrait-gallery-col">
+        <div class="portrait-gallery-item"><img src="https://images.unsplash.com/photo-1526413232644-8a40f03cc03b?w=700&q=80" alt=""></div>
+        <div class="portrait-gallery-item"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=700&q=80" alt=""></div>
+        <div class="portrait-gallery-item"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=700&q=80" alt=""></div>
+      </div>
+      <div class="portrait-gallery-col">
+        <div class="portrait-gallery-item"><img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=700&q=80" alt=""></div>
+        <div class="portrait-gallery-item"><img src="https://images.unsplash.com/photo-1554412933-514a83d2f3c8?w=700&q=80" alt=""></div>
+        <div class="portrait-gallery-item"><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=700&q=80" alt=""></div>
+      </div>
+      <div class="portrait-gallery-col">
+        <div class="portrait-gallery-item"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=700&q=80" alt=""></div>
+        <div class="portrait-gallery-item"><img src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=700&q=80" alt=""></div>
+        <div class="portrait-gallery-item"><img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=700&q=80" alt=""></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="service-panel" id="sp-signature" style="display:none!important;"></div>
+
+  <footer><div class="footer-info">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258<br>서울시 송파구 가락동 154-4 지하1층</div></footer>
+</div>
+
+<!-- CONTACT -->
+<div class="page" id="page-contact">
+  <div class="page-header">
+    <div class="page-title-row">
+      <h1 class="page-title">Contact</h1>
+      <button class="page-logo" onclick="showPage('home')">
+        <img src="images/SSBLVD_white.png" alt="SSBLVD">
+      </button>
+    </div>
+    <nav class="main-menu">
+      <a href="#" onclick="showPage('work');return false;">Work</a>
+      <a href="#" onclick="showPage('service');return false;">Service</a>
+      <a href="#" class="active" onclick="showPage('contact');return false;">Contact</a>
+      <a href="#" onclick="showPage('guide');return false;">Guide</a>
+    </nav>
+  </div>
+  <div class="contact-body">
+    <div style="width:100%;height:480px;margin-bottom:40px;" id="map"></div>
+    <ul class="contact-list">
+      <li><span class="contact-label">Tel</span><a class="contact-val" href="tel:0507-1302-3765">0507-1302-3765</a></li>
+      <li><span class="contact-label">E-Mail</span><a class="contact-val" href="mailto:yoogeeone@gmail.com">yoogeeone@gmail.com</a></li>
+      <li><span class="contact-label">Instagram</span><a class="contact-val" href="https://instagram.com/yoogeeone" target="_blank">@yoogeeone</a></li>
+      <li><span class="contact-label">Address</span><span class="contact-val">서울시 송파구 중대로 20길 12, 지하 1층</span></li>
+      <li>
+        <span class="contact-label">Business Hours</span>
+        <span class="contact-val" style="text-align:right;">Mon–Sat 11:00–19:00<br><span style="font-size:13px;color:var(--gray);">매주 일요일 및 공휴일 휴무</span></span>
+      </li>
+    </ul>
+  </div>
+  <div class="studio-section">
+    <div class="studio-label">Studio</div>
+    <div class="studio-grid">
+      <div class="studio-item"><img src="images/studio/studio_1.jpg" alt=""></div>
+      <div class="studio-item"><img src="images/studio/studio_2.jpg" alt=""></div>
+      <div class="studio-item"><img src="images/studio/studio_3.jpg" alt=""></div>
+      <div class="studio-item"><img src="images/studio/studio_4.jpg" alt=""></div>
+      <div class="studio-item"><img src="images/studio/studio_5.jpg" alt=""></div>
+      <div class="studio-item"><img src="images/studio/studio_6.jpg" alt=""></div>
+    </div>
+  </div>
+  <footer><div class="footer-info">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258<br>서울시 송파구 가락동 154-4 지하1층</div></footer>
+</div>
+
+<!-- GUIDE -->
+<div class="page" id="page-guide">
+  <div class="page-header">
+    <div class="page-title-row">
+      <h1 class="page-title">Guide</h1>
+      <button class="page-logo" onclick="showPage('home')">
+        <img src="images/SSBLVD_white.png" alt="SSBLVD">
+      </button>
+    </div>
+    <nav class="main-menu">
+      <a href="#" onclick="showPage('work');return false;">Work</a>
+      <a href="#" onclick="showPage('service');return false;">Service</a>
+      <a href="#" onclick="showPage('contact');return false;">Contact</a>
+      <a href="#" class="active" onclick="showPage('guide');return false;">Guide</a>
+    </nav>
+  </div>
+  <div class="guide-body">
+    <div class="guide-section">
+      <div class="guide-section-title">룩북 · 광고 촬영 예약</div>
+      <table class="guide-table">
+        <tr><td>01</td><td>견적 요청서 작성</td></tr>
+        <tr><td>02</td><td>전화 및 카카오톡 채널 상담 진행<br><a href="tel:0507-1302-3765" style="color:var(--gray);font-size:13px;">tel. 0507-1302-3765</a></td></tr>
+        <tr><td>03</td><td>촬영 스케줄 조율</td></tr>
+        <tr><td>04</td><td>모델리스트 전달 및 선택</td></tr>
+        <tr><td>05</td><td>최종 견적서 및 예약금 안내</td></tr>
+        <tr><td>06</td><td>예약금 입금 후 스케줄 픽스</td></tr>
+      </table>
+    </div>
+    <div class="guide-section">
+      <div class="guide-section-title">프로필 촬영 예약</div>
+      <table class="guide-table">
+        <tr><td>01</td><td>전화 및 카카오톡 채널 상담 진행<br><a href="tel:0507-1302-3765" style="color:var(--gray);font-size:13px;">tel. 0507-1302-3765</a></td></tr>
+        <tr><td>02</td><td>촬영 스케줄 조율</td></tr>
+        <tr><td>03</td><td>예약금 안내</td></tr>
+        <tr><td>04</td><td>예약금 입금 후 스케줄 픽스</td></tr>
+      </table>
+    </div>
+    <div class="guide-section">
+      <div class="guide-section-title">예약 안내</div>
+      <table class="guide-table">
+        <tr><td>운영 방식</td><td>스튜디오 석양대로는 사전 예약제로만 운영합니다.</td></tr>
+        <tr><td>예약 방법</td><td>전화, 카카오톡 채널, 홈페이지 예약 폼을 통해 접수하실 수 있습니다.</td></tr>
+        <tr><td>예약금</td><td>총 촬영비의 30%를 선입금해 주셔야 예약이 확정됩니다.</td></tr>
+        <tr><td>미입금 취소</td><td>예약금 입금이 확인되지 않을 시 예약은 자동으로 취소될 수 있습니다.</td></tr>
+        <tr><td>중복 예약</td><td>두 팀 이상이 동일한 시간대에 예약하실 경우, 먼저 예약금이 입금된 촬영을 우선 진행합니다.</td></tr>
+        <tr><td>잔액 결제</td><td>촬영 당일 현장에서 결제하시거나 사전 계좌이체로 납부하실 수 있습니다.</td></tr>
+      </table>
+    </div>
+    <div class="guide-section">
+      <div class="guide-section-title">예약 변경 · 취소 및 환불 규정</div>
+      <table class="guide-table">
+        <tr><td>일정 변경</td><td>촬영일 기준 14일 전까지 1회에 한하여 가능하며, 이후에는 일정 변경이 불가합니다.</td></tr>
+        <tr><td>환불 불가</td><td>예약금은 어떠한 요청에도 환불되지 않습니다. 신중한 예약을 부탁드립니다.</td></tr>
+        <tr><td>귀책 취소</td><td>스튜디오 귀책사유로 촬영이 취소될 경우 예약금을 환불해 드립니다.</td></tr>
+        <tr><td>당일 취소</td><td>고객님의 개인 사정에 의한 당일 취소 또는 무단 불참 시에도 예약금은 환불되지 않습니다.</td></tr>
+        <tr><td>지각</td><td>10분 이상 지각 시 촬영은 자동으로 노쇼처리되며 비용은 환불되지 않습니다.</td></tr>
+      </table>
+    </div>
+  </div>
+  <footer><div class="footer-info">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258<br>서울시 송파구 가락동 154-4 지하1층</div></footer>
+</div>
+
+<!-- KAKAO FLOAT -->
+<a class="kakao-float" href="http://pf.kakao.com/_QccGn/chat" target="_blank">
+  <div class="kakao-float-icon">
+    <svg viewBox="0 0 24 24" fill="#3A1D1D" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 3C6.477 3 2 6.582 2 11c0 2.89 1.733 5.417 4.333 6.933L5.5 21l3.833-2.033C10.067 19.32 11.017 19.5 12 19.5c5.523 0 10-3.582 10-8s-4.477-8.5-10-8.5z"/>
+    </svg>
+  </div>
+</a>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lb-close" onclick="closeLightbox()">Close ✕</button>
+  <button class="lb-arrow lb-prev" onclick="event.stopPropagation();moveLight(-1)">&#8592;</button>
+  <img src="" id="lb-img" alt="" onclick="event.stopPropagation()">
+  <button class="lb-arrow lb-next" onclick="event.stopPropagation();moveLight(1)">&#8594;</button>
+</div>
+
+<script>
+/* ── PAGE ── */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.toggle('active', p.id === 'page-' + id);
+  });
+  window.location.hash = id;
+  window.scrollTo(0, 0);
+  if (id === 'contact') setTimeout(initMap, 200);
+  if (id === 'service') setTimeout(alignServiceFilter, 100);
+}
+(function() {
+  var hash = window.location.hash.replace('#', '');
+  var valid = ['home','work','service','contact','guide'];
+  if (hash && valid.indexOf(hash) !== -1) showPage(hash);
+})();
+
+/* ── WORK FILTER ── */
+function filterWork(cat) {
+  document.querySelectorAll('.work-item').forEach(item => {
+    item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
+  });
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.id === 'fb-' + cat);
+  });
+}
+
+/* ── SERVICE FILTER ── */
+function showServiceTop(id) {
+  if (id === 'fashion') {
+    document.getElementById('sp-fashion').classList.add('active');
+    document.getElementById('sp-essential').classList.remove('active');
+    document.getElementById('sf-fashion').classList.add('active');
+    document.getElementById('sf-portrait').classList.remove('active');
+  } else {
+    document.getElementById('sp-fashion').classList.remove('active');
+    document.getElementById('sp-essential').classList.add('active');
+    document.getElementById('sf-fashion').classList.remove('active');
+    document.getElementById('sf-portrait').classList.add('active');
+  }
+}
+function showService(id) {
+  ['fashion','essential','signature'].forEach(s => document.getElementById('sp-' + s).classList.remove('active'));
+  document.getElementById('sp-' + id).classList.add('active');
+  ['essential','signature'].forEach(s => {
+    var btn = document.getElementById('sf-' + s);
+    if (btn) btn.classList.toggle('active', s === id);
+  });
+}
+
+/* ── SERVICE FILTER ALIGNMENT ── */
+function alignServiceFilter() {
+  if (window.innerWidth <= 768) return;
+  var workBtn = document.querySelector('#page-service .main-menu a:first-child');
+  var filterBar = document.getElementById('service-filter-bar');
+  if (!workBtn || !filterBar) return;
+  filterBar.style.paddingLeft = (workBtn.offsetWidth + 32) + 'px';
+}
+window.addEventListener('load', alignServiceFilter);
+window.addEventListener('resize', alignServiceFilter);
+
+/* ── LIGHTBOX ── */
+var lbImages = [], lbIndex = 0;
+function openLightbox(src) {
+  var activePage = document.querySelector('.page.active');
+  var imgs = activePage.querySelectorAll('.home-grid-item img, .work-item img');
+  lbImages = Array.from(imgs).map(img => img.src);
+  lbIndex = lbImages.indexOf(src);
+  if (lbIndex === -1) lbIndex = 0;
+  document.getElementById('lb-img').src = lbImages[lbIndex];
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function moveLight(dir) {
+  lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+  document.getElementById('lb-img').src = lbImages[lbIndex];
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') moveLight(-1);
+  if (e.key === 'ArrowRight') moveLight(1);
+});
+
+// 라이트박스 터치 스와이프
+(function() {
+  var lb = document.getElementById('lightbox');
+  var touchStartX = 0, touchStartY = 0;
+  lb.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive:true });
+  lb.addEventListener('touchmove', function(e) {
+    var dx = Math.abs(e.touches[0].clientX - touchStartX);
+    var dy = Math.abs(e.touches[0].clientY - touchStartY);
+    if (dx > dy) e.preventDefault(); // 좌우 스와이프면 세로 스크롤 막기
+  }, { passive:false });
+  lb.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    var dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      moveLight(dx < 0 ? 1 : -1);
+    } else if (Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+      closeLightbox();
+    }
+  }, { passive:true });
+})();
+
+/* ── SLIDESHOW ── */
+var slideIndexes = { fashion:0, essential:0, signature:0 };
+var slideTimers = {};
+var slideTotalSlides = { fashion:5, essential:5, signature:5 };
+
+function slideTo(id, idx) {
+  var track = document.getElementById('slides-' + id);
+  var total = track.children.length;
+  idx = (idx + total) % total;
+  slideIndexes[id] = idx;
+  track.style.transition = 'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)';
+  track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+  document.querySelectorAll('#dots-' + id + ' .slide-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === idx);
+  });
+}
+
+function slideMove(id, dir) {
+  var track = document.getElementById('slides-' + id);
+  var total = track.children.length;
+  var current = slideIndexes[id];
+  var next = (current + dir + total) % total;
+
+  // 마지막→처음 or 처음→마지막 순간에 순간이동 트릭
+  if (dir === 1 && current === total - 1) {
+    // 마지막에서 다음: 순간이동 후 슬라이드
+    track.style.transition = 'none';
+    track.style.transform = 'translateX(-' + (-1 * 100) + '%)';
+    setTimeout(() => {
+      track.style.transition = 'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)';
+      track.style.transform = 'translateX(0%)';
+      slideIndexes[id] = 0;
+      updateDots(id, 0);
+    }, 20);
+    return;
+  }
+  if (dir === -1 && current === 0) {
+    // 처음에서 이전: 순간이동 후 슬라이드
+    track.style.transition = 'none';
+    track.style.transform = 'translateX(-' + (total * 100) + '%)';
+    setTimeout(() => {
+      track.style.transition = 'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)';
+      track.style.transform = 'translateX(-' + ((total - 1) * 100) + '%)';
+      slideIndexes[id] = total - 1;
+      updateDots(id, total - 1);
+    }, 20);
+    return;
+  }
+
+  slideTo(id, next);
+  resetTimer(id);
+}
+
+function updateDots(id, idx) {
+  var total = document.getElementById('slides-' + id).children.length;
+  document.querySelectorAll('#dots-' + id + ' .slide-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === idx);
+  });
+}
+
+function resetTimer(id) {
+  clearInterval(slideTimers[id]);
+  slideTimers[id] = setInterval(() => slideMove(id, 1), 4000);
+}
+
+window.addEventListener('load', function() {
+  ['fashion','essential','signature'].forEach(function(id) {
+    slideTimers[id] = setInterval(() => slideMove(id, 1), 4000);
+    var el = document.getElementById('slides-' + id);
+    if (!el) return;
+    var startX = 0, dragging = false;
+    el.addEventListener('mousedown', e => { startX = e.clientX; dragging = true; });
+    el.addEventListener('mouseup', e => {
+      if (!dragging) return; dragging = false;
+      var diff = startX - e.clientX;
+      if (Math.abs(diff) > 50) slideMove(id, diff > 0 ? 1 : -1);
+    });
+    el.addEventListener('touchstart', e => { startX = e.touches[0].clientX; dragging = true; }, {passive:true});
+    el.addEventListener('touchend', e => {
+      if (!dragging) return; dragging = false;
+      var diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) slideMove(id, diff > 0 ? 1 : -1);
+    }, {passive:true});
+    el.addEventListener('click', function(e) {
+      var rect = el.parentElement.getBoundingClientRect();
+      slideMove(id, e.clientX < rect.left + rect.width / 2 ? -1 : 1);
+    });
+  });
+});
+
+/* ── MAP ── */
+function alignSelectPoints() {
+  var cards = document.querySelectorAll('.portrait-card');
+  if (cards.length < 2) return;
+  var titles = document.querySelectorAll('.portrait-card .service-select-title');
+  titles.forEach(t => t.style.marginTop = '0');
+  if (window.innerWidth <= 768) return;
+  var tops = Array.from(titles).map(t => t.offsetTop);
+  var maxTop = Math.max(...tops);
+  titles.forEach(t => {
+    t.style.marginTop = (maxTop - t.offsetTop) + 'px';
+  });
+}
+window.addEventListener('load', alignSelectPoints);
+window.addEventListener('resize', alignSelectPoints);
+var _origShowServiceTop = showServiceTop;
+showServiceTop = function(id) {
+  _origShowServiceTop(id);
+  setTimeout(alignSelectPoints, 50);
+};
+var mapInited = false;
+function initMap() {
+  if (mapInited) return;
+  var mapEl = document.getElementById('map');
+  if (!mapEl || typeof naver === 'undefined') { setTimeout(initMap, 500); return; }
+  mapInited = true;
+  var center = new naver.maps.LatLng(37.498428, 127.127065);
+  var map = new naver.maps.Map(mapEl, { center:center, zoom:17 });
+  var marker = new naver.maps.Marker({ position:center, map:map });
+  var infowindow = new naver.maps.InfoWindow({
+    content: '<div style="padding:8px 12px;font-size:13px;font-weight:500;color:#111;">석양대로</div>'
+  });
+  infowindow.open(map, marker);
+}
+window.addEventListener('load', function() {
+  if (document.getElementById('page-contact').classList.contains('active')) initMap();
+});
+</script>
+</body>
+</html>
