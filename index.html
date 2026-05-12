@@ -256,8 +256,10 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
   .filter-bar {
     flex-wrap:nowrap;
     overflow-x:auto;
+    overflow-y:hidden;
     scrollbar-width:none;
     -webkit-overflow-scrolling:touch;
+    touch-action:pan-x;
     padding-bottom:0;
   }
   .filter-bar::-webkit-scrollbar { display:none; }
