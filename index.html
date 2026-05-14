@@ -147,26 +147,8 @@ body { background:var(--white); color:var(--black); font-family:var(--sans); fon
 .portrait-btn-filled { background:var(--black); color:var(--white); }
 .portrait-btn-filled:hover { background:transparent; color:var(--black); }
 @media (max-width:768px) {
-  .portrait-compare {
-    display:flex;
-    flex-direction:row;
-    overflow-x:auto;
-    scroll-snap-type:x mandatory;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    margin:24px 0 0;
-    gap:2px;
-    background:#111110;
-  }
-  .portrait-compare::-webkit-scrollbar { display:none; }
-  .portrait-card {
-    flex:0 0 85vw;
-    max-width:340px;
-    scroll-snap-align:start;
-    padding:32px 20px;
-  }
-  .portrait-compare .portrait-card:first-child { margin-left:16px; }
-  .portrait-compare .portrait-card:last-child { margin-right:16px; }
+  .portrait-compare { grid-template-columns:1fr; margin:24px 16px 0; }
+  .portrait-card { padding:32px 20px; }
 }
 .service-slideshow { position:relative; overflow:hidden; border-top:1px solid var(--light); margin:0 48px; }
 .service-slides { display:flex; transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94); }
@@ -302,6 +284,7 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
   .service-slide .service-slide-img:nth-child(2) { display:none; }
   .service-slide .service-slide-img:nth-child(1) { width:100%; aspect-ratio:3/4; }
   .studio-grid { grid-template-columns:1fr; }
+  .portrait-compare { grid-template-columns:1fr; margin:24px 16px 0; }
   .portrait-card { padding:32px 24px; }
   .portrait-desc[style*="padding-bottom"] { padding-bottom:0 !important; }
   .portrait-gallery { grid-template-columns:repeat(3,1fr); margin:16px 16px 0; }
@@ -451,7 +434,13 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
       <div class="service-content-text">
         <div class="service-eyebrow">Portrait</div>
         <h2 class="service-title">Sunset BLVD.<br>Profile Package</h2>
-        <p class="service-desc">작가의 시선으로 인물의 본질을 담아냅니다.<br><br>유행에 흔들리지 않는 고유의 톤과 대비, 날카로운 질감 속에서 당신만의 이미지를 완성합니다.<br><br>단순히 사진을 찍는 것에 그치지 않습니다. 사전 미팅을 통해 작가와 직접 대화하며 촬영의 방향을 함께 그려나가고, 표현하고자 하는 분위기와 작가의 시선이 만나는 지점을 함께 고민합니다.<br><br>충분한 촬영 시간과 셔터 찬스를 제공합니다. 카메라 앞이 낯설어도 괜찮습니다. 서두르지 않는 호흡 속에서 자연스럽게 편해질 수 있도록, 처음부터 끝까지 함께합니다.<br><br>기본 프로필부터 전문 헤어 & 메이크업 아티스트가 함께하는 프리미엄 화보 촬영까지 — 복잡한 포즈나 표정 연출에 대한 부담 없이, 작가의 톤과 무드 안에서 가장 완벽한 순간을 담아드립니다. 스튜디오 석양대로가 지향하는 예술적 아카이브의 주인공이 되어보세요.</p>
+        <p class="service-desc">
+          <strong style="font-size:18px; color:var(--black);">작가의 시선으로 인물의 본질을 담아냅니다.</strong><br><br>
+          단순히 셔터를 누르는 것에 그치지 않습니다. 우리는 사전 미팅을 통해 촬영의 목적과 방향을 함께 스케치하고, 당신이 표현하고자 하는 고유의 분위기를 치열하게 고민합니다.<br><br>
+          카메라 앞이 낯선 분들도 본연의 모습을 드러낼 수 있도록 충분한 시간과 셔터 찬스를 약속합니다. 서두르지 않는 호흡, 편안한 대화 속에서 당신이 공간에 녹아드는 처음부터 끝까지의 모든 과정을 함께합니다.<br><br>
+          복잡한 포즈나 작위적인 표정에 대한 부담은 내려놓으세요. 석양대로만의 독보적인 무드 안에서, 당신의 가장 완벽한 찰나를 기록합니다.<br><br>
+          <strong>스튜디오 석양대로가 지향하는 예술적 아카이브의 주인공이 되어보세요.</strong>
+        </p>
       </div>
     </div>
     <div class="portrait-compare">
