@@ -374,7 +374,12 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
     <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1554412933-514a83d2f3c8?w=700&q=80" alt=""></div>
     <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=700&q=80" alt=""></div>
     <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=700&q=80" alt=""></div>
-    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=700&q=80" alt=""></div>
+    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/beauty/1.jpg" alt=""></div>
+    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/beauty/2.jpeg" alt=""></div>
+    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/beauty/4.jpg" alt=""></div>
+    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/beauty/5.jpg" alt=""></div>
+    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/beauty/6.jpg" alt=""></div>
+    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/beauty/7.jpg" alt=""></div>
     <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1536766768598-e09213fdcf22?w=700&q=80" alt=""></div>
     <div class="work-item" data-cat="event" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=700&q=80" alt=""></div>
     <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=700&q=80" alt=""></div>
@@ -591,7 +596,7 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
       <div class="guide-section-title">룩북 · 광고 촬영 예약</div>
       <table class="guide-table">
         <tr><td>01</td><td>견적 요청서 작성</td></tr>
-        <tr><td>02</td><td>전화 및 카카오톡 채널 상담 진행<br><a href="tel:0507-1302-3765" style="color:var(--gray);font-size:13px;">tel. 0507-1302-3765</a></td></tr>
+        <tr><td>02</td><td>전화 및 카카오톡 채널 상담 진행<br><a href="tel:0507-1302-3765" style="color:var(--gray);font-size:17px;">tel. 0507-1302-3765</a></td></tr>
         <tr><td>03</td><td>촬영 스케줄 조율</td></tr>
         <tr><td>04</td><td>모델리스트 전달 및 선택</td></tr>
         <tr><td>05</td><td>최종 견적서 및 예약금 안내</td></tr>
@@ -601,7 +606,7 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
     <div class="guide-section">
       <div class="guide-section-title">프로필 촬영 예약</div>
       <table class="guide-table">
-        <tr><td>01</td><td>전화 및 카카오톡 채널 상담 진행<br><a href="tel:0507-1302-3765" style="color:var(--gray);font-size:13px;">tel. 0507-1302-3765</a></td></tr>
+        <tr><td>01</td><td>전화 및 카카오톡 채널 상담 진행<br><a href="tel:0507-1302-3765" style="color:var(--gray);font-size:17px;">tel. 0507-1302-3765</a></td></tr>
         <tr><td>02</td><td>촬영 스케줄 조율</td></tr>
         <tr><td>03</td><td>예약금 안내</td></tr>
         <tr><td>04</td><td>예약금 입금 후 스케줄 픽스</td></tr>
@@ -730,6 +735,19 @@ function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
   document.body.style.overflow = '';
 }
+// Work grid 랜덤 셔플
+(function() {
+  var grid = document.querySelector('.work-grid');
+  if (!grid) return;
+  var items = Array.from(grid.querySelectorAll('.work-item'));
+  for (var i = items.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    grid.appendChild(items[j]);
+    items.splice(j, 1);
+    items.splice(i > j ? i - 1 : i, 0, grid.children[grid.children.length - 1]);
+  }
+})();
+
 document.addEventListener('keydown', e => {
   if (!document.getElementById('lightbox').classList.contains('open')) return;
   if (e.key === 'Escape') closeLightbox();
