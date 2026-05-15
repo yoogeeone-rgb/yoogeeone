@@ -133,7 +133,7 @@ body { background:var(--white); color:var(--black); font-family:var(--sans); fon
 .portrait-list li { font-size:16px; color:var(--gray); line-height:1.7; letter-spacing:0; word-break:keep-all; padding-left:16px; position:relative; }
 .portrait-list li::before { content:'—'; position:absolute; left:0; color:var(--light); font-size:11px; top:2px; }
 .portrait-sub { font-size:16px; color:var(--gray); margin-top:4px; display:block; }
-.portrait-gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:#111110; margin:48px 48px 0; }
+.portrait-gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:#111110; margin:80px 48px 0; }
 .portrait-gallery-col { display:contents; }
 .portrait-gallery-item { overflow:hidden; background:#2a2a2a; aspect-ratio:3/4; }
 .portrait-gallery-item img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(0.9); transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
@@ -147,8 +147,26 @@ body { background:var(--white); color:var(--black); font-family:var(--sans); fon
 .portrait-btn-filled { background:var(--black); color:var(--white); }
 .portrait-btn-filled:hover { background:transparent; color:var(--black); }
 @media (max-width:768px) {
-  .portrait-compare { grid-template-columns:1fr; margin:24px 16px 0; }
-  .portrait-card { padding:32px 20px; }
+  .portrait-compare {
+    display:flex;
+    flex-direction:row;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    margin:24px 0 0;
+    gap:2px;
+    background:#111110;
+  }
+  .portrait-compare::-webkit-scrollbar { display:none; }
+  .portrait-card {
+    flex:0 0 85vw;
+    max-width:340px;
+    scroll-snap-align:start;
+    padding:32px 20px;
+  }
+  .portrait-compare .portrait-card:first-child { margin-left:16px; }
+  .portrait-compare .portrait-card:last-child { margin-right:16px; }
 }
 .service-slideshow { position:relative; overflow:hidden; border-top:1px solid var(--light); margin:0 48px; }
 .service-slides { display:flex; transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94); }
@@ -256,8 +274,10 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
   .filter-bar {
     flex-wrap:nowrap;
     overflow-x:auto;
+    overflow-y:hidden;
     scrollbar-width:none;
     -webkit-overflow-scrolling:touch;
+    touch-action:pan-x;
     padding-bottom:0;
   }
   .filter-bar::-webkit-scrollbar { display:none; }
@@ -282,6 +302,11 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
   .service-slide .service-slide-img:nth-child(2) { display:none; }
   .service-slide .service-slide-img:nth-child(1) { width:100%; aspect-ratio:3/4; }
   .studio-grid { grid-template-columns:1fr; }
+  .portrait-card { padding:32px 24px; }
+  .portrait-desc[style*="padding-bottom"] { padding-bottom:0 !important; }
+  .portrait-gallery { grid-template-columns:repeat(3,1fr); margin:16px 16px 0; }
+  .portrait-gallery-item { aspect-ratio:3/4; }
+  .filter-bar { border-bottom:1px solid var(--light); padding-top:6px; }
 }
 </style>
 </head>
@@ -335,11 +360,10 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
     <div class="filter-bar">
       <button class="filter-btn active" onclick="filterWork('all')" id="fb-all">All</button>
       <button class="filter-btn" onclick="filterWork('editorial')" id="fb-editorial">Editorial</button>
+      <button class="filter-btn" onclick="filterWork('campaign')" id="fb-campaign">Campaign</button>
       <button class="filter-btn" onclick="filterWork('lookbook')" id="fb-lookbook">Lookbook</button>
       <button class="filter-btn" onclick="filterWork('beauty')" id="fb-beauty">Beauty</button>
-      <button class="filter-btn" onclick="filterWork('ads')" id="fb-ads">Ads</button>
       <button class="filter-btn" onclick="filterWork('portrait')" id="fb-portrait">Portrait</button>
-      <button class="filter-btn" onclick="filterWork('event')" id="fb-event">Event</button>
     </div>
   </div>
   <div class="work-grid" id="work-grid">
@@ -350,7 +374,30 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
     <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1554412933-514a83d2f3c8?w=700&q=80" alt=""></div>
     <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=700&q=80" alt=""></div>
     <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=700&q=80" alt=""></div>
-    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=700&q=80" alt=""></div>
+    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/beauty/1.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_1.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_2.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_3.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_4.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_5.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_6.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_7.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_8.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_9.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_10.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_11.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_12.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_13.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_14.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_15.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_16.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_17.jpg" alt=""></div>
+    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/campaign/Campaign_18.jpeg" alt=""></div>
+    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/beauty/2.jpeg" alt=""></div>
+    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/beauty/4.jpg" alt=""></div>
+    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/beauty/5.jpg" alt=""></div>
+    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/beauty/6.jpg" alt=""></div>
+    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src)"><img src="images/work/beauty/7.jpg" alt=""></div>
     <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1536766768598-e09213fdcf22?w=700&q=80" alt=""></div>
     <div class="work-item" data-cat="event" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=700&q=80" alt=""></div>
     <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=700&q=80" alt=""></div>
@@ -427,7 +474,13 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
       <div class="service-content-text">
         <div class="service-eyebrow">Portrait</div>
         <h2 class="service-title">Sunset BLVD.<br>Profile Package</h2>
-        <p class="service-desc">작가의 시선으로 인물의 본질을 담아냅니다.<br><br>유행에 흔들리지 않는 고유의 톤과 대비, 날카로운 질감 속에서 당신만의 이미지를 완성합니다.<br><br>단순히 사진을 찍는 것에 그치지 않습니다. 사전 미팅을 통해 작가와 직접 대화하며 촬영의 방향을 함께 그려나가고, 표현하고자 하는 분위기와 작가의 시선이 만나는 지점을 함께 고민합니다.<br><br>충분한 촬영 시간과 셔터 찬스를 제공합니다. 카메라 앞이 낯설어도 괜찮습니다. 서두르지 않는 호흡 속에서 자연스럽게 편해질 수 있도록, 처음부터 끝까지 함께합니다.<br><br>기본 프로필부터 전문 헤어 & 메이크업 아티스트가 함께하는 프리미엄 화보 촬영까지 — 복잡한 포즈나 표정 연출에 대한 부담 없이, 작가의 톤과 무드 안에서 가장 완벽한 순간을 담아드립니다. 스튜디오 석양대로가 지향하는 예술적 아카이브의 주인공이 되어보세요.</p>
+        <p class="service-desc">
+          <strong style="font-size:18px; color:var(--black);">작가의 시선으로 인물의 본질을 담아냅니다.</strong><br><br>
+          단순히 셔터를 누르는 것에 그치지 않습니다. 우리는 사전 미팅을 통해 촬영의 목적과 방향을 함께 스케치하고, 당신이 표현하고자 하는 고유의 분위기를 치열하게 고민합니다.<br><br>
+          카메라 앞이 낯선 분들도 본연의 모습을 드러낼 수 있도록 충분한 시간과 셔터 찬스를 약속합니다. 서두르지 않는 호흡, 편안한 대화 속에서 당신이 공간에 녹아드는 처음부터 끝까지의 모든 과정을 함께합니다.<br><br>
+          복잡한 포즈나 작위적인 표정에 대한 부담은 내려놓으세요. 석양대로만의 독보적인 무드 안에서, 당신의 가장 완벽한 찰나를 기록합니다.<br><br>
+          <strong>스튜디오 석양대로가 지향하는 예술적 아카이브의 주인공이 되어보세요.</strong>
+        </p>
       </div>
     </div>
     <div class="portrait-compare">
@@ -561,7 +614,7 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
       <div class="guide-section-title">룩북 · 광고 촬영 예약</div>
       <table class="guide-table">
         <tr><td>01</td><td>견적 요청서 작성</td></tr>
-        <tr><td>02</td><td>전화 및 카카오톡 채널 상담 진행<br><a href="tel:0507-1302-3765" style="color:var(--gray);font-size:13px;">tel. 0507-1302-3765</a></td></tr>
+        <tr><td>02</td><td>전화 및 카카오톡 채널 상담 진행<br><a href="tel:0507-1302-3765" style="color:var(--gray);font-size:17px;">tel. 0507-1302-3765</a></td></tr>
         <tr><td>03</td><td>촬영 스케줄 조율</td></tr>
         <tr><td>04</td><td>모델리스트 전달 및 선택</td></tr>
         <tr><td>05</td><td>최종 견적서 및 예약금 안내</td></tr>
@@ -571,7 +624,7 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
     <div class="guide-section">
       <div class="guide-section-title">프로필 촬영 예약</div>
       <table class="guide-table">
-        <tr><td>01</td><td>전화 및 카카오톡 채널 상담 진행<br><a href="tel:0507-1302-3765" style="color:var(--gray);font-size:13px;">tel. 0507-1302-3765</a></td></tr>
+        <tr><td>01</td><td>전화 및 카카오톡 채널 상담 진행<br><a href="tel:0507-1302-3765" style="color:var(--gray);font-size:17px;">tel. 0507-1302-3765</a></td></tr>
         <tr><td>02</td><td>촬영 스케줄 조율</td></tr>
         <tr><td>03</td><td>예약금 안내</td></tr>
         <tr><td>04</td><td>예약금 입금 후 스케줄 픽스</td></tr>
@@ -700,6 +753,19 @@ function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
   document.body.style.overflow = '';
 }
+// Work grid 랜덤 셔플
+(function() {
+  var grid = document.querySelector('.work-grid');
+  if (!grid) return;
+  var items = Array.from(grid.querySelectorAll('.work-item'));
+  for (var i = items.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    grid.appendChild(items[j]);
+    items.splice(j, 1);
+    items.splice(i > j ? i - 1 : i, 0, grid.children[grid.children.length - 1]);
+  }
+})();
+
 document.addEventListener('keydown', e => {
   if (!document.getElementById('lightbox').classList.contains('open')) return;
   if (e.key === 'Escape') closeLightbox();
