@@ -764,7 +764,7 @@ function filterWork(cat) {
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.classList.toggle('active', btn.id === 'fb-' + cat);
   });
-  sessionStorage.setItem('workFilter', cat);
+  localStorage.setItem('workFilter', cat);
 }
 
 /* ── SERVICE FILTER ── */
@@ -836,7 +836,7 @@ function closeLightbox() {
 
 // Work 필터 복원
 window.addEventListener('load', function() {
-  var savedFilter = sessionStorage.getItem('workFilter');
+  var savedFilter = localStorage.getItem('workFilter');
   if (savedFilter) filterWork(savedFilter);
 });
 
