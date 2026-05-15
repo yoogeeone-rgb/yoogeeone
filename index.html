@@ -749,11 +749,17 @@ function showPage(id) {
   window.scrollTo(0, 0);
   if (id === 'contact') setTimeout(initMap, 200);
   if (id === 'service') setTimeout(alignServiceFilter, 100);
+  localStorage.setItem('currentPage', id);
 }
 (function() {
   var hash = window.location.hash.replace('#', '');
   var valid = ['home','work','service','contact','guide'];
-  if (hash && valid.indexOf(hash) !== -1) showPage(hash);
+  if (hash && valid.indexOf(hash) !== -1) {
+    showPage(hash);
+  } else {
+    var savedPage = localStorage.getItem('currentPage');
+    if (savedPage && valid.indexOf(savedPage) !== -1) showPage(savedPage);
+  }
 })();
 
 /* ── WORK FILTER ── */
