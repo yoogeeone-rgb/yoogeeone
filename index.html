@@ -813,8 +813,7 @@ function filterWork(cat) {
 
 // Work 필터 복원
 window.addEventListener('load', function() {
-  var savedFilter = localStorage.getItem('workFilter');
-  if (savedFilter && savedFilter !== 'all') filterWork(savedFilter);
+  filterWork('all');
 });
 
 /* ── SERVICE FILTER ── */
