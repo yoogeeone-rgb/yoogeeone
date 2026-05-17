@@ -92,6 +92,9 @@ body { background:var(--white); color:var(--black); font-family:var(--sans); fon
 .home-grid-item:hover img { transform:scale(1.06); }
 
 /* WORK GRID */
+.work-load-more { display:flex; justify-content:center; margin:48px 0; }
+.work-load-more button { background:none; border:1px solid var(--light); color:var(--gray); font-size:13px; letter-spacing:0.1em; padding:12px 40px; cursor:pointer; transition:all 0.2s; }
+.work-load-more button:hover { border-color:var(--black); color:var(--black); }
 .work-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:#111110; margin-top:48px; margin-left:48px; }
 .work-item { aspect-ratio:3/4; overflow:hidden; background:#2a2a2a; cursor:pointer; }
 .work-item img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(0.9); transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
@@ -279,6 +282,7 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
     -webkit-overflow-scrolling:touch;
     touch-action:pan-x;
     padding-bottom:0;
+    padding-right:24px;
   }
   .filter-bar::-webkit-scrollbar { display:none; }
   .filter-btn { flex-shrink:0; margin-right:20px; font-size:14px; }
@@ -493,6 +497,9 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
     <div class="work-item" data-cat="event" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=700&q=80" alt=""></div>
 
     <div class="work-item" data-cat="ads" onclick="openLightbox(this.querySelector('img').src)"><img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=700&q=80" alt=""></div>
+  </div>
+  <div class="work-load-more" id="work-load-more">
+    <button onclick="loadMoreWork()">더보기</button>
   </div>
   <footer><div class="footer-info">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258<br>서울시 송파구 가락동 154-4 지하1층</div></footer>
 </div>
@@ -787,15 +794,56 @@ function showPage(id) {
 })();
 
 /* ── WORK FILTER ── */
-function filterWork(cat) {
-  document.querySelectorAll('.work-item').forEach(item => {
-    item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
+// Work grid 랜덤 셔플 + 더보기
+var WORK_PAGE_SIZE = 18;
+var workCurrentCat = 'all';
+var workShuffled = [];
+
+(function() {
+  var grid = document.querySelector('.work-grid');
+  if (!grid) return;
+  var items = Array.from(grid.querySelectorAll('.work-item'));
+  for (var i = items.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = items[i]; items[i] = items[j]; items[j] = tmp;
+  }
+  workShuffled = items;
+  items.forEach(function(item) { item.style.display = 'none'; });
+  items.slice(0, WORK_PAGE_SIZE).forEach(function(item) { item.style.display = ''; });
+  var btn = document.getElementById('work-load-more');
+  if (btn) btn.style.display = items.length > WORK_PAGE_SIZE ? 'flex' : 'none';
+})();
+
+function loadMoreWork() {
+  var filtered = workShuffled.filter(function(item) {
+    return workCurrentCat === 'all' || item.dataset.cat === workCurrentCat;
   });
-  document.querySelectorAll('.filter-btn').forEach(btn => {
+  var shown = filtered.filter(function(item) { return item.style.display !== 'none'; }).length;
+  filtered.slice(shown, shown + WORK_PAGE_SIZE).forEach(function(item) { item.style.display = ''; });
+  var btn = document.getElementById('work-load-more');
+  if (btn) btn.style.display = (shown + WORK_PAGE_SIZE) < filtered.length ? 'flex' : 'none';
+}
+
+function filterWork(cat) {
+  workCurrentCat = cat;
+  workShuffled.forEach(function(item) { item.style.display = 'none'; });
+  var filtered = workShuffled.filter(function(item) {
+    return cat === 'all' || item.dataset.cat === cat;
+  });
+  filtered.slice(0, WORK_PAGE_SIZE).forEach(function(item) { item.style.display = ''; });
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
     btn.classList.toggle('active', btn.id === 'fb-' + cat);
   });
+  var loadBtn = document.getElementById('work-load-more');
+  if (loadBtn) loadBtn.style.display = filtered.length > WORK_PAGE_SIZE ? 'flex' : 'none';
   localStorage.setItem('workFilter', cat);
 }
+
+// Work 필터 복원
+window.addEventListener('load', function() {
+  var savedFilter = localStorage.getItem('workFilter');
+  if (savedFilter && savedFilter !== 'all') filterWork(savedFilter);
+});
 
 /* ── SERVICE FILTER ── */
 function showServiceTop(id) {
@@ -851,24 +899,7 @@ function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
   document.body.style.overflow = '';
 }
-// Work grid 랜덤 셔플
-(function() {
-  var grid = document.querySelector('.work-grid');
-  if (!grid) return;
-  var items = Array.from(grid.querySelectorAll('.work-item'));
-  for (var i = items.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    grid.appendChild(items[j]);
-    items.splice(j, 1);
-    items.splice(i > j ? i - 1 : i, 0, grid.children[grid.children.length - 1]);
-  }
-})();
 
-// Work 필터 복원
-window.addEventListener('load', function() {
-  var savedFilter = localStorage.getItem('workFilter');
-  if (savedFilter) filterWork(savedFilter);
-});
 
 document.addEventListener('keydown', e => {
   if (!document.getElementById('lightbox').classList.contains('open')) return;
