@@ -321,7 +321,7 @@ footer { border-top:1px solid var(--light); padding:24px 48px; margin-top:80px; 
 <div class="page active" id="page-work">
   <div class="page-header">
     <div class="page-title-row">
-      <h1 class="page-title">YOOGEEONE</h1>
+      <h1 class="page-title" onclick="showPage('work')" style="cursor:pointer;">YOOGEEONE</h1>
       <button class="page-logo" onclick="showPage('work')">
         <img src="images/SSBLVD_white.png" alt="SSBLVD">
       </button>
@@ -807,9 +807,17 @@ var workShuffled = [];
 
   workShuffled = weighted;
   items.forEach(function(item) { item.style.display = 'none'; });
-  workShuffled.slice(0, WORK_PAGE_SIZE).forEach(function(item) { item.style.display = ''; });
+
+  // 저장된 필터 즉시 적용
+  var savedFilter = localStorage.getItem('workFilter') || 'all';
+  workCurrentCat = savedFilter;
+  var initial = savedFilter === 'all' ? workShuffled : workShuffled.filter(function(i) { return i.dataset.cat === savedFilter; });
+  initial.slice(0, WORK_PAGE_SIZE).forEach(function(item) { item.style.display = ''; });
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.id === 'fb-' + savedFilter);
+  });
   var btn = document.getElementById('work-load-more');
-  if (btn) btn.style.display = workShuffled.length > WORK_PAGE_SIZE ? 'flex' : 'none';
+  if (btn) btn.style.display = initial.length > WORK_PAGE_SIZE ? 'flex' : 'none';
 })();
 
 function loadMoreWork() {
@@ -836,13 +844,6 @@ function filterWork(cat) {
   if (loadBtn) loadBtn.style.display = filtered.length > WORK_PAGE_SIZE ? 'flex' : 'none';
   localStorage.setItem('workFilter', cat);
 }
-
-// Work 필터 복원
-window.addEventListener('load', function() {
-  var savedFilter = localStorage.getItem('workFilter');
-  if (savedFilter) filterWork(savedFilter);
-  else filterWork('all');
-});
 
 /* ── SERVICE FILTER ── */
 function showServiceTop(id) {
