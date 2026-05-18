@@ -768,6 +768,7 @@ function showPage(id) {
 /* ── WORK FILTER ── */
 // Work grid 랜덤 셔플 + 더보기
 var WORK_PAGE_SIZE = 18;
+var EDITORIAL_WEIGHT = 12;
 var workCurrentCat = 'all';
 var workShuffled = [];
 
@@ -775,15 +776,40 @@ var workShuffled = [];
   var grid = document.querySelector('.work-grid');
   if (!grid) return;
   var items = Array.from(grid.querySelectorAll('.work-item'));
-  for (var i = items.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var tmp = items[i]; items[i] = items[j]; items[j] = tmp;
+
+  var editorial = items.filter(function(i) { return i.dataset.cat === 'editorial'; });
+  var others = items.filter(function(i) { return i.dataset.cat !== 'editorial'; });
+
+  // 각각 셔플
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+    return arr;
   }
-  workShuffled = items;
+  shuffle(editorial);
+  shuffle(others);
+
+  // 18장 단위마다 editorial 12장 + others 6장으로 섞기
+  var weighted = [];
+  var eIdx = 0, oIdx = 0;
+  while (eIdx < editorial.length || oIdx < others.length) {
+    var block = [];
+    for (var e = 0; e < EDITORIAL_WEIGHT && eIdx < editorial.length; e++) block.push(editorial[eIdx++]);
+    for (var o = 0; o < (WORK_PAGE_SIZE - EDITORIAL_WEIGHT) && oIdx < others.length; o++) block.push(others[oIdx++]);
+    shuffle(block);
+    weighted = weighted.concat(block);
+  }
+  // 남은 항목 추가
+  while (eIdx < editorial.length) weighted.push(editorial[eIdx++]);
+  while (oIdx < others.length) weighted.push(others[oIdx++]);
+
+  workShuffled = weighted;
   items.forEach(function(item) { item.style.display = 'none'; });
-  items.slice(0, WORK_PAGE_SIZE).forEach(function(item) { item.style.display = ''; });
+  workShuffled.slice(0, WORK_PAGE_SIZE).forEach(function(item) { item.style.display = ''; });
   var btn = document.getElementById('work-load-more');
-  if (btn) btn.style.display = items.length > WORK_PAGE_SIZE ? 'flex' : 'none';
+  if (btn) btn.style.display = workShuffled.length > WORK_PAGE_SIZE ? 'flex' : 'none';
 })();
 
 function loadMoreWork() {
