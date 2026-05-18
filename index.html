@@ -839,7 +839,9 @@ function filterWork(cat) {
 
 // Work 필터 복원
 window.addEventListener('load', function() {
-  filterWork('all');
+  var savedFilter = localStorage.getItem('workFilter');
+  if (savedFilter) filterWork(savedFilter);
+  else filterWork('all');
 });
 
 /* ── SERVICE FILTER ── */
