@@ -367,11 +367,16 @@ function updateCount() {
 }
 
 function readFile(file) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve) {
     var r = new FileReader();
     r.onload = function(e) { resolve(e.target.result); };
-    r.onerror = reject;
-    r.readAsDataURL(file);
+    r.onerror = function(e) { console.error('FileReader error:', file.name, e); resolve(null); };
+    try {
+      r.readAsDataURL(file);
+    } catch(e) {
+      console.error('readAsDataURL error:', file.name, e);
+      resolve(null);
+    }
   });
 }
 
@@ -395,6 +400,7 @@ function addFiles(fileArr) {
   arr.forEach(function(file) {
     chain = chain.then(function() {
       return readFile(file).then(function(dataUrl) {
+        if (!dataUrl) return;
         return loadImg(dataUrl).then(function(img) {
           var item = document.createElement('div');
           item.className = 'fitem';
@@ -434,6 +440,10 @@ function addFiles(fileArr) {
   });
 
   chain.then(function() {
+    listWrap.classList.add('show');
+    updateCount();
+  }).catch(function(e) {
+    console.error('addFiles chain error:', e);
     listWrap.classList.add('show');
     updateCount();
   });
