@@ -329,7 +329,8 @@ body {
   top: 4px;
 }
 .service-book-btn {
-  display: inline-block;
+  display: block;
+  text-align: center;
   font-family: var(--sans);
   font-size: 11px;
   font-weight: 400;
@@ -341,7 +342,6 @@ body {
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
   text-decoration: none;
-  align-self: flex-start;
   border: none;
 }
 .service-book-btn:hover {
@@ -686,10 +686,11 @@ footer {
 @media (max-width: 768px) {
   .page-header { padding: 28px 20px 0; }
   .page-title { font-size: clamp(64px, 18vw, 100px); }
-  .main-menu > a { margin-right: 20px; font-size: 10px; }
+  .main-menu > a { margin-right: 20px; font-size: 14px; }
   .filter-bar { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-right: 20px; }
   .filter-bar::-webkit-scrollbar { display: none; }
-  .filter-btn { flex-shrink: 0; margin-right: 20px; font-size: 10px; }
+  .filter-btn { flex-shrink: 0; margin-right: 20px; font-size: 11px; }
+  .service-filter-btn { font-size: 11px; }
   .work-grid { grid-template-columns: repeat(2, 1fr); }
   .service-content { grid-template-columns: 1fr; gap: 0; margin: 32px 20px 0; }
   .service-content-img { position: static; aspect-ratio: 3/4; }
@@ -903,7 +904,7 @@ footer {
         <a class="service-book-btn" href="#" onclick="showPage('contact');return false;">예약하기</a>
       </div>
     </div>
-    <div class="portrait-gallery stagger">
+    <div class="portrait-gallery">
       <div class="portrait-gallery-item"><img src="images/service/commercial/01.jpg" alt=""></div>
       <div class="portrait-gallery-item"><img src="images/service/commercial/02.jpg" alt=""></div>
       <div class="portrait-gallery-item"><img src="images/service/commercial/03.jpg" alt=""></div>
@@ -970,7 +971,16 @@ footer {
         <a class="portrait-btn portrait-btn-filled" href="#" onclick="showPage('contact');return false;">예약하기</a>
       </div>
     </div>
-    <div class="portrait-gallery stagger">
+    <div class="portrait-gallery">
+      <div class="portrait-gallery-item"><img src="images/service/profile/Profile_06.jpg" alt=""></div>
+      <div class="portrait-gallery-item"><img src="images/service/profile/Profile_011.jpg" alt=""></div>
+      <div class="portrait-gallery-item"><img src="images/service/profile/Profile_013.jpg" alt=""></div>
+      <div class="portrait-gallery-item"><img src="images/service/profile/Profile_018.jpg" alt=""></div>
+      <div class="portrait-gallery-item"><img src="images/service/profile/Profile_019.jpg" alt=""></div>
+      <div class="portrait-gallery-item"><img src="images/service/profile/Profile_022.jpg" alt=""></div>
+      <div class="portrait-gallery-item"><img src="images/service/profile/Profile_029.jpg" alt=""></div>
+      <div class="portrait-gallery-item"><img src="images/service/profile/Profile_031.jpg" alt=""></div>
+      <div class="portrait-gallery-item"><img src="images/service/profile/Profile_033.jpg" alt=""></div>
     </div>
   </div>
 
