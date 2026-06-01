@@ -1231,6 +1231,7 @@ function showPage(id) {
   window.scrollTo(0, 0);
   if (id === 'contact') setTimeout(initMap, 200);
   if (id === 'service') setTimeout(alignServiceFilter, 100);
+  if (id === 'work') filterWork('all');
   localStorage.setItem('currentPage', id);
 }
 (function() {
@@ -1277,7 +1278,7 @@ var workShuffled = [];
   workShuffled = weighted;
   items.forEach(item => item.style.display = 'none');
 
-  var savedFilter = localStorage.getItem('workFilter') || 'all';
+  var savedFilter = 'all';
   workCurrentCat = savedFilter;
   var initial = savedFilter === 'all' ? workShuffled : workShuffled.filter(i => i.dataset.cat === savedFilter);
   initial.slice(0, WORK_PAGE_SIZE).forEach(item => item.style.display = '');
@@ -1306,7 +1307,6 @@ function filterWork(cat) {
   });
   var loadBtn = document.getElementById('work-load-more');
   if (loadBtn) loadBtn.style.display = filtered.length > WORK_PAGE_SIZE ? 'flex' : 'none';
-  localStorage.setItem('workFilter', cat);
 }
 
 /* ── SERVICE ── */
