@@ -96,7 +96,7 @@ body {
   margin-left: 24px;
   padding-top: 6px;
 }
-.page-logo img { height: 72px; display: block; opacity: 0.85; transition: opacity 0.2s; }
+.page-logo img { height: clamp(60px, 8vw, 90px); display: block; opacity: 0.85; transition: opacity 0.2s; }
 .page-logo:hover img { opacity: 1; }
 
 /* ── NAV ── */
@@ -127,6 +127,21 @@ body {
   color: var(--fg);
   border-bottom: 1px solid var(--fg);
 }
+.menu-ig {
+  margin-left: auto;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
+  padding-bottom: 0 !important;
+  border-bottom: none !important;
+}
+.menu-ig svg {
+  width: 22px;
+  height: 22px;
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+.menu-ig:hover svg { opacity: 1; }
 
 /* ── FILTER BAR ── */
 .filter-bar {
@@ -815,6 +830,12 @@ footer {
       <a href="#" onclick="showPage('service');return false;">Service</a>
       <a href="#" onclick="showPage('contact');return false;">Contact</a>
       <a href="#" onclick="showPage('guide');return false;">Guide</a>
+    
+      <a href="https://instagram.com/sunsetblvd.seoul" target="_blank" class="menu-ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+        </svg></a>
     </nav>
     <div class="filter-bar">
       <button class="filter-btn active" onclick="filterWork('all')" id="fb-all">All</button>
@@ -963,6 +984,12 @@ footer {
       <a href="#" class="active" onclick="showPage('service');return false;">Service</a>
       <a href="#" onclick="showPage('contact');return false;">Contact</a>
       <a href="#" onclick="showPage('guide');return false;">Guide</a>
+    
+      <a href="https://instagram.com/sunsetblvd.seoul" target="_blank" class="menu-ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+        </svg></a>
     </nav>
     <div class="service-filter-bar" id="service-filter-bar">
       <button class="service-filter-btn active" onclick="showServiceTop('fashion')" id="sf-fashion">Commercial</button>
@@ -1088,6 +1115,12 @@ footer {
       <a href="#" onclick="showPage('service');return false;">Service</a>
       <a href="#" class="active" onclick="showPage('contact');return false;">Contact</a>
       <a href="#" onclick="showPage('guide');return false;">Guide</a>
+    
+      <a href="https://instagram.com/sunsetblvd.seoul" target="_blank" class="menu-ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+        </svg></a>
     </nav>
   </div>
   <div class="contact-body">
@@ -1132,6 +1165,12 @@ footer {
       <a href="#" onclick="showPage('service');return false;">Service</a>
       <a href="#" onclick="showPage('contact');return false;">Contact</a>
       <a href="#" class="active" onclick="showPage('guide');return false;">Guide</a>
+    
+      <a href="https://instagram.com/sunsetblvd.seoul" target="_blank" class="menu-ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+        </svg></a>
     </nav>
   </div>
   <div class="guide-body">
@@ -1222,7 +1261,7 @@ function showPage(id) {
       el.style.opacity = '1';
       el.style.transform = 'translateY(0)';
     });
-    pageEl.querySelectorAll('.stagger > *').forEach(el => {
+    pageEl.querySelectorAll('.stagger > *:not(.work-item)').forEach(el => {
       el.style.animation = 'none';
       el.style.opacity = '1';
       el.style.transform = 'translateY(0)';
@@ -1235,7 +1274,7 @@ function showPage(id) {
       el.style.opacity = '';
       el.style.transform = '';
     });
-    pageEl.querySelectorAll('.stagger > *').forEach(el => {
+    pageEl.querySelectorAll('.stagger > *:not(.work-item)').forEach(el => {
       el.style.animation = '';
       el.style.opacity = '';
       el.style.transform = '';
@@ -1247,7 +1286,7 @@ function showPage(id) {
   window.scrollTo(0, 0);
   if (id === 'contact') setTimeout(initMap, 200);
   if (id === 'service') setTimeout(alignServiceFilter, 100);
-  if (id === 'work') filterWork('all');
+  if (id === 'work') setTimeout(function() { filterWork('all'); }, 0);
   localStorage.setItem('currentPage', id);
 }
 (function() {
