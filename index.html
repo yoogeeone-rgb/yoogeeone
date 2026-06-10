@@ -631,7 +631,7 @@ function showPage(id) {
   var valid = ['work','service','contact','guide'];
   if (hash && valid.indexOf(hash) !== -1) showPage(hash);
   else showPage('work');
-  setTimeout(initHero, 100);
+  setTimeout(initHero, 200);
 })();
 
 /* ── WORK FILTER & VIEW ── */
@@ -654,7 +654,7 @@ var workShuffled = [];
   }
 
   workShuffled = shuffle(Array.from(items));
-  items.forEach(item => item.style.display = 'none');
+  workShuffled.forEach(item => item.style.display = 'none');
   workShuffled.slice(0, WORK_PAGE_SIZE).forEach(item => item.style.display = '');
   updateCount();
 })();
