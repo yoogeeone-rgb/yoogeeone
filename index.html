@@ -486,12 +486,15 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
   pointer-events: none;
 }
 .hero-overlay-logo {
-  padding: 20px 0 16px;
+  height: 112px;
+  padding: 16px 40px;
   display: flex;
   justify-content: center;
+  align-items: flex-end;
   flex-shrink: 0;
+  width: 100%;
 }
-.hero-overlay-logo img { height: 72px; cursor: pointer; }
+.hero-overlay-logo img { height: 78px; cursor: pointer; }
 .hero-overlay-imgs {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -574,7 +577,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
 </div>
 
 <!-- NAV -->
-<nav class="site-nav" id="site-nav">
+<nav class="site-nav" id="site-nav" style="visibility:hidden;">
   <div class="nav-left">
     <button class="nav-link active" id="nav-work" onclick="showPage('work')">Work</button>
     <button class="nav-link" id="nav-service" onclick="showPage('service')">Service</button>
@@ -967,6 +970,7 @@ function showPage(id) {
   var hash = window.location.hash.replace('#', '');
   var valid = ['work','service','contact','guide'];
   if (hash && valid.indexOf(hash) !== -1) {
+    document.getElementById('site-nav').style.visibility = '';
     dismissHero(true);
     showPage(hash);
   } else {
@@ -984,6 +988,7 @@ function returnToHero() {
   overlay.style.display = '';
   overlay.classList.remove('hide');
   document.body.style.overflow = 'hidden';
+  document.getElementById('site-nav').style.visibility = 'hidden';
 }
 
 function dismissHero(instant) {
@@ -991,6 +996,7 @@ function dismissHero(instant) {
   if (!overlay) return;
   overlay.classList.add('hide');
   document.body.style.overflow = '';
+  document.getElementById('site-nav').style.visibility = '';
   if (instant) overlay.style.display = 'none';
   else setTimeout(function() { overlay.style.display = 'none'; }, 700);
 }
@@ -1021,7 +1027,10 @@ var heroIndexRight = 1;
 
 function initHero() {
   var items = document.querySelectorAll('.work-item[data-cat="editorial"] img');
-  var srcs = Array.from(items).map(function(img) { return img.src; });
+  var srcs = Array.from(items).map(function(img) {
+    // getAttribute로 HTML에 적힌 상대경로 그대로 사용
+    return img.getAttribute('src');
+  });
   for (var i = srcs.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
     var t = srcs[i]; srcs[i] = srcs[j]; srcs[j] = t;
