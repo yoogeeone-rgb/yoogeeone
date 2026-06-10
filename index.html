@@ -60,6 +60,7 @@ body {
   top: 0;
   background: var(--bg);
   z-index: 100;
+  overflow: hidden;
 }
 .nav-left { display: flex; gap: 28px; align-items: flex-end; }
 .nav-center { display: flex; justify-content: center; }
@@ -73,7 +74,7 @@ body {
 .nav-link:hover { color: var(--fg); }
 .nav-link.active { color: var(--fg); }
 .nav-link.active::after {
-  content: ''; position: absolute; bottom: -24px; left: 0; right: 0;
+  content: ''; position: absolute; bottom: -16px; left: 0; right: 0;
   height: 1px; background: var(--fg);
 }
 .nav-logo { cursor: pointer; display: flex; align-items: center; }
@@ -95,10 +96,11 @@ body {
 .hero-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: calc(75vw * 4 / 3);
-  max-height: calc(100vh - 140px);
+  aspect-ratio: 4/3;
+  max-height: calc(100vh - 160px);
   overflow: hidden;
   position: relative;
+  margin: 0 40px;
 }
 .hero-left {
   position: relative; overflow: hidden; background: #ebebeb;
@@ -117,12 +119,12 @@ body {
 .hero-counter {
   position: absolute; bottom: 20px; right: 24px;
   font-size: 11px; letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.6); font-family: var(--sans);
+  color: #ffffff; font-family: var(--sans);
 }
 .hero-click-hint {
   position: absolute; bottom: 20px; left: 24px;
   font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: rgba(255,255,255,0.5); font-family: var(--sans);
+  color: #ffffff; font-family: var(--sans);
 }
 .scroll-indicator {
   position: absolute; bottom: 32px; left: 50%;
@@ -147,7 +149,7 @@ body {
 /* ── WORK TOOLBAR ── */
 .work-toolbar {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 40px; border-top: 1px solid var(--line);
+  padding: 0 40px; border-top: none;
   border-bottom: 1px solid var(--line); height: 44px;
 }
 .filter-group { display: flex; gap: 0; align-items: center; }
@@ -436,7 +438,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
   .nav-logo img { height: 58px; }
   .nav-link.active::after { bottom: -13px; }
 
-  .hero-section { grid-template-columns: 1fr 1fr; height: 56vw; max-height: calc(100vh - 140px); }
+  .hero-section { grid-template-columns: 1fr 1fr; aspect-ratio: 4/3; max-height: calc(100vh - 140px); margin: 0 20px; }
 
   .work-toolbar { padding: 0 20px; overflow-x: auto; }
   .filter-btn { font-size: 12px; padding-right: 12px; }
@@ -502,10 +504,10 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
 <div class="page active" id="page-work">
   <!-- HERO -->
   <div class="hero-section" id="hero-section">
-    <div class="hero-left">
+    <div class="hero-left" onclick="heroNextLeft()">
       <img class="hero-img" id="hero-img-left" src="" alt="">
     </div>
-    <div class="hero-right" onclick="heroNext()">
+    <div class="hero-right" onclick="heroNextRight()">
       <img class="hero-img" id="hero-img-right" src="" alt="">
       <span class="hero-click-hint" data-ko="클릭하여 다음 이미지" data-en="Click for next image">클릭하여 다음 이미지</span>
       <span class="hero-counter" id="hero-counter"></span>
@@ -885,7 +887,8 @@ function showPage(id) {
 
 /* ── HERO ── */
 var heroImages = [];
-var heroIndex = 0;
+var heroIndexLeft = 0;
+var heroIndexRight = 1;
 
 function initHero() {
   var items = document.querySelectorAll('.work-item[data-cat="editorial"] img');
@@ -895,7 +898,8 @@ function initHero() {
     var t = srcs[i]; srcs[i] = srcs[j]; srcs[j] = t;
   }
   heroImages = srcs;
-  heroIndex = 0;
+  heroIndexLeft = 0;
+  heroIndexRight = 1;
   var left = document.getElementById('hero-img-left');
   var right = document.getElementById('hero-img-right');
   if (heroImages.length >= 2) {
@@ -908,18 +912,35 @@ function initHero() {
   updateHeroCounter();
 }
 
-function heroNext() {
+var heroIndexLeft = 0;
+var heroIndexRight = 1;
+
+function heroNextLeft() {
   if (!heroImages.length) return;
-  heroIndex = (heroIndex + 2) % heroImages.length;
-  var left = document.getElementById('hero-img-left');
-  var right = document.getElementById('hero-img-right');
-  [left, right].forEach(function(img) { if (img) img.classList.add('fade'); });
-  setTimeout(function() {
-    if (left) left.src = heroImages[heroIndex % heroImages.length];
-    if (right) right.src = heroImages[(heroIndex + 1) % heroImages.length];
-    [left, right].forEach(function(img) { if (img) img.classList.remove('fade'); });
-    updateHeroCounter();
-  }, 250);
+  heroIndexLeft = (heroIndexLeft + 2) % heroImages.length;
+  var img = document.getElementById('hero-img-left');
+  if (img) {
+    img.classList.add('fade');
+    setTimeout(function() {
+      img.src = heroImages[heroIndexLeft];
+      img.classList.remove('fade');
+      updateHeroCounter();
+    }, 250);
+  }
+}
+
+function heroNextRight() {
+  if (!heroImages.length) return;
+  heroIndexRight = (heroIndexRight + 2) % heroImages.length;
+  var img = document.getElementById('hero-img-right');
+  if (img) {
+    img.classList.add('fade');
+    setTimeout(function() {
+      img.src = heroImages[heroIndexRight];
+      img.classList.remove('fade');
+      updateHeroCounter();
+    }, 250);
+  }
 }
 
 function updateHeroCounter() {
