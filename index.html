@@ -55,7 +55,7 @@ body {
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   padding: 0 40px;
-  height: 68px;
+  height: 88px;
   border-bottom: 1px solid var(--line);
   position: sticky;
   top: 0;
@@ -67,9 +67,9 @@ body {
 .nav-right { display: flex; gap: 20px; align-items: center; justify-content: flex-end; }
 
 .nav-link {
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 300;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--gray);
   text-decoration: none;
   background: none;
@@ -87,14 +87,14 @@ body {
 .nav-link.active::after {
   content: '';
   position: absolute;
-  bottom: -18px;
+  bottom: -24px;
   left: 0; right: 0;
   height: 1px;
   background: var(--fg);
 }
 
 .nav-logo { cursor: pointer; display: flex; align-items: center; }
-.nav-logo img { height: 44px; display: block; }
+.nav-logo img { height: 68px; display: block; }
 
 .nav-ig {
   display: flex;
@@ -122,7 +122,7 @@ body {
   background: none;
   border: none;
   font-family: var(--sans);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 300;
   letter-spacing: 0.08em;
   color: var(--gray);
@@ -136,28 +136,33 @@ body {
 .filter-btn.active { color: var(--fg); font-weight: 400; }
 
 .view-group { display: flex; gap: 4px; align-items: center; }
+.work-grid-wrap {
+  margin: 20px 40px 0;
+  display: flex;
+  justify-content: flex-start;
+}
 .view-btn {
   background: none;
   border: none;
-  font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 300;
-  letter-spacing: 0.06em;
   color: var(--gray2);
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 5px 6px;
   border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s;
 }
+.view-btn svg { width: 13px; height: 13px; display: block; }
 .view-btn:hover { color: var(--fg); }
 .view-btn.active { color: var(--fg); background: var(--line); }
 
 /* ── GRIDS ── */
 .work-grid {
   display: grid;
-  gap: 1px;
-  background: var(--line);
-  margin: 0 40px;
+  gap: 5px;
+  background: var(--bg);
+  margin: 12px 40px 0;
 }
 .work-grid.view-grid { grid-template-columns: repeat(4, 1fr); }
 .work-grid.view-list { grid-template-columns: repeat(2, 1fr); }
@@ -532,17 +537,28 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
 
 /* ── MOBILE ── */
 @media (max-width: 768px) {
-  .site-nav { padding: 0 20px; grid-template-columns: auto 1fr auto; gap: 0; }
-  .nav-left { gap: 16px; }
-  .nav-link { font-size: 11px; }
-  .nav-logo img { height: 34px; }
+  .site-nav {
+    padding: 0 20px;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    height: auto;
+    padding-top: 16px;
+    gap: 0;
+  }
+  .nav-center { order: -1; justify-content: center; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .nav-left { order: 0; padding: 12px 0; gap: 20px; }
+  .nav-right { position: absolute; top: 20px; right: 20px; }
+  .nav-link.active::after { bottom: -13px; }
+  .nav-link { font-size: 13px; }
+  .nav-logo img { height: 48px; }
 
   .work-toolbar { padding: 0 20px; overflow-x: auto; gap: 12px; }
   .filter-group { gap: 0; flex-shrink: 0; }
-  .filter-btn { font-size: 10px; padding-right: 12px; }
+  .filter-btn { font-size: 12px; padding-right: 12px; }
   .view-group { flex-shrink: 0; }
-  .view-btn { font-size: 10px; padding: 3px 6px; }
+  .view-btn { padding: 4px 5px; }
 
+  .work-grid-wrap { margin: 8px 20px 0; }
   .work-grid { margin: 0 20px; }
   .work-grid.view-grid { grid-template-columns: repeat(2, 1fr); }
   .work-grid.view-list { grid-template-columns: repeat(1, 1fr); }
@@ -607,14 +623,24 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
       <button class="filter-btn" onclick="filterWork('beauty')" id="fb-beauty">Beauty</button>
       <button class="filter-btn" onclick="filterWork('portrait')" id="fb-portrait">Portrait</button>
     </div>
-    <div class="view-group">
-      <button class="view-btn active" onclick="setView('grid')" id="vb-grid">Grid</button>
-      <button class="view-btn" onclick="setView('list')" id="vb-list">List</button>
-      <button class="view-btn" onclick="setView('feed')" id="vb-feed">Feed</button>
-      <button class="view-btn" onclick="setView('full')" id="vb-full">Full</button>
-    </div>
   </div>
 
+  <div class="work-grid-wrap">
+    <div class="view-group">
+      <button class="view-btn active" onclick="setView('grid')" id="vb-grid" title="Grid">
+        <svg viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="7" height="7"/><rect x="9" y="0" width="7" height="7"/><rect x="0" y="9" width="7" height="7"/><rect x="9" y="9" width="7" height="7"/></svg>
+      </button>
+      <button class="view-btn" onclick="setView('list')" id="vb-list" title="List">
+        <svg viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="7" height="4"/><rect x="9" y="0" width="7" height="4"/><rect x="0" y="6" width="7" height="4"/><rect x="9" y="6" width="7" height="4"/><rect x="0" y="12" width="7" height="4"/><rect x="9" y="12" width="7" height="4"/></svg>
+      </button>
+      <button class="view-btn" onclick="setView('feed')" id="vb-feed" title="Feed">
+        <svg viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="4" height="16"/><rect x="6" y="0" width="4" height="16"/><rect x="12" y="0" width="4" height="16"/></svg>
+      </button>
+      <button class="view-btn" onclick="setView('full')" id="vb-full" title="Full">
+        <svg viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="16" height="16"/></svg>
+      </button>
+    </div>
+  </div>
   <div class="work-grid view-grid" id="work-grid">
     <!-- editorial -->
     <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_1.jpeg" alt=""></div>
