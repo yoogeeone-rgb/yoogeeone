@@ -595,6 +595,137 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
   footer { padding: 16px 20px; margin-top: 48px; }
   .kakao-float { bottom: 20px; right: 16px; }
 }
+
+/* ── HERO ── */
+.hero-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: calc(100vh - 88px);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 56px 48px;
+  background: #fff;
+  position: relative;
+  z-index: 1;
+}
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray2);
+  margin-bottom: 20px;
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  margin-bottom: 16px;
+}
+.hero-sub {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--gray);
+  margin-bottom: 40px;
+  word-break: keep-all;
+  max-width: 320px;
+}
+.hero-cta {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--fg);
+  padding: 14px 28px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  align-self: flex-start;
+}
+.hero-cta:hover { background: var(--gray); }
+.hero-right {
+  position: relative;
+  overflow: hidden;
+  background: #ebebeb;
+}
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.5s ease;
+}
+.hero-img.fade { opacity: 0; }
+.hero-counter {
+  position: absolute;
+  bottom: 20px;
+  right: 24px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.6);
+  font-family: var(--sans);
+}
+.hero-click-hint {
+  position: absolute;
+  bottom: 20px;
+  left: 24px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  font-family: var(--sans);
+}
+/* 스크롤 표시 */
+.scroll-indicator {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+  pointer-events: none;
+}
+.scroll-indicator span {
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gray2);
+  font-family: var(--sans);
+}
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: var(--gray2);
+  animation: scrollDown 1.6s var(--ease) infinite;
+  transform-origin: top;
+}
+@keyframes scrollDown {
+  0%   { transform: scaleY(0); opacity: 1; }
+  60%  { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  .hero-section { grid-template-columns: 1fr; height: calc(100vh - 110px); }
+  .hero-left { padding: 36px 20px; justify-content: flex-end; }
+  .hero-right { display: none; }
+  .hero-sub { max-width: 100%; }
+}
 </style>
 </head>
 <body>
@@ -779,7 +910,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
   <div class="work-load-more" id="work-load-more">
     <button onclick="loadMoreWork()">더보기</button>
   </div>
-  <footer><div class="footer-info" data-ko="석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층" data-en="SSBLVD · CEO Yoo Jiwon · Business Reg. No. 777-55-00231 · E-Commerce Reg. No. 2021-Seoul Gangnam-00258 · B1, 154-4, Garak-dong, Songpa-gu, Seoul">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층</div></footer>
+  <footer><div class="footer-info" data-ko="석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층" data-en="Sunset Blvd · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층</div></footer>
 </div>
 
 <!-- ══════════════════════════════════ SERVICE ══ -->
@@ -875,7 +1006,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
       <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_034.jpg" alt=""></div>
     </div>
   </div>
-  <footer><div class="footer-info" data-ko="석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층" data-en="SSBLVD · CEO Yoo Jiwon · Business Reg. No. 777-55-00231 · E-Commerce Reg. No. 2021-Seoul Gangnam-00258 · B1, 154-4, Garak-dong, Songpa-gu, Seoul">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층</div></footer>
+  <footer><div class="footer-info" data-ko="석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층" data-en="Sunset Blvd · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층</div></footer>
 </div>
 
 <!-- ══════════════════════════════════ CONTACT ══ -->
@@ -892,7 +1023,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
   </div>
   <div class="studio-section">
     <h2 class="studio-title" data-ko="Studio" data-en="Studio">Studio</h2>
-    <p class="studio-desc" data-ko="스튜디오 석양대로는 서울 송파구 가락동에 위치합니다.<br>약 50평 규모의 스튜디오에는 호리존이 설치되어 있으며, 독립된 분장실과 탈의실을 갖추고 있습니다.<br>촬영 중 실시간으로 이미지를 확인할 수 있는 테더링 시스템도 운영하고 있어, 현장에서 즉각적인 피드백과 디렉팅이 가능합니다." data-en="Studio SSBLVD is located in Garak-dong, Songpa-gu, Seoul.<br>Spanning approximately 165㎡, the studio is equipped with a cyclorama wall, a dedicated makeup room, and a private changing room.<br>A tethering system enables real-time image review during shoots, allowing for immediate feedback and on-set direction.">스튜디오 석양대로는 서울 송파구 가락동에 위치합니다.<br>약 50평 규모의 스튜디오에는 호리존이 설치되어 있으며, 독립된 분장실과 탈의실을 갖추고 있습니다.<br>촬영 중 실시간으로 이미지를 확인할 수 있는 테더링 시스템도 운영하고 있어, 현장에서 즉각적인 피드백과 디렉팅이 가능합니다.</p>
+    <p class="studio-desc" data-ko="스튜디오 석양대로는 서울 송파구 가락동에 위치합니다.<br>약 50평 규모의 스튜디오에는 호리존이 설치되어 있으며, 독립된 분장실과 탈의실을 갖추고 있습니다.<br>촬영 중 실시간으로 이미지를 확인할 수 있는 테더링 시스템도 운영하고 있어, 현장에서 즉각적인 피드백과 디렉팅이 가능합니다." data-en="Studio Sunset Blvd is located in Garak-dong, Songpa-gu, Seoul.<br>Spanning approximately 165㎡, the studio is equipped with a cyclorama wall, a dedicated makeup room, and a private changing room.<br>A tethering system enables real-time image review during shoots, allowing for immediate feedback and on-set direction.">스튜디오 석양대로는 서울 송파구 가락동에 위치합니다.<br>약 50평 규모의 스튜디오에는 호리존이 설치되어 있으며, 독립된 분장실과 탈의실을 갖추고 있습니다.<br>촬영 중 실시간으로 이미지를 확인할 수 있는 테더링 시스템도 운영하고 있어, 현장에서 즉각적인 피드백과 디렉팅이 가능합니다.</p>
     <div class="studio-grid">
       <div class="studio-item"><img src="images/contact/studio.jpeg" alt=""></div>
       <div class="studio-item"><img src="images/contact/studio_5.jpg" alt=""></div>
@@ -902,7 +1033,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
       <div class="studio-item"><img src="images/contact/studio_1.jpg" alt=""></div>
     </div>
   </div>
-  <footer><div class="footer-info" data-ko="석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층" data-en="SSBLVD · CEO Yoo Jiwon · Business Reg. No. 777-55-00231 · E-Commerce Reg. No. 2021-Seoul Gangnam-00258 · B1, 154-4, Garak-dong, Songpa-gu, Seoul">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층</div></footer>
+  <footer><div class="footer-info" data-ko="석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층" data-en="Sunset Blvd · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층</div></footer>
 </div>
 
 <!-- ══════════════════════════════════ GUIDE ══ -->
@@ -931,7 +1062,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
     <div class="guide-section">
       <div class="guide-section-title" data-ko="예약 안내" data-en="Booking Information">예약 안내</div>
       <table class="guide-table">
-        <tr><td data-ko="운영 방식" data-en="Operations">운영 방식</td><td data-ko="스튜디오 석양대로는 사전 예약제로만 운영합니다." data-en="Studio SSBLVD operates by appointment only.">스튜디오 석양대로는 사전 예약제로만 운영합니다.</td></tr>
+        <tr><td data-ko="운영 방식" data-en="Operations">운영 방식</td><td data-ko="스튜디오 석양대로는 사전 예약제로만 운영합니다." data-en="Studio Sunset Blvd operates by appointment only.">스튜디오 석양대로는 사전 예약제로만 운영합니다.</td></tr>
         <tr><td data-ko="예약 방법" data-en="How to Book">예약 방법</td><td data-ko="전화, 카카오톡 채널, 홈페이지 예약 폼을 통해 접수하실 수 있습니다." data-en="Bookings can be made via phone, KakaoTalk channel, or the website booking form.">전화, 카카오톡 채널, 홈페이지 예약 폼을 통해 접수하실 수 있습니다.</td></tr>
         <tr><td data-ko="예약금" data-en="Deposit">예약금</td><td data-ko="총 촬영비의 30%를 선입금해 주셔야 예약이 확정됩니다." data-en="A deposit of 30% of the total shoot fee is required to confirm your booking.">총 촬영비의 30%를 선입금해 주셔야 예약이 확정됩니다.</td></tr>
         <tr><td data-ko="미입금 취소" data-en="Unpaid Cancellation">미입금 취소</td><td data-ko="예약금 입금이 확인되지 않을 시 예약은 자동으로 취소될 수 있습니다." data-en="If the deposit is not received, the booking may be automatically cancelled.">예약금 입금이 확인되지 않을 시 예약은 자동으로 취소될 수 있습니다.</td></tr>
@@ -950,7 +1081,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
       </table>
     </div>
   </div>
-  <footer><div class="footer-info" data-ko="석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층" data-en="SSBLVD · CEO Yoo Jiwon · Business Reg. No. 777-55-00231 · E-Commerce Reg. No. 2021-Seoul Gangnam-00258 · B1, 154-4, Garak-dong, Songpa-gu, Seoul">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층</div></footer>
+  <footer><div class="footer-info" data-ko="석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층" data-en="Sunset Blvd · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층</div></footer>
 </div>
 
 <!-- KAKAO FLOAT -->
@@ -1173,6 +1304,7 @@ document.addEventListener('keydown', function(e) {
     if (locked === 'h' && Math.abs(dx) > 40) moveLight(dx < 0 ? 1 : -1);
   }, { passive: true });
 })();
+
 
 
 /* ── LANGUAGE TOGGLE ── */
