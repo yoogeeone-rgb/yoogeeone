@@ -596,516 +596,6 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
   .kakao-float { bottom: 20px; right: 16px; }
 }
 
-/* ── HERO ── */
-.hero-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: calc(100vh - 88px);
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
-}
-.hero-left {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 56px 48px;
-  background: #fff;
-  position: relative;
-  z-index: 1;
-}
-.hero-eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--gray2);
-  margin-bottom: 20px;
-}
-.hero-title {
-  font-family: var(--serif);
-  font-size: clamp(36px, 4vw, 56px);
-  font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: var(--fg);
-  margin-bottom: 16px;
-}
-.hero-sub {
-  font-size: 14px;
-  line-height: 1.8;
-  color: var(--gray);
-  margin-bottom: 40px;
-  word-break: keep-all;
-  max-width: 320px;
-}
-.hero-cta {
-  display: inline-block;
-  font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #fff;
-  background: var(--fg);
-  padding: 14px 28px;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s;
-  align-self: flex-start;
-}
-.hero-cta:hover { background: var(--gray); }
-.hero-right {
-  position: relative;
-  overflow: hidden;
-  background: #ebebeb;
-}
-.hero-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: opacity 0.5s ease;
-}
-.hero-img.fade { opacity: 0; }
-.hero-counter {
-  position: absolute;
-  bottom: 20px;
-  right: 24px;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.6);
-  font-family: var(--sans);
-}
-.hero-click-hint {
-  position: absolute;
-  bottom: 20px;
-  left: 24px;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-  font-family: var(--sans);
-}
-/* 스크롤 표시 */
-.scroll-indicator {
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  z-index: 2;
-  pointer-events: none;
-}
-.scroll-indicator span {
-  font-size: 9px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--gray2);
-  font-family: var(--sans);
-}
-.scroll-line {
-  width: 1px;
-  height: 40px;
-  background: var(--gray2);
-  animation: scrollDown 1.6s var(--ease) infinite;
-  transform-origin: top;
-}
-@keyframes scrollDown {
-  0%   { transform: scaleY(0); opacity: 1; }
-  60%  { transform: scaleY(1); opacity: 1; }
-  100% { transform: scaleY(1); opacity: 0; }
-}
-
-@media (max-width: 768px) {
-  .hero-section { grid-template-columns: 1fr; height: calc(100vh - 110px); }
-  .hero-left { padding: 36px 20px; justify-content: flex-end; }
-  .hero-right { display: none; }
-  .hero-sub { max-width: 100%; }
-}
-</style>
-</head>
-<body>
-
-<!-- GLOBAL NAV — 4페이지 공통, JS로 active 관리 -->
-<nav class="site-nav" id="site-nav">
-  <div class="nav-left">
-    <button class="nav-link active" id="nav-work" onclick="showPage('work')">Work</button>
-    <button class="nav-link" id="nav-service" onclick="showPage('service')">Service</button>
-    <button class="nav-link" id="nav-contact" onclick="showPage('contact')">Contact</button>
-    <button class="nav-link" id="nav-guide" onclick="showPage('guide')">Guide</button>
-  </div>
-  <div class="nav-center">
-    <div class="nav-logo" onclick="showPage('work')">
-      <img src="images/SSBLVD_black.png" alt="SSBLVD">
-    </div>
-  </div>
-  <div class="nav-right">
-    <a href="https://instagram.com/sunsetblvd.seoul" target="_blank" class="nav-ig" title="Instagram">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-        <circle cx="12" cy="12" r="4"/>
-        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
-      </svg>
-    </a>
-    <div class="lang-toggle">
-      <button class="lang-btn active" id="lang-kor" onclick="setLang('ko')">KOR</button>
-      <span class="lang-divider">/</span>
-      <button class="lang-btn" id="lang-eng" onclick="setLang('en')">ENG</button>
-    </div>
-  </div>
-</nav>
-
-<!-- ══════════════════════════════════ WORK ══ -->
-<div class="page active" id="page-work">
-  <div class="work-toolbar">
-    <div class="filter-group">
-      <button class="filter-btn active" onclick="filterWork('all')" id="fb-all">All</button>
-      <button class="filter-btn" onclick="filterWork('editorial')" id="fb-editorial">Editorial</button>
-      <button class="filter-btn" onclick="filterWork('campaign')" id="fb-campaign">Campaign</button>
-      <button class="filter-btn" onclick="filterWork('lookbook')" id="fb-lookbook">Lookbook</button>
-      <button class="filter-btn" onclick="filterWork('beauty')" id="fb-beauty">Beauty</button>
-      <button class="filter-btn" onclick="filterWork('portrait')" id="fb-portrait">Portrait</button>
-    </div>
-  </div>
-
-  <div class="work-grid-wrap">
-    <div class="view-group">
-      <button class="view-btn active" onclick="setView('grid')" id="vb-grid" title="Grid">
-        <svg viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="7" height="7"/><rect x="9" y="0" width="7" height="7"/><rect x="0" y="9" width="7" height="7"/><rect x="9" y="9" width="7" height="7"/></svg>
-      </button>
-      <button class="view-btn" onclick="setView('list')" id="vb-list" title="List">
-        <svg viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="7" height="4"/><rect x="9" y="0" width="7" height="4"/><rect x="0" y="6" width="7" height="4"/><rect x="9" y="6" width="7" height="4"/><rect x="0" y="12" width="7" height="4"/><rect x="9" y="12" width="7" height="4"/></svg>
-      </button>
-      <button class="view-btn" onclick="setView('feed')" id="vb-feed" title="Feed">
-        <svg viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="4" height="16"/><rect x="6" y="0" width="4" height="16"/><rect x="12" y="0" width="4" height="16"/></svg>
-      </button>
-      <button class="view-btn" onclick="setView('full')" id="vb-full" title="Full">
-        <svg viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="16" height="16"/></svg>
-      </button>
-    </div>
-  </div>
-  <div class="work-grid view-grid" id="work-grid">
-    <!-- editorial -->
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_1.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_2.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_3.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_7.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_8.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_9.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_10.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_11.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_12.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_13.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_14.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_15.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_16.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_20.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_21.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_22.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_26.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_27.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_28.jpeg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_29.jpg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_30.jpg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_31.jpg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_32.jpg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_33.jpg" alt=""></div>
-    <div class="work-item" data-cat="editorial" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/editorial/editorial_34.jpg" alt=""></div>
-    <!-- portrait -->
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_01.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_02.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_03.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_04.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_05.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_07.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_08.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_09.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_010.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_012.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_014.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_015.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_016.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_017.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_020.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_021.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_023.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_024.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_025.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_026.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_027.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_028.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_030.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_032.jpg" alt=""></div>
-    <div class="work-item" data-cat="portrait" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_034.jpg" alt=""></div>
-    <!-- lookbook -->
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_1.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_2.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_3.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_4.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_5.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_7.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_8.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_9.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_10.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_11.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_12.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_14.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_15.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_19.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_20.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_21.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_22.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_23.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_24.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_25.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_26.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_27.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_28.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_29.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_30.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_31.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_32.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_33.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_34.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_36.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_37.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_38.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_39.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_40.jpeg" alt=""></div>
-    <div class="work-item" data-cat="lookbook" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/lookbook/look_41.jpeg" alt=""></div>
-    <!-- campaign -->
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_1.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_2.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_3.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_4.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_5.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_6.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_7.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_8.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_9.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_10.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_11.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_12.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_13.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_14.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_15.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_16.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_17.jpg" alt=""></div>
-    <div class="work-item" data-cat="campaign" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/campaign/Campaign_18.jpeg" alt=""></div>
-    <!-- beauty -->
-    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/beauty/1_resized.jpg" alt=""></div>
-    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/beauty/2_resized.jpg" alt=""></div>
-    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/beauty/3_resized.jpg" alt=""></div>
-    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/beauty/4_resized.jpg" alt=""></div>
-    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/beauty/5_resized.jpg" alt=""></div>
-    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/beauty/6_resized.jpg" alt=""></div>
-    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/beauty/7_resized.jpg" alt=""></div>
-    <div class="work-item" data-cat="beauty" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/beauty/8_resized.jpg" alt=""></div>
-  </div>
-
-  <div class="work-load-more" id="work-load-more">
-    <button onclick="loadMoreWork()">더보기</button>
-  </div>
-  <footer><div class="footer-info" data-ko="석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층" data-en="Sunset Blvd · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층</div></footer>
-</div>
-
-<!-- ══════════════════════════════════ SERVICE ══ -->
-<div class="page" id="page-service">
-  <div class="service-sub-nav">
-    <button class="service-tab active" onclick="showServiceTop('fashion')" id="sf-fashion">Commercial</button>
-    <button class="service-tab" onclick="showServiceTop('portrait')" id="sf-portrait">Profile</button>
-  </div>
-
-  <!-- COMMERCIAL -->
-  <div class="service-panel active" id="sp-fashion">
-    <div class="service-hero">
-      <div class="service-hero-img"><img src="images/service/commercial/main.jpg" alt=""></div>
-      <div class="service-hero-text">
-        <span class="service-eyebrow" data-ko="Fashion / Commercial" data-en="Fashion / Commercial">Fashion / Commercial</span>
-        <h2 class="service-title" data-ko="Fashion &amp;<br>Commercial" data-en="Fashion &amp;<br>Commercial">Fashion &amp;<br>Commercial</h2>
-        <p class="service-desc" data-ko="단순한 상업적 결과물을 넘어, 브랜드가 지향하는 고유의 가치를 정교한 시각적 언어로 번역하여 기록합니다.<br><br>빠르게 소비되고 사라지는 유행에 매몰되지 않는 작가만의 미학적 관점을 바탕으로 브랜드가 가진 독보적인 질감과 무드를 영원히 변치 않는 하나의 작품으로 완성합니다.<br><br>우리는 이미지를 포착하는 것에 그치지 않습니다. 브랜드의 서사가 가장 완벽하게 구현되는 예술적 지점을 치열하게 고민하고 함께 탐색합니다." data-en="Beyond mere commercial output, we translate the unique values a brand aspires to into a precise visual language.<br><br>Grounded in the photographer's aesthetic perspective — one that resists fleeting trends — we distill the brand's singular texture and mood into a timeless work of art.<br><br>We do not simply capture images. We relentlessly explore the artistic point at which a brand's narrative is most completely realized.">단순한 상업적 결과물을 넘어, 브랜드가 지향하는 고유의 가치를 정교한 시각적 언어로 번역하여 기록합니다.<br><br>빠르게 소비되고 사라지는 유행에 매몰되지 않는 작가만의 미학적 관점을 바탕으로 브랜드가 가진 독보적인 질감과 무드를 영원히 변치 않는 하나의 작품으로 완성합니다.<br><br>우리는 이미지를 포착하는 것에 그치지 않습니다. 브랜드의 서사가 가장 완벽하게 구현되는 예술적 지점을 치열하게 고민하고 함께 탐색합니다.</p>
-        <div class="service-select-title">Select Point.</div>
-        <ul class="service-select-list">
-          <li data-ko="브랜드의 아이덴티티를 관통하는 정교한 비주얼 디렉팅" data-en="Precise visual direction that penetrates the core of your brand identity">브랜드의 아이덴티티를 관통하는 정교한 비주얼 디렉팅</li>
-          <li data-ko="피사체와 제품의 존재감을 드러내는 압도적인 선예도" data-en="Outstanding sharpness that reveals the full presence of subjects and products">피사체와 제품의 존재감을 드러내는 압도적인 선예도</li>
-          <li data-ko="협업의 가치를 극대화하는 유기적인 현장 운용" data-en="Organic on-set management that maximizes the value of collaboration">협업의 가치를 극대화하는 유기적인 현장 운용</li>
-        </ul>
-        <a class="service-book-btn" href="#" onclick="showPage('contact');return false;" data-ko="예약하기" data-en="Book Now">예약하기</a>
-      </div>
-    </div>
-    <div class="portrait-gallery">
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/service/commercial/01.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/service/commercial/02.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/service/commercial/03.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/service/commercial/04.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/service/commercial/05.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/service/commercial/06.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/service/commercial/07.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/service/commercial/08.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/service/commercial/09.jpg" alt=""></div>
-    </div>
-  </div>
-
-  <!-- PROFILE -->
-  <div class="service-panel" id="sp-essential">
-    <div class="service-hero">
-      <div class="service-hero-img"><img src="images/service/profile/main.jpg" alt=""></div>
-      <div class="service-hero-text">
-        <span class="service-eyebrow" data-ko="Portrait" data-en="Portrait">Portrait</span>
-        <h2 class="service-title">Sunset BLVD.<br>Profile</h2>
-        <p class="service-desc" data-ko="작가의 시선으로 인물의 본질을 담아냅니다.<br><br>단순히 셔터를 누르는 것에 그치지 않습니다. 우리는 사전 미팅을 통해 촬영의 목적과 방향을 함께 스케치하고, 당신이 표현하고자 하는 고유의 분위기를 치열하게 고민합니다.<br><br>카메라 앞이 낯선 분들도 본연의 모습을 드러낼 수 있도록 충분한 시간과 셔터 찬스를 약속합니다." data-en="We capture the essence of a person through the photographer's eye.<br><br>It goes far beyond pressing the shutter. Through a pre-shoot consultation, we sketch out the purpose and direction of the session together, and carefully consider the unique atmosphere you wish to express.<br><br>Even those unfamiliar with being in front of a camera are promised ample time and shutter opportunities to reveal their authentic self.">작가의 시선으로 인물의 본질을 담아냅니다.<br><br>단순히 셔터를 누르는 것에 그치지 않습니다. 우리는 사전 미팅을 통해 촬영의 목적과 방향을 함께 스케치하고, 당신이 표현하고자 하는 고유의 분위기를 치열하게 고민합니다.<br><br>카메라 앞이 낯선 분들도 본연의 모습을 드러낼 수 있도록 충분한 시간과 셔터 찬스를 약속합니다.</p>
-        <a class="service-book-btn" href="#" onclick="showPage('contact');return false;" data-ko="예약하기" data-en="Book Now">예약하기</a>
-      </div>
-    </div>
-    <div class="portrait-compare">
-      <div class="portrait-card">
-        <div class="portrait-card-header"><span class="portrait-eyebrow">Portrait</span></div>
-        <h2 class="portrait-title">Essential</h2>
-        <p class="portrait-desc" data-ko="각자의 고유한 선과 분위기에 맞춰 작가의 시선으로 인물의 본질을 담아내는데 집중합니다." data-en="Focused on capturing the essence of each individual through the photographer's eye, tailored to their unique lines and atmosphere.">각자의 고유한 선과 분위기에 맞춰 작가의 시선으로 인물의 본질을 담아내는데 집중합니다.</p>
-        <div class="portrait-divider"></div>
-        <div class="service-select-title">Select Point.</div>
-        <ul class="portrait-list">
-          <li data-ko="작가의 감각으로 재해석한 최적의 톤과 무드를 제안합니다." data-en="We propose the optimal tone and mood reinterpreted through the photographer's sensibility.">작가의 감각으로 재해석한 최적의 톤과 무드를 제안합니다.</li>
-          <li data-ko="사전 미팅을 통해 작가와 직접 대화하며 작업의 방향성을 의논합니다." data-en="A pre-shoot consultation where you speak directly with the photographer to discuss the direction of the work.">사전 미팅을 통해 작가와 직접 대화하며 작업의 방향성을 의논합니다.</li>
-          <li data-ko="색감 보정된 원본 전체와 보정본 2장을 제공합니다." data-en="All color-corrected originals plus 2 fully retouched images are provided.">색감 보정된 원본 전체와 보정본 2장을 제공합니다.</li>
-        </ul>
-        <a class="portrait-btn" href="#" onclick="showPage('contact');return false;" data-ko="예약하기" data-en="Book Now">예약하기</a>
-      </div>
-      <div class="portrait-card portrait-card-premium">
-        <div class="portrait-card-header">
-          <span class="portrait-eyebrow">Portrait</span>
-          <span class="portrait-badge">One Day, One Team</span>
-        </div>
-        <h2 class="portrait-title">Premium</h2>
-        <p class="portrait-desc" data-ko="최상의 비주얼을 위해 아티스트 팀이 결합한 하이엔드 화보입니다.<br>하루 단 한 팀, 최선의 컨디션으로 당신에게 몰입합니다." data-en="A high-end portrait session with a full artist team assembled for the finest visuals.<br>One team per day — our complete focus, at our very best.">최상의 비주얼을 위해 아티스트 팀이 결합한 하이엔드 화보입니다.<br>하루 단 한 팀, 최선의 컨디션으로 당신에게 몰입합니다.</p>
-        <div class="portrait-divider"></div>
-        <div class="service-select-title">Select Point.</div>
-        <ul class="portrait-list">
-          <li data-ko="하루 단 한 팀만 촬영하여 최상의 퀄리티와 컨디션을 제공합니다." data-en="Only one team per day, ensuring the highest quality and condition.">하루 단 한 팀만 촬영하여 최상의 퀄리티와 컨디션을 제공합니다.</li>
-          <li data-ko="사전 미팅을 통해 작가와 직접 대화하며 작업의 방향성을 의논합니다." data-en="A pre-shoot consultation where you speak directly with the photographer.">사전 미팅을 통해 작가와 직접 대화하며 작업의 방향성을 의논합니다.</li>
-          <li data-ko="전문 헤어 &amp; 메이크업 아티스트가 촬영 전체를 케어합니다." data-en="Professional hair &amp; makeup artists attend to you throughout the entire session.">전문 헤어 &amp; 메이크업 아티스트가 촬영 전체를 케어합니다.</li>
-          <li data-ko="실시간 모니터링 및 현장 1:1 정밀 리터칭을 제공합니다." data-en="Real-time monitoring and on-site 1:1 precision retouching provided.">실시간 모니터링 및 현장 1:1 정밀 리터칭을 제공합니다.</li>
-          <li data-ko="모든 분야의 프로페셔널을 위하여 가장 완벽한 컨셉을 구현합니다." data-en="The most complete concept, realized for professionals across every field."><br><span class="portrait-sub" data-ko="배우 · 모델 · 뷰티 · 아티스트 · 전문직 등" data-en="Actors · Models · Beauty · Artists · Professionals">배우 · 모델 · 뷰티 · 아티스트 · 전문직 등</span></li>
-        </ul>
-        <a class="portrait-btn portrait-btn-filled" href="#" onclick="showPage('contact');return false;" data-ko="예약하기" data-en="Book Now">예약하기</a>
-      </div>
-    </div>
-    <div class="portrait-gallery">
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_01.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_05.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_010.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_015.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_020.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_025.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_030.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_032.jpg" alt=""></div>
-      <div class="portrait-gallery-item" onclick="openLightbox(this.querySelector('img').src,this)"><img src="images/work/portrait/Profile_034.jpg" alt=""></div>
-    </div>
-  </div>
-  <footer><div class="footer-info" data-ko="석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층" data-en="Sunset Blvd · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층</div></footer>
-</div>
-
-<!-- ══════════════════════════════════ CONTACT ══ -->
-<div class="page" id="page-contact">
-  <div class="contact-body">
-    <div id="map"></div>
-    <ul class="contact-list">
-      <li><span class="contact-label" data-ko="Tel" data-en="Tel">Tel</span><a class="contact-val" href="tel:0507-1302-3765">0507-1302-3765</a></li>
-      <li><span class="contact-label" data-ko="E-Mail" data-en="E-Mail">E-Mail</span><a class="contact-val" href="mailto:yoogeeone@gmail.com">yoogeeone@gmail.com</a></li>
-      <li><span class="contact-label" data-ko="Instagram" data-en="Instagram">Instagram</span><a class="contact-val" href="https://instagram.com/yoogeeone" target="_blank">@yoogeeone</a></li>
-      <li><span class="contact-label" data-ko="Address" data-en="Address">Address</span><span class="contact-val">서울시 송파구 중대로 20길 12, 지하 1층</span></li>
-      <li><span class="contact-label" data-ko="Business Hours" data-en="Business Hours">Business Hours</span><span class="contact-val" style="text-align:right;">Mon–Sat 11:00–19:00<br><span style="font-size:12px;color:var(--gray2);" data-ko="매주 일요일 및 공휴일 휴무" data-en="Closed on Sundays &amp; public holidays">매주 일요일 및 공휴일 휴무</span></span></li>
-    </ul>
-  </div>
-  <div class="studio-section">
-    <h2 class="studio-title" data-ko="Studio" data-en="Studio">Studio</h2>
-    <p class="studio-desc" data-ko="스튜디오 석양대로는 서울 송파구 가락동에 위치합니다.<br>약 50평 규모의 스튜디오에는 호리존이 설치되어 있으며, 독립된 분장실과 탈의실을 갖추고 있습니다.<br>촬영 중 실시간으로 이미지를 확인할 수 있는 테더링 시스템도 운영하고 있어, 현장에서 즉각적인 피드백과 디렉팅이 가능합니다." data-en="Studio Sunset Blvd is located in Garak-dong, Songpa-gu, Seoul.<br>Spanning approximately 165㎡, the studio is equipped with a cyclorama wall, a dedicated makeup room, and a private changing room.<br>A tethering system enables real-time image review during shoots, allowing for immediate feedback and on-set direction.">스튜디오 석양대로는 서울 송파구 가락동에 위치합니다.<br>약 50평 규모의 스튜디오에는 호리존이 설치되어 있으며, 독립된 분장실과 탈의실을 갖추고 있습니다.<br>촬영 중 실시간으로 이미지를 확인할 수 있는 테더링 시스템도 운영하고 있어, 현장에서 즉각적인 피드백과 디렉팅이 가능합니다.</p>
-    <div class="studio-grid">
-      <div class="studio-item"><img src="images/contact/studio.jpeg" alt=""></div>
-      <div class="studio-item"><img src="images/contact/studio_5.jpg" alt=""></div>
-      <div class="studio-item"><img src="images/contact/studio_4.jpg" alt=""></div>
-      <div class="studio-item"><img src="images/contact/studio_3.jpg" alt=""></div>
-      <div class="studio-item"><img src="images/contact/studio_2.jpg" alt=""></div>
-      <div class="studio-item"><img src="images/contact/studio_1.jpg" alt=""></div>
-    </div>
-  </div>
-  <footer><div class="footer-info" data-ko="석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층" data-en="Sunset Blvd · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층</div></footer>
-</div>
-
-<!-- ══════════════════════════════════ GUIDE ══ -->
-<div class="page" id="page-guide">
-  <div class="guide-body">
-    <div class="guide-section">
-      <div class="guide-section-title" data-ko="룩북 · 광고 촬영 예약" data-en="Lookbook &amp; Commercial Booking">룩북 · 광고 촬영 예약</div>
-      <table class="guide-table">
-        <tr><td>01</td><td data-ko="견적 요청서 작성" data-en="Submit a quote request">견적 요청서 작성</td></tr>
-        <tr><td>02</td><td data-ko="전화 및 카카오톡 채널 상담 진행" data-en="Consultation via phone or KakaoTalk channel">전화 및 카카오톡 채널 상담 진행<br><a href="tel:0507-1302-3765" style="color:var(--gray);">tel. 0507-1302-3765</a></td></tr>
-        <tr><td>03</td><td data-ko="촬영 스케줄 조율" data-en="Schedule coordination">촬영 스케줄 조율</td></tr>
-        <tr><td>04</td><td data-ko="모델리스트 전달 및 선택" data-en="Model list review and selection">모델리스트 전달 및 선택</td></tr>
-        <tr><td>05</td><td data-ko="최종 견적서 및 예약금 안내" data-en="Final quote and deposit information">최종 견적서 및 예약금 안내</td></tr>
-        <tr><td>06</td><td data-ko="예약금 입금 후 스케줄 픽스" data-en="Schedule confirmed upon deposit receipt">예약금 입금 후 스케줄 픽스</td></tr>
-      </table>
-    </div>
-    <div class="guide-section">
-      <div class="guide-section-title" data-ko="프로필 촬영 예약" data-en="Profile Shoot Booking">프로필 촬영 예약</div>
-      <table class="guide-table">
-        <tr><td>01</td><td data-ko="전화 및 카카오톡 채널 상담 진행" data-en="Consultation via phone or KakaoTalk channel">전화 및 카카오톡 채널 상담 진행<br><a href="tel:0507-1302-3765" style="color:var(--gray);">tel. 0507-1302-3765</a></td></tr>
-        <tr><td>02</td><td data-ko="촬영 스케줄 조율" data-en="Schedule coordination">촬영 스케줄 조율</td></tr>
-        <tr><td>03</td><td data-ko="예약금 안내" data-en="Deposit information provided">예약금 안내</td></tr>
-        <tr><td>04</td><td data-ko="예약금 입금 후 스케줄 픽스" data-en="Schedule confirmed upon deposit receipt">예약금 입금 후 스케줄 픽스</td></tr>
-      </table>
-    </div>
-    <div class="guide-section">
-      <div class="guide-section-title" data-ko="예약 안내" data-en="Booking Information">예약 안내</div>
-      <table class="guide-table">
-        <tr><td data-ko="운영 방식" data-en="Operations">운영 방식</td><td data-ko="스튜디오 석양대로는 사전 예약제로만 운영합니다." data-en="Studio Sunset Blvd operates by appointment only.">스튜디오 석양대로는 사전 예약제로만 운영합니다.</td></tr>
-        <tr><td data-ko="예약 방법" data-en="How to Book">예약 방법</td><td data-ko="전화, 카카오톡 채널, 홈페이지 예약 폼을 통해 접수하실 수 있습니다." data-en="Bookings can be made via phone, KakaoTalk channel, or the website booking form.">전화, 카카오톡 채널, 홈페이지 예약 폼을 통해 접수하실 수 있습니다.</td></tr>
-        <tr><td data-ko="예약금" data-en="Deposit">예약금</td><td data-ko="총 촬영비의 30%를 선입금해 주셔야 예약이 확정됩니다." data-en="A deposit of 30% of the total shoot fee is required to confirm your booking.">총 촬영비의 30%를 선입금해 주셔야 예약이 확정됩니다.</td></tr>
-        <tr><td data-ko="미입금 취소" data-en="Unpaid Cancellation">미입금 취소</td><td data-ko="예약금 입금이 확인되지 않을 시 예약은 자동으로 취소될 수 있습니다." data-en="If the deposit is not received, the booking may be automatically cancelled.">예약금 입금이 확인되지 않을 시 예약은 자동으로 취소될 수 있습니다.</td></tr>
-        <tr><td data-ko="중복 예약" data-en="Overlapping Bookings">중복 예약</td><td data-ko="두 팀 이상이 동일한 시간대에 예약하실 경우, 먼저 예약금이 입금된 촬영을 우선 진행합니다." data-en="If multiple teams book the same time slot, priority is given to the first deposit received.">두 팀 이상이 동일한 시간대에 예약하실 경우, 먼저 예약금이 입금된 촬영을 우선 진행합니다.</td></tr>
-        <tr><td data-ko="잔액 결제" data-en="Balance Payment">잔액 결제</td><td data-ko="촬영 당일 현장에서 결제하시거나 사전 계좌이체로 납부하실 수 있습니다." data-en="The remaining balance may be paid on-site on the day of the shoot, or via bank transfer in advance.">촬영 당일 현장에서 결제하시거나 사전 계좌이체로 납부하실 수 있습니다.</td></tr>
-      </table>
-    </div>
-    <div class="guide-section">
-      <div class="guide-section-title" data-ko="예약 변경 · 취소 및 환불 규정" data-en="Rescheduling, Cancellation &amp; Refund Policy">예약 변경 · 취소 및 환불 규정</div>
-      <table class="guide-table">
-        <tr><td data-ko="일정 변경" data-en="Rescheduling">일정 변경</td><td data-ko="촬영일 기준 14일 전까지 1회에 한하여 가능하며, 이후에는 일정 변경이 불가합니다." data-en="Rescheduling is permitted once, up to 14 days before the shoot date. No changes are allowed after this point.">촬영일 기준 14일 전까지 1회에 한하여 가능하며, 이후에는 일정 변경이 불가합니다.</td></tr>
-        <tr><td data-ko="환불 불가" data-en="Non-Refundable">환불 불가</td><td data-ko="예약금은 어떠한 요청에도 환불되지 않습니다. 신중한 예약을 부탁드립니다." data-en="The deposit is non-refundable under any circumstances. Please book with care.">예약금은 어떠한 요청에도 환불되지 않습니다. 신중한 예약을 부탁드립니다.</td></tr>
-        <tr><td data-ko="귀책 취소" data-en="Studio Cancellation">귀책 취소</td><td data-ko="스튜디오 귀책사유로 촬영이 취소될 경우 예약금을 환불해 드립니다." data-en="If the shoot is cancelled due to the studio's fault, the deposit will be refunded in full.">스튜디오 귀책사유로 촬영이 취소될 경우 예약금을 환불해 드립니다.</td></tr>
-        <tr><td data-ko="당일 취소" data-en="Same-day Cancellation">당일 취소</td><td data-ko="고객님의 개인 사정에 의한 당일 취소 또는 무단 불참 시에도 예약금은 환불되지 않습니다." data-en="Same-day cancellations or no-shows due to personal reasons are not eligible for a refund.">고객님의 개인 사정에 의한 당일 취소 또는 무단 불참 시에도 예약금은 환불되지 않습니다.</td></tr>
-        <tr><td data-ko="지각" data-en="Late Arrival">지각</td><td data-ko="10분 이상 지각 시 촬영은 자동으로 노쇼처리되며 비용은 환불되지 않습니다." data-en="Arrivals more than 10 minutes late will be treated as a no-show and no refund will be issued.">10분 이상 지각 시 촬영은 자동으로 노쇼처리되며 비용은 환불되지 않습니다.</td></tr>
-      </table>
-    </div>
-  </div>
-  <footer><div class="footer-info" data-ko="석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층" data-en="Sunset Blvd · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층">석양대로 · 대표 유지원 · 사업자 등록번호 777-55-00231 · 통신판매업신고번호 2021-서울강남-00258 · 서울시 송파구 가락동 154-4 지하1층</div></footer>
-</div>
-
-<!-- KAKAO FLOAT -->
-<a class="kakao-float" href="http://pf.kakao.com/_QccGn/chat" target="_blank">
-  <div class="kakao-float-icon">
-    <svg viewBox="0 0 24 24" fill="#3A1D1D"><path d="M12 3C6.477 3 2 6.582 2 11c0 2.89 1.733 5.417 4.333 6.933L5.5 21l3.833-2.033C10.067 19.32 11.017 19.5 12 19.5c5.523 0 10-3.582 10-8s-4.477-8.5-10-8.5z"/></svg>
-  </div>
-  <span class="kakao-float-label" data-ko="카카오 상담" data-en="KakaoTalk">카카오 상담</span>
-</a>
-
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox">
-  <div class="lb-backdrop" id="lb-backdrop"></div>
-  <span class="lb-counter" id="lb-counter"></span>
-  <button class="lb-close" id="lb-close">Close ✕</button>
-  <div class="lb-track" id="lb-track">
-    <button class="lb-arrow lb-prev" id="lb-prev">&#8592;</button>
-    <div class="lb-img-wrap" id="lb-img-wrap"></div>
-    <button class="lb-arrow lb-next" id="lb-next">&#8594;</button>
-  </div>
-  <div class="lb-nav" id="lb-nav"></div>
-</div>
-
-<script>
 /* ── PAGE ── */
 var visitedPages = new Set();
 
@@ -1132,7 +622,7 @@ function showPage(id) {
   window.location.hash = id;
   window.scrollTo(0, 0);
   if (id === 'contact') setTimeout(initMap, 200);
-  if (id === 'work') setTimeout(function() { filterWork('all'); }, 0);
+  if (id === 'work') { setTimeout(function() { filterWork('all'); initHero(); }, 0); }
 }
 
 // 초기 진입
@@ -1141,6 +631,7 @@ function showPage(id) {
   var valid = ['work','service','contact','guide'];
   if (hash && valid.indexOf(hash) !== -1) showPage(hash);
   else showPage('work');
+  setTimeout(initHero, 100);
 })();
 
 /* ── WORK FILTER & VIEW ── */
@@ -1306,6 +797,44 @@ document.addEventListener('keydown', function(e) {
 })();
 
 
+
+
+/* ── HERO ── */
+var heroImages = [];
+var heroIndex = 0;
+
+function initHero() {
+  var items = document.querySelectorAll('.work-item[data-cat="editorial"] img');
+  var srcs = Array.from(items).map(function(img) { return img.src; });
+  for (var i = srcs.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = srcs[i]; srcs[i] = srcs[j]; srcs[j] = t;
+  }
+  heroImages = srcs;
+  heroIndex = 0;
+  var img = document.getElementById('hero-img');
+  if (img && heroImages.length) {
+    img.src = heroImages[0];
+    updateHeroCounter();
+  }
+}
+
+function heroNext() {
+  if (!heroImages.length) return;
+  heroIndex = (heroIndex + 1) % heroImages.length;
+  var img = document.getElementById('hero-img');
+  img.classList.add('fade');
+  setTimeout(function() {
+    img.src = heroImages[heroIndex];
+    img.classList.remove('fade');
+    updateHeroCounter();
+  }, 250);
+}
+
+function updateHeroCounter() {
+  var el = document.getElementById('hero-counter');
+  if (el) el.textContent = (heroIndex + 1) + ' / ' + heroImages.length;
+}
 
 /* ── LANGUAGE TOGGLE ── */
 var currentLang = 'ko';
