@@ -32,10 +32,6 @@
 }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-html {
-  max-width: 1440px;
-  margin: 0 auto;
-}
 body {
   background: var(--bg);
   color: var(--fg);
@@ -43,7 +39,10 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  padding-top: 112px;
+}
+.page-wrap {
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 /* ── PAGE ── */
@@ -55,12 +54,11 @@ body {
 .site-nav {
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
-  padding: 16px 40px;
+  padding: 0 40px 16px;
   height: 112px;
   border-bottom: 1px solid var(--line);
-  position: fixed;
-  top: 0; left: 0; right: 0;
+  position: sticky;
+  top: 0;
   background: var(--bg);
   z-index: 300;
   box-sizing: border-box;
@@ -68,12 +66,13 @@ body {
 .nav-left { display: flex; gap: 28px; align-items: flex-end; flex: 1; }
 .nav-center {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 16px;
+  left: 0; right: 0; bottom: 16px;
   display: flex;
+  justify-content: center;
   align-items: flex-end;
+  pointer-events: none;
 }
+.nav-center .nav-logo { pointer-events: all; }
 .nav-right { display: flex; gap: 16px; align-items: flex-end; justify-content: flex-end; flex: 1; }
 .nav-link {
   font-size: 17px; font-weight: 300; letter-spacing: 0.04em;
@@ -437,26 +436,20 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
 /* ── MOBILE ── */
 @media (max-width: 768px) {
   .site-nav {
-    flex-direction: column;
-    align-items: center;
-    height: auto;
-    padding: 14px 20px 12px;
-    gap: 10px;
+    padding: 0 20px 14px;
+    height: 80px;
+    position: sticky;
+    top: 0;
   }
   .nav-center {
-    position: static;
-    transform: none;
-    bottom: auto;
-    order: -1;
+    bottom: 14px;
   }
-  .nav-logo img { height: 56px; }
-  .nav-left { justify-content: center; gap: 20px; flex: none; }
-  .nav-right { position: absolute; top: 18px; right: 20px; flex: none; }
+  .nav-logo img { height: 52px; }
   .nav-link { font-size: 14px; }
-  .nav-link.active::after { bottom: -10px; }
-  body { padding-top: 140px; }
+  .nav-link.active::after { bottom: -14px; }
 
-  .hero-overlay { top: 130px; }
+
+
   .hero-section { grid-template-columns: 1fr !important; aspect-ratio: 2/3; max-height: calc(100vh - 140px); margin: 0 20px; }
   .hero-left { display: none !important; }
 
@@ -491,7 +484,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
 /* ── HERO FULLSCREEN ── */
 .hero-overlay {
   position: fixed;
-  top: 112px;
+  top: 0;
   left: 0; right: 0; bottom: 0;
   z-index: 200;
   display: flex;
@@ -563,7 +556,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
 </head>
 <body>
 
-<!-- HERO OVERLAY -->
+
 <div class="hero-overlay" id="hero-overlay">
   <div class="hero-overlay-imgs">
     <div class="hero-left" onclick="heroNextLeft()">
@@ -611,7 +604,8 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
   </div>
 </nav>
 
-<!-- ══ WORK ══ -->
+<div class="page-wrap">
+<!-- HERO OVERLAY -->
 <div class="page active" id="page-work">
   <div class="work-toolbar">
     <div class="filter-group">
@@ -1282,5 +1276,6 @@ function setLang(lang) {
   });
 }
 </script>
+</div><!-- /page-wrap -->
 </body>
 </html>
