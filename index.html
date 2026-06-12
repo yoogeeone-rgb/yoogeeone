@@ -569,13 +569,12 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
 /* ── MOBILE ── */
 @media (max-width: 768px) {
   .site-nav, .work-toolbar, .service-sub-nav, .work-grid-wrap {
-    transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+    transition: opacity 0.8s ease-in-out;
   }
   body.scrolling .site-nav,
   body.scrolling .work-toolbar,
   body.scrolling .service-sub-nav,
   body.scrolling .work-grid-wrap {
-    transform: translateY(-8px);
     opacity: 0;
     pointer-events: none;
   }
@@ -1195,7 +1194,7 @@ function forceScrollTop() {
     if (scrollTimer) clearTimeout(scrollTimer);
     scrollTimer = setTimeout(function() {
       document.body.classList.remove('scrolling');
-    }, 200);
+    }, 400);
     lastY = y;
   }, { passive: true });
 })();
