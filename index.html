@@ -1143,14 +1143,30 @@ function showPage(id) {
     a.classList.toggle('active', a.id === 'nav-' + id);
   });
 
-  window.location.hash = id;
-  window.scrollTo(0, 0);
+  if (history.replaceState) {
+    history.replaceState(null, '', '#' + id);
+  } else {
+    window.location.hash = id;
+  }
+  forceScrollTop();
+  requestAnimationFrame(forceScrollTop);
+  setTimeout(forceScrollTop, 0);
+  setTimeout(forceScrollTop, 60);
   if (id === 'contact') setTimeout(initMap, 200);
   if (id === 'work') setTimeout(function() { filterWork('all'); }, 0);
 }
 
+function forceScrollTop() {
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+}
+
 // 초기 진입
 (function() {
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
   var hash = window.location.hash.replace('#', '');
   var valid = ['work','service','contact','guide'];
   if (hash && valid.indexOf(hash) !== -1) showPage(hash);
