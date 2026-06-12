@@ -568,6 +568,17 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
 
 /* ── MOBILE ── */
 @media (max-width: 768px) {
+  .site-nav, .work-toolbar, .service-sub-nav, .work-grid-wrap {
+    transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+  }
+  body.scrolling .site-nav,
+  body.scrolling .work-toolbar,
+  body.scrolling .service-sub-nav,
+  body.scrolling .work-grid-wrap {
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+  }
   .site-nav {
     padding: 14px 20px 12px;
     grid-template-columns: 1fr;
@@ -1166,6 +1177,28 @@ function forceScrollTop() {
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
 }
+
+// ── 모바일 스크롤 시 헤더 숨김 ──
+(function() {
+  var scrollTimer = null;
+  var lastY = 0;
+  window.addEventListener('scroll', function() {
+    if (window.innerWidth > 768) return;
+    var y = window.pageYOffset || document.documentElement.scrollTop;
+    // 맨 위 근처에서는 항상 표시
+    if (y < 10) {
+      document.body.classList.remove('scrolling');
+      lastY = y;
+      return;
+    }
+    document.body.classList.add('scrolling');
+    if (scrollTimer) clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function() {
+      document.body.classList.remove('scrolling');
+    }, 200);
+    lastY = y;
+  }, { passive: true });
+})();
 
 // 초기 진입
 (function() {
