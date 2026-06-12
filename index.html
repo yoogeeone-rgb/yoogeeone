@@ -1204,6 +1204,7 @@ function forceScrollTop() {
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
   }
+  initWorkGrid();
   var hash = window.location.hash.replace('#', '');
   var valid = ['work','service','contact','guide'];
   if (hash && valid.indexOf(hash) !== -1) showPage(hash);
@@ -1216,7 +1217,7 @@ var workCurrentCat = 'all';
 var workCurrentView = 'grid';
 var workShuffled = [];
 
-(function() {
+function initWorkGrid() {
   var grid = document.getElementById('work-grid');
   if (!grid) return;
   var items = Array.from(grid.querySelectorAll('.work-item'));
@@ -1229,13 +1230,18 @@ var workShuffled = [];
     return arr;
   }
 
-  workShuffled = shuffle(items.slice());
-  // 셔플된 순서대로 DOM 재배치 (실제 화면 순서를 랜덤화)
-  workShuffled.forEach(function(item) { grid.appendChild(item); });
+  workShuffled = shuffle(Array.from(items));
+  // editorial 우선 배치, 각 그룹 내부는 완전 랜덤
+  var editorial = workShuffled.filter(function(i) { return i.dataset.cat === 'editorial'; });
+  var others = workShuffled.filter(function(i) { return i.dataset.cat !== 'editorial'; });
+  workShuffled = editorial.concat(others);
+  var frag = document.createDocumentFragment();
+  workShuffled.forEach(function(item) { frag.appendChild(item); });
+  grid.appendChild(frag);
   workShuffled.forEach(function(item) { item.style.display = 'none'; });
   workShuffled.slice(0, WORK_PAGE_SIZE).forEach(function(item) { item.style.display = ''; });
   updateCount();
-})();
+}
 
 function updateCount() {
   var filtered = workCurrentCat === 'all' ? workShuffled : workShuffled.filter(i => i.dataset.cat === workCurrentCat);
