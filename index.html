@@ -569,7 +569,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
 /* ── MOBILE ── */
 @media (max-width: 768px) {
   .site-nav, .work-toolbar, .service-sub-nav, .work-grid-wrap {
-    transition: opacity 0.8s ease-in-out;
+    transition: opacity 0.9s ease-in-out;
   }
   body.scrolling .site-nav,
   body.scrolling .work-toolbar,
@@ -1229,21 +1229,11 @@ var workShuffled = [];
     return arr;
   }
 
-  var editorial = items.filter(i => i.dataset.cat === 'editorial');
-  var others = items.filter(i => i.dataset.cat !== 'editorial');
-  shuffle(editorial); shuffle(others);
-
-  var weighted = [], eIdx = 0, oIdx = 0;
-  while (eIdx < editorial.length || oIdx < others.length) {
-    var block = [];
-    for (var e = 0; e < 12 && eIdx < editorial.length; e++) block.push(editorial[eIdx++]);
-    for (var o = 0; o < 6 && oIdx < others.length; o++) block.push(others[oIdx++]);
-    shuffle(block);
-    weighted = weighted.concat(block);
-  }
-  workShuffled = weighted;
-  items.forEach(item => item.style.display = 'none');
-  workShuffled.slice(0, WORK_PAGE_SIZE).forEach(item => item.style.display = '');
+  workShuffled = shuffle(items.slice());
+  // 셔플된 순서대로 DOM 재배치 (실제 화면 순서를 랜덤화)
+  workShuffled.forEach(function(item) { grid.appendChild(item); });
+  workShuffled.forEach(function(item) { item.style.display = 'none'; });
+  workShuffled.slice(0, WORK_PAGE_SIZE).forEach(function(item) { item.style.display = ''; });
   updateCount();
 })();
 
