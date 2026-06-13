@@ -1254,10 +1254,11 @@ function updateCount() {
 
 function filterWork(cat) {
   workCurrentCat = cat;
-  workShuffled.forEach(item => item.style.display = 'none');
-  var filtered = workShuffled.filter(item => cat === 'all' || item.dataset.cat === cat);
-  filtered.slice(0, WORK_PAGE_SIZE).forEach(item => item.style.display = '');
-  document.querySelectorAll('.filter-btn').forEach(btn => {
+  var grid = document.getElementById('work-grid');
+  workShuffled.forEach(function(item) { item.style.display = 'none'; });
+  var filtered = workShuffled.filter(function(item) { return cat === 'all' || item.dataset.cat === cat; });
+  filtered.slice(0, WORK_PAGE_SIZE).forEach(function(item) { item.style.display = ''; });
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
     btn.classList.toggle('active', btn.id === 'fb-' + cat);
   });
   updateCount();
