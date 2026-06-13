@@ -1199,18 +1199,6 @@ function forceScrollTop() {
   }, { passive: true });
 })();
 
-// 초기 진입
-(function() {
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
-  initWorkGrid();
-  var hash = window.location.hash.replace('#', '');
-  var valid = ['work','service','contact','guide'];
-  if (hash && valid.indexOf(hash) !== -1) showPage(hash);
-  else showPage('work');
-})();
-
 /* ── WORK FILTER & VIEW ── */
 var WORK_PAGE_SIZE = 24;
 var workCurrentCat = 'all';
@@ -1243,6 +1231,18 @@ function initWorkGrid() {
   updateCount();
 }
 
+// 초기 진입
+(function() {
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  initWorkGrid();
+  var hash = window.location.hash.replace('#', '');
+  var valid = ['work','service','contact','guide'];
+  if (hash && valid.indexOf(hash) !== -1) showPage(hash);
+  else showPage('work');
+})();
+
 function updateCount() {
   var filtered = workCurrentCat === 'all' ? workShuffled : workShuffled.filter(i => i.dataset.cat === workCurrentCat);
   var shown = filtered.filter(i => i.style.display !== 'none').length;
@@ -1257,6 +1257,10 @@ function filterWork(cat) {
   var grid = document.getElementById('work-grid');
   workShuffled.forEach(function(item) { item.style.display = 'none'; });
   var filtered = workShuffled.filter(function(item) { return cat === 'all' || item.dataset.cat === cat; });
+  // 필터된 항목을 DOM 앞쪽으로 재배치
+  var frag = document.createDocumentFragment();
+  filtered.forEach(function(item) { frag.appendChild(item); });
+  grid.appendChild(frag);
   filtered.slice(0, WORK_PAGE_SIZE).forEach(function(item) { item.style.display = ''; });
   document.querySelectorAll('.filter-btn').forEach(function(btn) {
     btn.classList.toggle('active', btn.id === 'fb-' + cat);
