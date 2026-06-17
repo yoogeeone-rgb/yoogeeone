@@ -24,7 +24,7 @@
   --bg: #ffffff;
   --fg: #0a0a0a;
   --gray: #6b6b6b;
-  --gray2: #aaaaaa;
+  --gray2: #999999;
   --line: #e8e8e8;
   --sans: 'DM Sans', 'Noto Sans KR', sans-serif;
   --serif: 'Cormorant Garamond', Georgia, serif;
@@ -155,11 +155,17 @@ body {
   margin: 0;
   padding: 16px 40px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
   position: sticky;
   top: 168px;
   background: var(--bg);
   z-index: 80;
+}
+.work-count {
+  font-size: 11px;
+  color: var(--gray2);
+  letter-spacing: 0.05em;
 }
 .view-btn {
   background: none;
@@ -363,7 +369,7 @@ body {
 }
 .portrait-card {
   background: var(--bg);
-  padding: 52px 48px;
+  padding: 56px 48px;
   display: flex;
   flex-direction: column;
 }
@@ -443,7 +449,8 @@ body {
 }
 .contact-label { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray2); }
 .contact-val { font-size: 14px; color: var(--fg); text-decoration: none; transition: color 0.2s; word-break: keep-all; text-align: right; }
-.contact-val:hover { color: var(--gray); }
+a.contact-val { border-bottom: 1px solid transparent; transition: color 0.2s, border-color 0.2s; }
+a.contact-val:hover { color: var(--gray); border-bottom-color: var(--gray2); }
 
 .studio-section { padding: 60px 40px 100px; border-top: 1px solid var(--line); margin-top: 60px; }
 .studio-title {
@@ -464,6 +471,14 @@ body {
 .guide-body { padding: 56px 40px 100px; max-width: 760px; }
 .guide-section { margin-bottom: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--line); }
 .guide-section:last-child { border-bottom: none; }
+.guide-section--policy {
+  background: #f7f6f4;
+  padding: 32px 32px 8px;
+  margin: 0 -32px 48px;
+  border-bottom: none;
+}
+.guide-section--policy .guide-table tr { border-bottom: 1px solid #e2e0db; }
+.guide-section--policy .guide-table tr:last-child { border-bottom: none; }
 .guide-section-title { font-size: 17px; font-weight: 500; letter-spacing: 0.08em; color: var(--fg); margin-bottom: 24px; }
 .guide-table { width: 100%; border-collapse: collapse; }
 .guide-table tr { border-bottom: 1px solid var(--line); }
@@ -619,6 +634,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
   .studio-grid { grid-template-columns: repeat(2, 1fr); }
 
   .guide-body { padding: 36px 20px 60px; max-width: 100%; }
+  .guide-section--policy { padding: 24px 20px 4px; margin: 0 -20px 36px; }
   .guide-table td:first-child { width: 90px; }
 
   footer { padding: 16px 20px; margin-top: 48px; }
@@ -816,6 +832,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
         <svg viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="16" height="16"/></svg>
       </button>
     </div>
+    <span class="work-count" id="work-count"></span>
   </div>
   <div class="work-grid view-grid" id="work-grid">
     <!-- editorial -->
@@ -1103,7 +1120,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
         <tr><td data-ko="잔액 결제" data-en="Balance Payment">잔액 결제</td><td data-ko="촬영 당일 현장에서 결제하시거나 사전 계좌이체로 납부하실 수 있습니다." data-en="The remaining balance may be paid on-site on the day of the shoot, or via bank transfer in advance.">촬영 당일 현장에서 결제하시거나 사전 계좌이체로 납부하실 수 있습니다.</td></tr>
       </table>
     </div>
-    <div class="guide-section">
+    <div class="guide-section guide-section--policy">
       <div class="guide-section-title" data-ko="예약 변경 · 취소 및 환불 규정" data-en="Rescheduling, Cancellation &amp; Refund Policy">예약 변경 · 취소 및 환불 규정</div>
       <table class="guide-table">
         <tr><td data-ko="일정 변경" data-en="Rescheduling">일정 변경</td><td data-ko="촬영일 기준 14일 전까지 1회에 한하여 가능하며, 이후에는 일정 변경이 불가합니다." data-en="Rescheduling is permitted once, up to 14 days before the shoot date. No changes are allowed after this point.">촬영일 기준 14일 전까지 1회에 한하여 가능하며, 이후에는 일정 변경이 불가합니다.</td></tr>
@@ -1251,7 +1268,7 @@ function updateCount() {
   var filtered = workCurrentCat === 'all' ? workShuffled : workShuffled.filter(i => i.dataset.cat === workCurrentCat);
   var shown = filtered.filter(i => i.style.display !== 'none').length;
   var el = document.getElementById('work-count');
-  if (el) el.textContent = 'Selected Works(' + shown + ')';
+  if (el) el.textContent = shown + ' Works';
   var lb = document.getElementById('work-load-more');
   if (lb) lb.style.display = shown < filtered.length ? 'flex' : 'none';
 }
