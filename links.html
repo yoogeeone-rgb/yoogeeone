@@ -80,16 +80,17 @@ body {
 .price-title { font-family: 'Noto Serif KR', serif; font-weight: 500; font-size: 21px; color: var(--gold); letter-spacing: 0.38em; padding-left: 2px; }
 .price-title-rule { height: 1px; background: var(--line); margin: 20px 0 6px; }
 
-.section-label { font-family: 'Noto Serif KR', serif; font-weight: 600; font-size: 14px; color: var(--gold); letter-spacing: 0.16em; margin-top: 34px; margin-bottom: 6px; }
+.section-label { font-family: 'Noto Serif KR', serif; font-weight: 600; font-size: 14px; color: var(--gold); letter-spacing: 0.16em; margin-top: 48px; margin-bottom: 6px; }
 #priceBody > .section-label:first-child { margin-top: 18px; }
+.price-close { display: block; margin: 30px auto 2px; padding: 9px 26px; border: 1px solid #45443f; background: transparent; border-radius: 20px; color: #9d9b95; font-family: inherit; font-size: 12px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; transition: all 0.2s; }
+.price-close:hover { border-color: var(--gold-dim); color: var(--gold); }
 .item { padding: 18px 0 17px; border-bottom: 1px solid var(--line); }
 .item-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-.item-name { display: flex; align-items: baseline; gap: 8px; flex: 1; min-width: 0; }
-.item-title { font-family: 'Noto Serif KR', serif; font-weight: 500; font-size: 16px; color: var(--offwhite); letter-spacing: 0.03em; white-space: nowrap; }
-.item-sub { font-family: 'Noto Serif KR', serif; font-weight: 500; font-size: 12px; color: var(--gold); letter-spacing: -0.01em; }
+.item-title { font-family: 'Noto Serif KR', serif; font-weight: 500; font-size: 16px; color: var(--offwhite); letter-spacing: 0.03em; flex: 1; min-width: 0; }
+.item-sub { display: block; font-family: 'Noto Serif KR', serif; font-weight: 500; font-size: 13px; color: var(--gold); letter-spacing: -0.01em; margin-top: 5px; }
 .item-price { font-family: 'Noto Serif KR', serif; font-weight: 400; font-size: 16px; color: var(--offwhite); white-space: nowrap; flex-shrink: 0; }
 .item-price .won { font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: var(--gold-dim); margin-right: 3px; }
-.item-det { font-family: 'Noto Sans KR', sans-serif; font-weight: 300; font-size: 11px; color: var(--detail); letter-spacing: -0.01em; line-height: 1.55; margin-top: 8px; }
+.item-det { font-family: 'Noto Sans KR', sans-serif; font-weight: 300; font-size: 11px; color: var(--detail); letter-spacing: -0.01em; line-height: 1.55; margin-top: 7px; }
 
 /* MAP */
 .map-wrap { width: 100%; border-radius: 14px; overflow: hidden; margin-bottom: 8px; }
@@ -137,6 +138,7 @@ body {
           <div class="price-title">PRICE</div>
           <div class="price-title-rule"></div>
           <div id="priceBody"></div>
+          <button class="price-close" onclick="closePrice()">︿ 닫기</button>
         </div>
       </div>
     </div>
@@ -246,9 +248,9 @@ function render(lang) {
   data.forEach(function(sec) {
     html += '<div class="section-label">' + sec.label + '</div>';
     sec.items.forEach(function(it) {
-      html += '<div class="item"><div class="item-head"><span class="item-name"><span class="item-title">' + it.t + '</span>'
-        + (it.s ? '<span class="item-sub">' + it.s + '</span>' : '')
-        + '</span><span class="item-price"><span class="won">₩</span>' + it.p + '</span></div>'
+      html += '<div class="item"><div class="item-head"><span class="item-title">' + it.t + '</span>'
+        + '<span class="item-price"><span class="won">₩</span>' + it.p + '</span></div>'
+        + (it.s ? '<div class="item-sub">' + it.s + '</div>' : '')
         + '<div class="item-det">' + it.d + '</div></div>';
     });
   });
@@ -274,14 +276,14 @@ function closePrice() {
   document.getElementById('priceToggle').classList.remove('open');
 }
 
-/* 가격표 바깥 클릭 시 닫힘 (언어 버튼 제외) */
+/* 가격표가 열려 있을 때, 언어 버튼·토글을 제외한 어디든 누르면 닫힘
+   (모바일 스크롤 드래그는 click이 발생하지 않아 영향 없음) */
 document.addEventListener('click', function(e) {
-  if (e.target.closest('.lang-bar')) return;
-  var block = document.getElementById('priceBlock');
   var panel = document.getElementById('pricePanel');
-  if (panel.classList.contains('open') && !block.contains(e.target)) {
-    closePrice();
-  }
+  if (!panel.classList.contains('open')) return;
+  if (e.target.closest('.lang-bar')) return;
+  if (e.target.closest('#priceToggle')) return;
+  closePrice();
 });
 
 setLang('kor');
