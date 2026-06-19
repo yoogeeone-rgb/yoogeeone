@@ -13,10 +13,15 @@
 <meta property="og:image" content="https://yoogeeone.kr/images/SSBLVD_black.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=jxliu0otlu"></script>
 
 <style>
+:root {
+  --bg: #1a1a18; --gold: #cdb074; --gold-dim: #a4906a;
+  --offwhite: #f4f3ef; --detail: #c9c7c1; --line: #34332f;
+}
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { background: #f5f4f2; }
 
@@ -24,180 +29,131 @@ body {
   background: #f5f4f2;
   font-family: 'DM Sans', 'Noto Sans KR', sans-serif;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 48px 20px 60px;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 36px 20px 60px;
   -webkit-font-smoothing: antialiased;
 }
+.container { width: 100%; max-width: 480px; display: flex; flex-direction: column; align-items: center; }
 
-.container {
-  width: 100%;
-  max-width: 480px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+/* LANG BAR (페이지 전체) */
+.lang-bar { align-self: flex-end; display: flex; gap: 6px; margin-bottom: 24px; }
+.lang-btn { padding: 7px 18px; border-radius: 18px; border: 1px solid #dcdad6; background: transparent; color: #7a7975; font-family: inherit; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; }
+.lang-btn.active { background: #1a1a18; color: #f0ede6; border-color: #1a1a18; }
 
-/* ── PROFILE ── */
-.profile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 36px;
-}
-.profile-logo {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  background: #1a1a18;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  padding: 18px;
-}
-.profile-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.profile-handle {
-  font-size: 18px;
-  font-weight: 500;
-  color: #1a1a18;
-  letter-spacing: -0.01em;
-}
-.profile-desc {
-  font-size: 14px;
-  font-weight: 300;
-  color: #7a7975;
-  text-align: center;
-  line-height: 1.6;
-}
+/* PROFILE */
+.profile { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 36px; }
+.profile-logo { width: 96px; height: 96px; border-radius: 50%; background: #1a1a18; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 18px; }
+.profile-logo img { width: 100%; height: 100%; object-fit: contain; }
+.profile-handle { font-size: 18px; font-weight: 500; color: #1a1a18; letter-spacing: -0.01em; }
+.profile-desc { font-size: 14px; font-weight: 300; color: #7a7975; text-align: center; line-height: 1.6; }
 
-/* ── LINK BUTTONS ── */
-.links {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 36px;
-}
+/* LINKS */
+.links { width: 100%; display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
 .link-btn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 20px;
-  height: 64px;
-  background: #2a2a27;
-  border-radius: 14px;
-  text-decoration: none;
-  color: #f0ede6;
-  font-size: 15px;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  transition: background 0.2s, transform 0.15s;
-  cursor: pointer;
-  border: none;
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; padding: 0 20px; height: 64px; background: #2a2a27;
+  border-radius: 14px; text-decoration: none; color: #f0ede6;
+  font-size: 15px; font-weight: 400; letter-spacing: 0.01em;
+  transition: background 0.2s, transform 0.15s; cursor: pointer; border: none;
+  font-family: inherit;
 }
 .link-btn:active { transform: scale(0.985); }
 .link-btn:hover { background: #363633; }
+.link-btn-inner { display: flex; align-items: center; gap: 12px; flex: 1; justify-content: center; }
+.link-btn-icon { width: 20px; height: 20px; flex-shrink: 0; opacity: 0.7; }
+.link-btn-arrow { color: rgba(240,237,230,0.3); font-size: 16px; flex-shrink: 0; margin-left: 8px; transition: transform 0.3s; }
 
-.link-btn-inner {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-  justify-content: center;
-}
-.link-btn-icon {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  opacity: 0.7;
-}
-.link-btn-arrow {
-  color: rgba(240,237,230,0.3);
-  font-size: 16px;
-  flex-shrink: 0;
-  margin-left: 8px;
-}
-
-/* 카카오 */
 .link-btn-kakao { background: #FEE500; color: #3A1D1D; }
 .link-btn-kakao:hover { background: #f5dc00; }
 .link-btn-kakao .link-btn-arrow { color: rgba(58,29,29,0.3); }
-
-/* 네이버 */
 .link-btn-naver { background: #03C75A; color: #fff; }
 .link-btn-naver:hover { background: #02b350; }
 .link-btn-naver .link-btn-arrow { color: rgba(255,255,255,0.3); }
 
-/* ── MAP ── */
-.map-wrap {
-  width: 100%;
-  border-radius: 14px;
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-#map {
-  width: 100%;
-  height: 280px;
-  background: #d4d2ce;
-  display: block;
-}
-.map-address {
-  font-size: 12px;
-  color: #7a7975;
-  text-align: center;
-  margin-top: 10px;
-  line-height: 1.6;
-}
+/* PRICE ACCORDION */
+.price-block { width: 100%; }
+.price-toggle.open .link-btn-arrow { transform: rotate(90deg); }
+.price-panel { width: 100%; max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1); }
+.price-panel.open { max-height: 1600px; }
 
-/* ── FOOTER ── */
-.footer {
-  margin-top: 40px;
-  font-size: 11px;
-  color: #b0ada8;
-  text-align: center;
-  line-height: 1.8;
-}
+.price-card { width: 100%; background: var(--bg); border-radius: 14px; padding: 40px 26px 38px; margin-top: 12px; }
+.price-title { font-family: 'Noto Serif KR', serif; font-weight: 500; font-size: 21px; color: var(--gold); letter-spacing: 0.38em; padding-left: 2px; }
+.price-title-rule { height: 1px; background: var(--line); margin: 20px 0 6px; }
+
+.section-label { font-family: 'Noto Serif KR', serif; font-weight: 600; font-size: 14px; color: var(--gold); letter-spacing: 0.16em; margin-top: 34px; margin-bottom: 6px; }
+#priceBody > .section-label:first-child { margin-top: 18px; }
+.item { padding: 18px 0 17px; border-bottom: 1px solid var(--line); }
+.item-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.item-name { display: flex; align-items: baseline; gap: 8px; flex: 1; min-width: 0; }
+.item-title { font-family: 'Noto Serif KR', serif; font-weight: 500; font-size: 16px; color: var(--offwhite); letter-spacing: 0.03em; white-space: nowrap; }
+.item-sub { font-family: 'Noto Serif KR', serif; font-weight: 500; font-size: 12px; color: var(--gold); letter-spacing: -0.01em; }
+.item-price { font-family: 'Noto Serif KR', serif; font-weight: 400; font-size: 16px; color: var(--offwhite); white-space: nowrap; flex-shrink: 0; }
+.item-price .won { font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: var(--gold-dim); margin-right: 3px; }
+.item-det { font-family: 'Noto Sans KR', sans-serif; font-weight: 300; font-size: 11px; color: var(--detail); letter-spacing: -0.01em; line-height: 1.55; margin-top: 8px; }
+
+/* MAP */
+.map-wrap { width: 100%; border-radius: 14px; overflow: hidden; margin-bottom: 8px; }
+#map { width: 100%; height: 280px; background: #d4d2ce; display: block; }
+.map-address { font-size: 12px; color: #7a7975; text-align: center; margin-top: 10px; line-height: 1.6; }
+
+/* FOOTER */
+.footer { margin-top: 40px; font-size: 11px; color: #b0ada8; text-align: center; line-height: 1.8; }
 </style>
 </head>
 <body>
 
 <div class="container">
 
+  <!-- LANG -->
+  <div class="lang-bar">
+    <button class="lang-btn active" id="btnKor" onclick="setLang('kor')">KOR</button>
+    <button class="lang-btn" id="btnEng" onclick="setLang('eng')">ENG</button>
+  </div>
+
   <!-- PROFILE -->
   <div class="profile">
-    <div class="profile-logo">
-      <img src="images/SSBLVD_white.png" alt="석양대로">
-    </div>
+    <div class="profile-logo"><img src="images/SSBLVD_white.png" alt="석양대로"></div>
     <span class="profile-handle">@sunsetblvd.seoul</span>
-    <span class="profile-desc">스튜디오 석양대로 예약페이지</span>
+    <span class="profile-desc" data-i18n="desc">스튜디오 석양대로 예약페이지</span>
   </div>
 
   <!-- LINKS -->
   <div class="links">
 
-    <!-- 1. Portfolio -->
+    <!-- 1. PRICE (아코디언, 맨 위) -->
+    <div class="price-block" id="priceBlock">
+      <button class="link-btn price-toggle" id="priceToggle" onclick="togglePrice()">
+        <div class="link-btn-inner">
+          <svg class="link-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4 5h16M4 12h16M4 19h10"/><circle cx="19" cy="19" r="2.2"/>
+          </svg>
+          <span data-i18n="priceMenu">가격 안내</span>
+        </div>
+        <span class="link-btn-arrow">›</span>
+      </button>
+
+      <div class="price-panel" id="pricePanel">
+        <div class="price-card">
+          <div class="price-title">PRICE</div>
+          <div class="price-title-rule"></div>
+          <div id="priceBody"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Portfolio -->
     <a class="link-btn" href="https://yoogeeone.kr" target="_blank">
       <div class="link-btn-inner">
         <svg class="link-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="3" y="3" width="7" height="7" rx="1"/>
-          <rect x="14" y="3" width="7" height="7" rx="1"/>
-          <rect x="3" y="14" width="7" height="7" rx="1"/>
-          <rect x="14" y="14" width="7" height="7" rx="1"/>
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
         </svg>
         Portfolio
       </div>
       <span class="link-btn-arrow">›</span>
     </a>
 
-    <!-- 2. Contact -->
+    <!-- 3. Contact -->
     <a class="link-btn" href="tel:0507-1302-3765">
       <div class="link-btn-inner">
         <svg class="link-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -208,24 +164,20 @@ body {
       <span class="link-btn-arrow">›</span>
     </a>
 
-    <!-- 3. 네이버 예약 -->
+    <!-- 4. 네이버 예약 -->
     <a class="link-btn link-btn-naver" href="https://naver.me/G587Dysf" target="_blank">
       <div class="link-btn-inner">
-        <svg class="link-btn-icon" viewBox="0 0 24 24" fill="white">
-          <path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727z"/>
-        </svg>
-        네이버 예약하기
+        <svg class="link-btn-icon" viewBox="0 0 24 24" fill="white"><path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727z"/></svg>
+        <span data-i18n="naver">네이버 예약하기</span>
       </div>
       <span class="link-btn-arrow">›</span>
     </a>
 
-    <!-- 4. 카카오 -->
+    <!-- 5. 카카오 -->
     <a class="link-btn link-btn-kakao" href="http://pf.kakao.com/_QccGn/chat" target="_blank">
       <div class="link-btn-inner">
-        <svg class="link-btn-icon" viewBox="0 0 24 24" fill="#3A1D1D">
-          <path d="M12 3C6.477 3 2 6.582 2 11c0 2.89 1.733 5.417 4.333 6.933L5.5 21l3.833-2.033C10.067 19.32 11.017 19.5 12 19.5c5.523 0 10-3.582 10-8s-4.477-8.5-10-8.5z"/>
-        </svg>
-        카카오톡 채널 상담
+        <svg class="link-btn-icon" viewBox="0 0 24 24" fill="#3A1D1D"><path d="M12 3C6.477 3 2 6.582 2 11c0 2.89 1.733 5.417 4.333 6.933L5.5 21l3.833-2.033C10.067 19.32 11.017 19.5 12 19.5c5.523 0 10-3.582 10-8s-4.477-8.5-10-8.5z"/></svg>
+        <span data-i18n="kakao">카카오톡 채널 상담</span>
       </div>
       <span class="link-btn-arrow" style="color:rgba(58,29,29,0.3);">›</span>
     </a>
@@ -233,9 +185,7 @@ body {
   </div>
 
   <!-- MAP -->
-  <div class="map-wrap">
-    <div id="map"></div>
-  </div>
+  <div class="map-wrap"><div id="map"></div></div>
   <p class="map-address">서울시 송파구 중대로 20길 12, 지하 1층 석양대로<br>(서울시 송파구 가락동 154-4 지하1층)</p>
 
   <!-- FOOTER -->
@@ -248,6 +198,95 @@ body {
 </div>
 
 <script>
+/* 페이지 텍스트 번역 */
+const T = {
+  kor: { desc: '스튜디오 석양대로 예약페이지', priceMenu: '가격 안내', naver: '네이버 예약하기', kakao: '카카오톡 채널 상담' },
+  eng: { desc: 'Studio Sunset BLVD', priceMenu: 'Price', naver: 'Naver Booking', kakao: 'KakaoTalk Chat' },
+};
+
+/* 가격표 데이터 */
+const PRICE = {
+  kor: [
+    { label: 'ID', items: [
+      { t:'ID PHOTO', s:'증명사진', p:'35,000', d:'촬영~출력 30분 · 보정 1장 (현장 1:1) · 출력 12장 · 원본 미제공' },
+      { t:'SEMI PROFILE', s:'상반신 프로필', p:'80,000', d:'촬영시간 30분 · 1컨셉 · 보정본 1장 · 작업기간 3일 · 원본 미제공' },
+      { t:'ID + SEMI PACKAGE', s:'증명사진 + 상반신 프로필', p:'100,000', d:'촬영시간 40분 · 1컨셉 · 보정본 3장 · 작업기간 3일 · 원본 미제공' },
+    ]},
+    { label: 'PROFILE', items: [
+      { t:'DIGITALS', s:'모델 폴라로이드', p:'100,000', d:'촬영~출력 40분 · 톤 보정된 이미지 제공 · A5 출력 4장 · 원본 제공' },
+      { t:'STANDARD', s:'스탠다드', p:'160,000', d:'촬영시간 30분 · 1컨셉 · 보정본 2장 · 작업기간 3일 · 원본 제공' },
+      { t:'ESSENTIAL', s:'에센셜', p:'280,000', d:'촬영시간 60분 · 2컨셉 · 보정본 5장 · 작업기간 3일 · 원본 제공' },
+      { t:'ESSENTIAL PLUS', s:'에센셜 플러스', p:'400,000', d:'촬영시간 90분 · 3컨셉 · 보정본 7장 · 작업기간 3일 · 원본 제공' },
+    ]},
+    { label: 'BEAUTY', items: [
+      { t:'BEAUTY EDITORIAL', s:'뷰티 프로필', p:'400,000', d:'촬영시간 2시간 · 헤어 메이크업 포함 · 1컨셉 · 보정본 2장 · 작업기간 3일 · 원본 제공' },
+    ]},
+  ],
+  eng: [
+    { label: 'ID', items: [
+      { t:'ID PHOTO', s:'증명사진', p:'35,000', d:'30 min shoot & print · 1 retouched (on-site) · 12 prints · no originals' },
+      { t:'SEMI PROFILE', s:'상반신 프로필', p:'80,000', d:'30 min shoot · 1 concept · 1 retouched · 3 days · no originals' },
+      { t:'ID + SEMI PACKAGE', s:'증명사진 + 상반신 프로필', p:'100,000', d:'40 min shoot · 1 concept · 3 retouched · 3 days · no originals' },
+    ]},
+    { label: 'PROFILE', items: [
+      { t:'DIGITALS', s:'모델 폴라로이드', p:'100,000', d:'40 min shoot & print · color-graded images · 4 A5 prints · originals' },
+      { t:'STANDARD', s:'스탠다드', p:'160,000', d:'30 min shoot · 1 concept · 2 retouched · 3 days · originals' },
+      { t:'ESSENTIAL', s:'에센셜', p:'280,000', d:'60 min shoot · 2 concepts · 5 retouched · 3 days · originals' },
+      { t:'ESSENTIAL PLUS', s:'에센셜 플러스', p:'400,000', d:'90 min shoot · 3 concepts · 7 retouched · 3 days · originals' },
+    ]},
+    { label: 'BEAUTY', items: [
+      { t:'BEAUTY EDITORIAL', s:'뷰티 프로필', p:'400,000', d:'2 hr shoot · hair & makeup · 1 concept · 2 retouched · 3 days · originals' },
+    ]},
+  ],
+};
+
+function render(lang) {
+  const data = PRICE[lang];
+  let html = '';
+  data.forEach(function(sec) {
+    html += '<div class="section-label">' + sec.label + '</div>';
+    sec.items.forEach(function(it) {
+      html += '<div class="item"><div class="item-head"><span class="item-name"><span class="item-title">' + it.t + '</span>'
+        + (it.s ? '<span class="item-sub">' + it.s + '</span>' : '')
+        + '</span><span class="item-price"><span class="won">₩</span>' + it.p + '</span></div>'
+        + '<div class="item-det">' + it.d + '</div></div>';
+    });
+  });
+  document.getElementById('priceBody').innerHTML = html;
+}
+
+function setLang(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    el.textContent = T[lang][el.getAttribute('data-i18n')];
+  });
+  render(lang);
+  document.getElementById('btnKor').classList.toggle('active', lang === 'kor');
+  document.getElementById('btnEng').classList.toggle('active', lang === 'eng');
+  document.documentElement.lang = (lang === 'eng') ? 'en' : 'ko';
+}
+
+function togglePrice() {
+  document.getElementById('pricePanel').classList.toggle('open');
+  document.getElementById('priceToggle').classList.toggle('open');
+}
+function closePrice() {
+  document.getElementById('pricePanel').classList.remove('open');
+  document.getElementById('priceToggle').classList.remove('open');
+}
+
+/* 가격표 바깥 클릭 시 닫힘 (언어 버튼 제외) */
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.lang-bar')) return;
+  var block = document.getElementById('priceBlock');
+  var panel = document.getElementById('pricePanel');
+  if (panel.classList.contains('open') && !block.contains(e.target)) {
+    closePrice();
+  }
+});
+
+setLang('kor');
+
+/* 네이버 지도 */
 window.addEventListener('load', function() {
   if (typeof naver === 'undefined') { setTimeout(arguments.callee, 500); return; }
   var center = new naver.maps.LatLng(37.498428, 127.127065);
