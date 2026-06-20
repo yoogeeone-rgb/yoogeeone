@@ -1298,6 +1298,29 @@ function loadMoreWork() {
   updateCount();
 }
 
+// ── 맨 아래 도달(바운스) 시 자동 더보기 ──
+(function() {
+  var loading = false;
+  window.addEventListener('scroll', function() {
+    var workPage = document.getElementById('page-work');
+    if (!workPage || !workPage.classList.contains('active')) return;
+    var loadMoreBtn = document.getElementById('work-load-more');
+    if (!loadMoreBtn || loadMoreBtn.style.display === 'none') return;
+
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    var viewportH = window.innerHeight;
+    var fullH = document.documentElement.scrollHeight;
+
+    // 맨 아래에서 40px 이내로 도달하면 (바운스 포함) 자동 로드
+    if (scrollY + viewportH >= fullH - 40) {
+      if (loading) return;
+      loading = true;
+      loadMoreWork();
+      setTimeout(function() { loading = false; }, 400);
+    }
+  }, { passive: true });
+})();
+
 function setView(v) {
   workCurrentView = v;
   var grid = document.getElementById('work-grid');
