@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comp Card Generator — Sunset Blvd</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Noto+Sans+KR:wght@500;700;900&family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+KR:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#fff; --ink:#0a0a0a; --muted:#6b6b6b; --line:#e2e2e2;
+          --card-display:'Archivo','Noto Sans KR',sans-serif;
+          --card-body:'Archivo','Noto Sans KR',sans-serif; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:#f4f3f0; color:var(--ink); font-family:'Archivo','Noto Sans KR','Apple SD Gothic Neo',sans-serif; font-weight:500; line-height:1.6; padding:32px 20px 80px; }
+  .wrap { max-width:1100px; margin:0 auto; }
+  header.top { text-align:center; margin-bottom:8px; }
+  header.top .brand { font-weight:700; font-size:13px; letter-spacing:0.35em; text-transform:uppercase; color:var(--muted); }
+  header.top h1 { font-weight:800; font-size:34px; letter-spacing:-0.01em; margin-top:4px; }
+  header.top p { color:var(--muted); font-size:13px; margin-top:6px; }
+  .layout { display:grid; grid-template-columns:360px 1fr; gap:32px; margin-top:32px; align-items:start; }
+  @media (max-width:1024px){
+    .layout { grid-template-columns:1fr; display:flex; flex-direction:column; }
+    .layout > div:first-child { display:contents; }
+    .layout > div:first-child > .panel { margin-top:16px; margin-left:10px; margin-right:10px; }
+    .preview-col { order:50; margin-top:16px; gap:24px; }
+    #save-panel { order:100; }
+    body { padding:20px 0 60px; }
+    .wrap { padding:0; }
+    header.top { padding:0 10px; }
+    .preview-block .plabel { padding-left:12px; }
+    .card { border-radius:0; border-left:none; border-right:none; box-shadow:0 2px 16px rgba(0,0,0,0.10); }
+  }
+  /* JS가 모바일로 판정하면 폭과 무관하게 모바일 레이아웃 적용 */
+  body.is-mobile .layout { grid-template-columns:1fr; display:flex; flex-direction:column; gap:0; width:100%; }
+  body.is-mobile .layout > div:first-child { display:contents; }
+  body.is-mobile .layout > div:first-child > .panel { margin-top:16px; margin-left:10px; margin-right:10px; }
+  body.is-mobile .preview-col { order:50; margin:16px 0 0; gap:24px; width:100%; }
+  body.is-mobile .preview-block { width:100%; }
+  body.is-mobile #save-panel { order:100; }
+  body.is-mobile { padding:20px 0 60px; }
+  body.is-mobile .wrap { padding:0; max-width:100%; width:100%; }
+  body.is-mobile header.top { padding:0 10px; }
+  body.is-mobile .preview-block .plabel { padding-left:12px; }
+  body.is-mobile .card { border-radius:0; border-left:none; border-right:none; box-shadow:0 2px 16px rgba(0,0,0,0.10); }
+  body.is-mobile .ed, body.is-mobile .editable { cursor:text; }
+  /* PC(마우스): 카드 편집 잠금 표시 */
+  body:not(.is-mobile) .ed, body:not(.is-mobile) .editable { cursor:default; }
+  body:not(.is-mobile) .ed:hover, body:not(.is-mobile) .editable:hover,
+  body:not(.is-mobile) .ed:focus, body:not(.is-mobile) .editable:focus { background:transparent; }
+  .panel { background:#fff; border:1px solid var(--line); border-radius:10px; padding:22px; }
+  .panel h2 { font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink); font-weight:800; margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--line); }
+  .field { margin-bottom:14px; }
+  .field label { display:block; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:5px; font-weight:700; }
+  .field input, .field select { width:100%; padding:9px 11px; border:1px solid var(--line); border-radius:6px; font-size:14px; font-family:inherit; background:#fff; color:var(--ink); font-weight:500; }
+  .field input:focus, .field select:focus { outline:none; border-color:var(--ink); }
+  .field input::placeholder { color:#c8c8c8; font-weight:400; }
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+  .phone-row { display:grid; grid-template-columns:auto 1fr; gap:8px; align-items:end; }
+  .seg { display:flex; gap:8px; }
+  .seg button { flex:1; padding:10px; border:1px solid var(--line); border-radius:6px; background:#fff; cursor:pointer; font-family:inherit; font-size:13px; font-weight:700; color:var(--muted); transition:all .15s; }
+  .seg button.active { background:var(--ink); color:#fff; border-color:var(--ink); }
+  .seg button .pf { display:block; font-size:16px; margin-bottom:2px; }
+  .uploader { position:relative; border:1.5px dashed var(--line); border-radius:8px; padding:14px; text-align:center; cursor:pointer; transition:border-color .15s,background .15s; background:#fafafa; }
+  .uploader:hover { border-color:var(--ink); background:#fff; }
+  .uploader.has { padding:8px; border-style:solid; }
+  .uploader .hint { font-size:12px; color:var(--muted); font-weight:700; }
+  .uploader img { max-width:100%; max-height:120px; border-radius:4px; display:block; margin:0 auto; }
+  .uploader input { display:none; }
+  .done-tag { position:absolute; bottom:6px; left:50%; transform:translateX(-50%); background:rgba(10,10,10,0.82); color:#fff; font-size:10px; font-weight:700; letter-spacing:0.05em; padding:2px 8px; border-radius:4px; }
+  .quadgrid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .actions { margin-top:8px; display:flex; flex-direction:column; gap:10px; }
+  button.dl { width:100%; padding:13px; border:none; border-radius:6px; background:var(--ink); color:#fff; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; cursor:pointer; font-family:inherit; font-weight:700; transition:opacity .15s; }
+  button.dl:hover { opacity:0.82; }
+  button.dl.ghost { background:#fff; color:var(--ink); border:1px solid var(--ink); }
+  button.dl.mail { background:#1a5c3a; }
+  .preview-col { display:flex; flex-direction:column; gap:24px; }
+  .preview-block .plabel { font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; font-weight:700; }
+  .card { width:100%; aspect-ratio:5/7; background:#fff; border:1px solid var(--line); position:relative; overflow:hidden; border-radius:2px; }
+  .card-inner { position:absolute; inset:0; display:flex; flex-direction:column; padding:6%; }
+  .card.serif { --card-display:'Cormorant Garamond','Noto Serif KR',serif; --card-body:'Noto Serif KR','Cormorant Garamond',serif; }
+
+  /* FRONT — reference-style header */
+  .f-head { border-top:5px solid var(--ink); border-bottom:5px solid var(--ink); padding:3.5% 0; display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .f-left { flex:1; min-width:0; }
+  .f-name { font-family:var(--card-display); font-weight:900; font-size:clamp(22px,6.6vw,40px); line-height:1; letter-spacing:-0.02em; text-transform:uppercase; border-bottom:2.5px solid var(--ink); padding-bottom:6px; display:inline-block; }
+  .card.serif .f-name { font-weight:700; letter-spacing:0; }
+  .f-headspec { font-family:var(--card-body); font-size:clamp(8px,1.95vw,11px); color:var(--ink); margin-top:3%; line-height:1.65; letter-spacing:0; font-weight:500; }
+  .f-headspec .lbl { color:var(--muted); font-weight:700; white-space:nowrap; }
+  .f-headspec .unit { color:var(--ink); }
+  .ed, .editable { outline:none; cursor:text; border-radius:2px; transition:background .12s; display:inline-block; min-width:0.6em; }
+  .ed:empty::before, .editable:empty::before { content:attr(data-ph); color:#bdbdbd; }
+  .ed:hover, .editable:hover { background:rgba(0,0,0,0.05); }
+  .ed:focus, .editable:focus { background:rgba(206,176,112,0.20); }
+  .capture-mode .ed:empty::before, .capture-mode .editable:empty::before { content:''; }
+  .capture-mode .ed, .capture-mode .editable { background:transparent !important; }
+  .f-contact { text-align:left; min-width:fit-content; }
+  .f-contact .ctitle { font-family:var(--card-display); font-weight:800; font-size:clamp(9px,2vw,12px); margin-bottom:5px; }
+  .card.serif .f-contact .ctitle { font-weight:700; }
+  .f-contact .crow { font-family:var(--card-body); font-size:clamp(7.5px,1.7vw,9.5px); color:var(--ink); line-height:1.9; white-space:nowrap; font-weight:500; }
+  .f-contact .crow b { display:inline-block; width:1.4em; font-weight:800; }
+  .f-main { flex:1; margin-top:5%; background:#f0eeea; overflow:hidden; display:flex; align-items:center; justify-content:center; position:relative; }
+  .zoomctrl { position:absolute; left:8px; right:8px; bottom:8px; z-index:10; display:flex; align-items:center; }
+  .zslider { width:100%; height:4px; -webkit-appearance:none; appearance:none; background:rgba(255,255,255,0.55); border-radius:3px; outline:none; cursor:pointer; margin:0; padding:0; }
+  .zslider::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:16px; height:16px; border-radius:50%; background:#fff; border:2px solid #0a0a0a; cursor:pointer; }
+  .zslider::-moz-range-thumb { width:16px; height:16px; border-radius:50%; background:#fff; border:2px solid #0a0a0a; cursor:pointer; }
+  .f-main img { display:block; }
+  .f-main .ph, .b-cell .ph { color:#b3ad9f; font-weight:700; text-align:center; line-height:1.5; font-size:clamp(10px,2vw,13px); }
+  .f-main .ph .plus, .b-cell .ph .plus { font-size:1.8em; font-weight:400; display:inline-block; margin-bottom:2px; }
+  .f-main.empty, .b-cell.empty { cursor:pointer; transition:background .15s; }
+  .f-main.empty:hover, .b-cell.empty:hover { background:#e8e5df; }
+  .replace-btn { position:absolute; top:6px; left:6px; z-index:11; width:26px; height:26px; border:none; border-radius:50%; background:rgba(10,10,10,0.6); color:#fff; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1; }
+  .replace-btn:hover { background:rgba(10,10,10,0.85); }
+  .b-cell .replace-btn { width:22px; height:22px; font-size:12px; top:4px; left:4px; }
+
+  /* BACK */
+  .b-head { border-top:5px solid var(--ink); border-bottom:3px solid var(--ink); padding:2.5% 0; margin-bottom:5%; display:flex; justify-content:space-between; align-items:baseline; }
+  .b-head .bn { font-family:var(--card-display); font-weight:900; font-size:clamp(13px,3.4vw,20px); text-transform:uppercase; letter-spacing:-0.01em; }
+  .card.serif .b-head .bn { font-weight:700; letter-spacing:0; }
+  .b-head .bb { font-family:var(--card-body); font-size:clamp(7px,1.6vw,9px); letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); font-weight:700; }
+  .b-grid { flex:1; display:grid; gap:4%; }
+  .b-cell { background:#f0eeea; overflow:hidden; display:flex; align-items:center; justify-content:center; position:relative; }
+  .b-cell img { display:block; }
+
+  .b-cell .zoomctrl { left:5px; right:5px; bottom:5px; }
+  .b-cell .zslider::-webkit-slider-thumb { width:13px; height:13px; }
+  .b-cell .zslider::-moz-range-thumb { width:13px; height:13px; }
+  .note { font-size:12px; color:var(--muted); margin-top:6px; line-height:1.7; }
+  .divider { height:1px; background:var(--line); margin:18px 0; }
+  .mobile-only { display:none; }
+  .desktop-only { display:block; }
+  body.is-mobile .mobile-only { display:block; }
+  body.is-mobile .desktop-only { display:none; }
+  .mailnote { font-size:11px; color:var(--muted); margin-top:4px; line-height:1.6; }
+</style>
+</head>
+<body>
+<script>
+  (function(){
+    try{
+      var mm=function(q){ try{ return window.matchMedia && window.matchMedia(q).matches; }catch(e){ return false; } };
+      var ua=/Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini|Mobile|Silk/i.test(navigator.userAgent||'');
+      var coarse=mm('(pointer:coarse)');
+      var narrow=mm('(max-width:1024px)');
+      if(ua||coarse||narrow){ document.body.classList.add('is-mobile'); }
+    }catch(e){}
+  })();
+</script>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">Studio 석양대로</div>
+    <h1>Comp Card Generator</h1>
+    <p>사진을 올리고 정보를 입력하면 앞면·뒷면 컴카드를 JPG / PDF로 저장합니다</p>
+  </header>
+  <div id="inapp-banner" style="display:none; margin:0 auto 4px; max-width:1100px; background:#fff3cd; border:1px solid #f0d98c; color:#664d03; border-radius:8px; padding:12px 14px; font-size:13px; line-height:1.6;">
+    저장이 막히는 인앱 브라우저입니다. 오른쪽 위 <b>···</b> 메뉴 → <b>Safari(또는 Chrome)로 열기</b>를 누르면 저장이 정상 작동합니다.
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="panel">
+        <h2>폰트 스타일</h2>
+        <div class="seg" id="font-seg">
+          <button data-font="gothic" class="active"><span class="pf" style="font-family:Archivo,sans-serif;">Aa</span>고딕 / Bold</button>
+          <button data-font="serif"><span class="pf" style="font-family:'Cormorant Garamond',serif;">Aa</span>세리프 / Serif</button>
+        </div>
+      </div>
+
+      <div class="panel desktop-only" id="input-panel" style="margin-top:20px;">
+        <h2>모델 정보 입력</h2>
+        <div class="field"><label>이름 / Name</label><input id="i-name" type="text" placeholder="예: HONG GIL DONG"></div>
+        <div class="row2">
+          <div class="field"><label>키 (cm)</label><input id="i-height" type="text" inputmode="numeric" placeholder="예: 172"></div>
+          <div class="field"><label>신발 (mm)</label><input id="i-shoes" type="text" inputmode="numeric" placeholder="예: 245"></div>
+        </div>
+        <div class="row3">
+          <div class="field"><label>Bust</label><input id="i-bust" type="text" inputmode="numeric" placeholder="82"></div>
+          <div class="field"><label>Waist</label><input id="i-waist" type="text" inputmode="numeric" placeholder="62"></div>
+          <div class="field"><label>Hips</label><input id="i-hips" type="text" inputmode="numeric" placeholder="88"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>Eyes</label><input id="i-eyes" type="text" placeholder="예: Brown"></div>
+          <div class="field"><label>Hair</label><input id="i-hair" type="text" placeholder="예: Brown"></div>
+        </div>
+        <div class="field"><label>국적 / Nationality</label><input id="i-nat" type="text" placeholder="예: Korean"></div>
+        <div class="divider"></div>
+        <div class="field">
+          <label>전화 / Phone</label>
+          <div class="phone-row">
+            <select id="i-cc" style="width:auto;">
+              <option value="+82" selected>+82 한국</option>
+              <option value="+1">+1 미국/캐나다</option>
+              <option value="+44">+44 영국</option>
+              <option value="+33">+33 프랑스</option>
+              <option value="+39">+39 이탈리아</option>
+              <option value="+49">+49 독일</option>
+              <option value="+81">+81 일본</option>
+              <option value="">없음</option>
+              <option value="__custom">직접 추가…</option>
+            </select>
+            <input id="i-phone" type="text" inputmode="tel" placeholder="예: 10-1234-5678">
+          </div>
+          <input id="i-cc-custom" type="text" placeholder="예: +34 (국가번호 직접 입력)" style="display:none; margin-top:8px;">
+        </div>
+        <div class="field"><label>이메일 / Email</label><input id="i-email" type="text" inputmode="email" placeholder="예: contact@sunsetblvd.kr"></div>
+        <div class="field"><label>인스타그램 / Instagram</label><input id="i-insta" type="text" placeholder="예: @sunsetblvd.seoul"></div>
+      </div>
+
+      <div class="panel mobile-only" id="cc-panel-mobile" style="margin-top:20px;">
+        <h2>전화 국가번호</h2>
+        <div class="field">
+          <select id="i-cc-m">
+            <option value="+82" selected>+82 한국</option>
+            <option value="+1">+1 미국/캐나다</option>
+            <option value="+44">+44 영국</option>
+            <option value="+33">+33 프랑스</option>
+            <option value="+39">+39 이탈리아</option>
+            <option value="+49">+49 독일</option>
+            <option value="+81">+81 일본</option>
+            <option value="">없음</option>
+            <option value="__custom">직접 추가…</option>
+          </select>
+          <input id="i-cc-custom-m" type="text" placeholder="예: +34 (국가번호 직접 입력)" style="display:none; margin-top:8px;">
+        </div>
+        <p class="note">전화번호 등 나머지 정보는 아래 카드의 텍스트를 직접 눌러 입력하세요.</p>
+      </div>
+
+      <div class="panel" style="margin-top:20px;">
+        <h2>뒷면 사진 수량</h2>
+        <div class="field">
+          <select id="i-count">
+            <option value="1">1장</option>
+            <option value="4" selected>4장 (권장)</option>
+            <option value="6">6장</option>
+            <option value="8">8장</option>
+          </select>
+        </div>
+        <p class="note">오른쪽 미리보기에서 사진 칸을 누르면 업로드됩니다. 세로 사진(3:4 비율) 권장.</p>
+      </div>
+
+      <div class="panel actions" id="save-panel" style="margin-top:20px;">
+        <button class="dl" id="dl-front">앞면 JPG 저장</button>
+        <button class="dl" id="dl-back">뒷면 JPG 저장</button>
+        <button class="dl" id="dl-a4">A4 한 장 JPG 저장 (앞+뒤)</button>
+        <button class="dl ghost" id="dl-pdf">앞·뒤 묶어 PDF 저장</button>
+        <button class="dl mail" id="dl-mail">스튜디오로 제출하기</button>
+        <p class="mailnote">PDF가 다운로드되고 yoogeeone@gmail.com 수신 메일창이 열립니다. 받은 PDF를 첨부해 보내주세요.</p>
+      </div>
+    </div>
+
+    <div class="preview-col">
+      <div class="preview-block">
+        <div class="plabel">Front · 앞면 <span style="text-transform:none;letter-spacing:0;font-weight:500;color:#a8a8a8;">· 텍스트·사진을 직접 눌러 편집</span></div>
+        <div class="card" id="card-front">
+          <div class="card-inner">
+            <div class="f-head">
+              <div class="f-left">
+                <div class="f-name editable" id="p-name" contenteditable="true" data-ph="NAME"></div>
+                <div class="f-headspec">
+                  <span class="lbl">HEIGHT</span> <span class="ed" id="e-height" contenteditable="true" inputmode="numeric" data-ph="000"></span><span class="unit">cm</span> /
+                  <span class="lbl">BWH</span> <span class="ed" id="e-bust" contenteditable="true" inputmode="numeric" data-ph="00"></span>-<span class="ed" id="e-waist" contenteditable="true" inputmode="numeric" data-ph="00"></span>-<span class="ed" id="e-hips" contenteditable="true" inputmode="numeric" data-ph="00"></span> /
+                  <span class="lbl">SHOES</span> <span class="ed" id="e-shoes" contenteditable="true" inputmode="numeric" data-ph="000"></span><span class="unit">mm</span><br>
+                  <span class="lbl">EYES</span> <span class="ed" id="e-eyes" contenteditable="true" data-ph="Brown"></span> /
+                  <span class="lbl">HAIR</span> <span class="ed" id="e-hair" contenteditable="true" data-ph="Brown"></span> /
+                  <span class="lbl">NAT.</span> <span class="ed" id="e-nat" contenteditable="true" data-ph="Korean"></span>
+                </div>
+              </div>
+              <div class="f-contact">
+                <div class="ctitle">Contact Info.</div>
+                <div class="crow"><b>T</b> <span class="cc-prefix" id="e-ccpref">+82</span> <span class="ed" id="e-phone" contenteditable="true" inputmode="tel" data-ph="10-1234-5678"></span></div>
+                <div class="crow"><b>E</b> <span class="ed" id="e-email" contenteditable="true" inputmode="email" data-ph="contact@sunsetblvd.kr"></span></div>
+                <div class="crow"><b>IG</b> <span class="ed" id="e-insta" contenteditable="true" data-ph="@sunsetblvd.seoul"></span></div>
+              </div>
+            </div>
+            <div class="f-main" id="p-main"><span class="ph">메인 이미지</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="preview-block">
+        <div class="plabel">Back · 뒷면 <span style="text-transform:none;letter-spacing:0;font-weight:500;color:#a8a8a8;">· 칸을 눌러 사진 추가 · 드래그·슬라이더로 조절</span></div>
+        <div class="card" id="card-back">
+          <div class="card-inner">
+            <div class="b-grid" id="b-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const val = (id,fb) => { const v=$(id).value.trim(); return v?v:(fb||''); };
+  const dash = v => v?v:'—';
+  const imgData = { main:null, quad:[null,null,null,null,null,null,null,null] };
+  const Z0 = 1.0;
+  const mk = ()=>({tx:0,ty:0,z:Z0,nw:0,nh:0});
+  const imgPos = { main:mk(), quad:[mk(),mk(),mk(),mk(),mk(),mk(),mk(),mk()] };
+  const ZMIN=1, ZMAX=4;
+
+  function forceRepaint(el){
+    // 인앱 웹뷰에서 즉시 다시 그리도록 강제 (레이아웃 속성만 건드림)
+    if(!el) return;
+    const prev = el.style.opacity || '';
+    el.style.opacity='0.999';
+    void el.offsetHeight;
+    el.style.opacity=prev;
+  }
+
+  function coverSize(wrap, p){
+    // cover 기준 이미지의 실제 렌더 크기(줌 적용 전)
+    const rect = wrap.getBoundingClientRect();
+    if(!p.nw||!p.nh) return {w:rect.width, h:rect.height, cw:rect.width, ch:rect.height};
+    const arImg = p.nw/p.nh, arBox = rect.width/rect.height;
+    let w,h;
+    if(arImg > arBox){ h=rect.height; w=h*arImg; }   // 사진이 더 납작 → 좌우가 넘침
+    else { w=rect.width; h=w/arImg; }                // 사진이 더 길쭉 → 위아래가 넘침
+    return {w:w*p.z, h:h*p.z, cw:rect.width, ch:rect.height};
+  }
+  function applyTransform(imgEl, p, wrap){
+    const s = coverSize(wrap, p);
+    imgEl.style.width = s.w + 'px';
+    imgEl.style.height = s.h + 'px';
+    imgEl.style.left = '50%';
+    imgEl.style.top = '50%';
+    imgEl.style.transform = `translate(calc(-50% + ${p.tx}px), calc(-50% + ${p.ty}px))`;
+  }
+  function clampOffset(wrap, p){
+    const s = coverSize(wrap, p);
+    const maxX = Math.max(0,(s.w - s.cw)/2);
+    const maxY = Math.max(0,(s.h - s.ch)/2);
+    p.tx = Math.max(-maxX, Math.min(maxX, p.tx));
+    p.ty = Math.max(-maxY, Math.min(maxY, p.ty));
+  }
+
+  function makeEditable(wrap, imgEl, p){
+    wrap.style.position='relative'; wrap.style.overflow='hidden';
+    imgEl.style.position='absolute';
+    imgEl.style.maxWidth='none'; imgEl.style.maxHeight='none';
+    imgEl.style.cursor='grab'; imgEl.setAttribute('draggable','false');
+    function initSize(){
+      p.nw=imgEl.naturalWidth; p.nh=imgEl.naturalHeight;
+      const s=coverSize(wrap,p);
+      p.ty = Math.max(0,(s.h - s.ch)/2);
+      clampOffset(wrap,p); applyTransform(imgEl,p,wrap);
+      forceRepaint(wrap);
+    }
+    if(imgEl.complete && imgEl.naturalWidth){ requestAnimationFrame(initSize); } else { imgEl.addEventListener('load',initSize); }
+
+    // zoom slider
+    const ctrl=document.createElement('div'); ctrl.className='zoomctrl';
+    const slider=document.createElement('input'); slider.type='range';
+    slider.min=ZMIN; slider.max=ZMAX; slider.step='0.01'; slider.value=p.z;
+    slider.className='zslider'; slider.setAttribute('aria-label','사진 확대/축소');
+    ctrl.appendChild(slider); wrap.appendChild(ctrl);
+    const clampZ=z=>Math.max(ZMIN,Math.min(ZMAX,z));
+    slider.addEventListener('input',e=>{ p.z=clampZ(parseFloat(e.target.value)); clampOffset(wrap,p); applyTransform(imgEl,p,wrap); });
+    slider.addEventListener('mousedown',e=>e.stopPropagation());
+    slider.addEventListener('touchstart',e=>e.stopPropagation(),{passive:false});
+
+    // drag to move (pixel based)
+    let dragging=false, sx=0, sy=0, otx=0, oty=0;
+    function down(e){ if(e.target.classList.contains('zslider'))return; dragging=true; imgEl.style.cursor='grabbing'; const q=e.touches?e.touches[0]:e; sx=q.clientX; sy=q.clientY; otx=p.tx; oty=p.ty; e.preventDefault(); }
+    function move(e){
+      if(!dragging) return; const q=e.touches?e.touches[0]:e;
+      p.tx = otx + (q.clientX - sx);
+      p.ty = oty + (q.clientY - sy);
+      clampOffset(wrap,p);
+      applyTransform(imgEl,p,wrap); e.preventDefault();
+    }
+    function up(){ dragging=false; imgEl.style.cursor='grab'; }
+    imgEl.addEventListener('mousedown',down);
+    window.addEventListener('mousemove',move); window.addEventListener('mouseup',up);
+
+    // touch: drag + pinch zoom
+    let pinch=false, startDist=0, startZ=1;
+    function dist(t){ const dx=t[0].clientX-t[1].clientX, dy=t[0].clientY-t[1].clientY; return Math.hypot(dx,dy); }
+    wrap.addEventListener('touchstart',e=>{
+      if(e.target.classList.contains('zslider')) return;
+      if(e.touches.length===2){ pinch=true; startDist=dist(e.touches); startZ=p.z; }
+      else { down(e); }
+    },{passive:false});
+    wrap.addEventListener('touchmove',e=>{
+      if(pinch && e.touches.length===2){ const r=dist(e.touches)/startDist; p.z=clampZ(Math.round(startZ*r*100)/100); slider.value=p.z; clampOffset(wrap,p); applyTransform(imgEl,p,wrap); e.preventDefault(); }
+      else { move(e); }
+    },{passive:false});
+    wrap.addEventListener('touchend',e=>{ if(e.touches.length<2) pinch=false; up(); });
+  }
+  const GRID = { 1:{cols:1,rows:1},4:{cols:2,rows:2},6:{cols:2,rows:3},8:{cols:2,rows:4} };
+
+  const _mm = q => { try { return !!(window.matchMedia && window.matchMedia(q).matches); } catch(e){ return false; } };
+  const _mobileUA = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini|Mobile|Silk/i.test(navigator.userAgent || '');
+  const _coarse = _mm('(pointer:coarse)');
+  const isMobile = ()=> _mobileUA || _coarse || _mm('(max-width:1024px)');
+  function applyMobileClass(){ document.body.classList.toggle('is-mobile', isMobile()); }
+  applyMobileClass();
+
+  // 인앱 브라우저(인스타/스레드/페북/카카오/라인 등) 감지
+  const _ua = navigator.userAgent || '';
+  const isInApp = /Instagram|Threads|FBAN|FBAV|FB_IAB|KAKAO|Line|NAVER|DaumApps|wv\)/i.test(_ua);
+  if(isInApp){ const bn=$('inapp-banner'); if(bn) bn.style.display='block'; }
+
+  function getCC(){
+    // 화면에 맞는 국가번호 입력 사용
+    const sel = isMobile() ? $('i-cc-m') : $('i-cc');
+    const cust = isMobile() ? $('i-cc-custom-m') : $('i-cc-custom');
+    if(sel.value==='__custom'){ return cust.value.trim(); }
+    return sel.value;
+  }
+
+  // 카드 편집 필드에서 값 읽기
+  const txt = id => ($(id) ? $(id).textContent.trim() : '');
+
+  function refresh(){
+    const cc=getCC();
+    const pref=$('e-ccpref');
+    if(pref){ pref.textContent = cc; pref.style.display = cc?'inline':'none'; }
+  }
+
+  // 국가번호 select (PC/모바일 공통 핸들러)
+  function bindCC(selId, custId){
+    const sel=$(selId), cust=$(custId);
+    if(!sel) return;
+    sel.addEventListener('change',()=>{
+      const custom = sel.value==='__custom';
+      cust.style.display = custom?'block':'none';
+      if(custom) cust.focus();
+      refresh();
+    });
+    cust.addEventListener('input',refresh);
+  }
+  bindCC('i-cc','i-cc-custom');
+  bindCC('i-cc-m','i-cc-custom-m');
+
+  // PC 입력칸 → 카드 필드 단방향 동기화
+  const SYNC = [
+    ['i-name','p-name', true],
+    ['i-height','e-height', false],
+    ['i-bust','e-bust', false], ['i-waist','e-waist', false], ['i-hips','e-hips', false],
+    ['i-shoes','e-shoes', false],
+    ['i-eyes','e-eyes', false], ['i-hair','e-hair', false], ['i-nat','e-nat', false],
+    ['i-phone','e-phone', false], ['i-email','e-email', false], ['i-insta','e-insta', false]
+  ];
+  SYNC.forEach(([inId, cardId, upper])=>{
+    const inp=$(inId), card=$(cardId);
+    if(!inp||!card) return;
+    inp.addEventListener('input',()=>{
+      card.textContent = upper ? inp.value.toUpperCase() : inp.value;
+    });
+  });
+
+  // 이름은 입력 시 자동 대문자 (커서 유지)
+  const nameEl=$('p-name');
+  if(nameEl){
+    nameEl.addEventListener('input',()=>{
+      const up=nameEl.textContent.toUpperCase();
+      if(nameEl.textContent!==up){
+        nameEl.textContent=up;
+        // 커서를 끝으로
+        const r=document.createRange(); r.selectNodeContents(nameEl); r.collapse(false);
+        const s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      }
+    });
+  }
+  // 편집 필드에서 줄바꿈(Enter) 막기
+  document.querySelectorAll('.editable,.ed').forEach(el=>{
+    el.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); el.blur(); } });
+  });
+
+  // font toggle
+  $('font-seg').addEventListener('click',e=>{
+    const btn=e.target.closest('button'); if(!btn) return;
+    document.querySelectorAll('#font-seg button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const serif = btn.getAttribute('data-font')==='serif';
+    $('card-front').classList.toggle('serif',serif);
+    $('card-back').classList.toggle('serif',serif);
+  });
+
+  // 파일 선택 트리거 (칸 클릭 시)
+  function pickFile(cb){
+    const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*';
+    inp.style.display='none'; document.body.appendChild(inp);
+    inp.addEventListener('change',ev=>{ const f=ev.target.files[0]; if(f){ const r=new FileReader(); r.onload=x=>cb(x.target.result); r.readAsDataURL(f); } document.body.removeChild(inp); });
+    inp.click();
+  }
+
+  function buildBackGrid(){
+    const n=parseInt($('i-count').value); const g=GRID[n]; const grid=$('b-grid');
+    grid.style.gridTemplateColumns=`repeat(${g.cols},1fr)`; grid.style.gridTemplateRows=`repeat(${g.rows},1fr)`; grid.innerHTML='';
+    for(let i=0;i<n;i++){
+      const cell=document.createElement('div'); cell.className='b-cell';
+      if(imgData.quad[i]){
+        const im=document.createElement('img'); im.src=imgData.quad[i]; cell.appendChild(im); makeEditable(cell, im, imgPos.quad[i]);
+        addReplaceBtn(cell, ()=>{ pickFile(src=>{ imgData.quad[i]=src; imgPos.quad[i]=mk(); buildBackGrid(); }); });
+      } else {
+        cell.classList.add('empty');
+        const s=document.createElement('span'); s.className='ph'; s.innerHTML=`<span class="plus">＋</span><br>사진 추가`; cell.appendChild(s);
+        cell.onclick=()=>{ pickFile(src=>{ imgData.quad[i]=src; imgPos.quad[i]=mk(); buildBackGrid(); }); };
+      }
+      grid.appendChild(cell);
+    }
+  }
+  $('i-count').addEventListener('change',()=>{ buildBackGrid(); });
+
+  // 다시 올리기 버튼 (사진 있는 칸 좌상단)
+  function addReplaceBtn(wrap, onClick){
+    const b=document.createElement('button'); b.type='button'; b.className='replace-btn'; b.textContent='↻'; b.title='사진 교체';
+    b.addEventListener('click',e=>{ e.stopPropagation(); onClick(); });
+    b.addEventListener('mousedown',e=>e.stopPropagation());
+    b.addEventListener('touchstart',e=>e.stopPropagation(),{passive:false});
+    wrap.appendChild(b);
+  }
+
+  // 앞면 메인 칸: 비었으면 클릭 업로드, 있으면 교체 버튼
+  function renderMain(){
+    const box=$('p-main'); box.innerHTML='';
+    if(imgData.main){
+      const im=document.createElement('img'); im.src=imgData.main; box.appendChild(im); makeEditable(box, im, imgPos.main);
+      addReplaceBtn(box, ()=>{ pickFile(src=>{ imgData.main=src; imgPos.main=mk(); renderMain(); }); });
+      box.classList.remove('empty'); box.onclick=null;
+    } else {
+      box.classList.add('empty');
+      const s=document.createElement('span'); s.className='ph'; s.innerHTML=`<span class="plus">＋</span><br>메인 사진 추가`; box.appendChild(s);
+      box.onclick=()=>{ pickFile(src=>{ imgData.main=src; imgPos.main=mk(); renderMain(); }); };
+    }
+  }
+
+  const safeName=()=>{ const n=txt('p-name'); return (n?n.replace(/\s+/g,'_'):'compcard'); };
+  async function renderCanvas(el){
+    el.classList.add('capture-mode');
+    el.querySelectorAll('.zoomctrl,.replace-btn').forEach(z=>z.style.visibility='hidden');
+    const canvas = await html2canvas(el,{ scale:Math.max(1240/el.offsetWidth,3), backgroundColor:'#ffffff', useCORS:true, logging:false });
+    el.querySelectorAll('.zoomctrl,.replace-btn').forEach(z=>z.style.visibility='visible');
+    el.classList.remove('capture-mode');
+    return canvas;
+  }
+  function saveDataUrl(dataUrl, filename, mime){
+    // 일반 브라우저: 다운로드
+    if(!isInApp){
+      const a=document.createElement('a'); a.href=dataUrl; a.download=filename; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      return;
+    }
+    // 인앱 브라우저: 새 화면에 이미지/PDF 띄워 '꾹 눌러 저장' 유도
+    const w=window.open('','_blank');
+    if(w && mime.startsWith('image')){
+      w.document.write(`<html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>${filename}</title><style>body{margin:0;background:#111;display:flex;flex-direction:column;align-items:center;font-family:sans-serif}p{color:#fff;font-size:14px;padding:14px;text-align:center;line-height:1.6}img{max-width:100%;height:auto;display:block}</style></head><body><p>이미지를 길게 눌러 <b>'사진에 저장'</b>을 선택하세요.<br>(${filename})</p><img src="${dataUrl}"></body></html>`);
+      w.document.close();
+    } else {
+      // 팝업이 막혔거나 PDF인 경우: 현재 창에서 열기
+      const a=document.createElement('a'); a.href=dataUrl; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    }
+  }
+
+  async function exportJPG(el,fn){ const c=await renderCanvas(el); saveDataUrl(c.toDataURL('image/jpeg',0.95), fn, 'image/jpeg'); }
+  async function buildPDF(){
+    const { jsPDF }=window.jspdf;
+    const cf=await renderCanvas($('card-front')); const cb=await renderCanvas($('card-back'));
+    const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a5'}); const w=148,h=210;
+    pdf.addImage(cf.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h); pdf.addPage();
+    pdf.addImage(cb.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h); return pdf;
+  }
+  $('dl-front').addEventListener('click',()=>exportJPG($('card-front'),`${safeName()}_front.jpg`));
+  $('dl-back').addEventListener('click',()=>exportJPG($('card-back'),`${safeName()}_back.jpg`));
+
+  $('dl-a4').addEventListener('click',async()=>{
+    const cf=await renderCanvas($('card-front'));
+    const cb=await renderCanvas($('card-back'));
+    // A4 가로 297x210mm @300dpi = 3508x2480px, A5 절반 = 1754x2480
+    const A4W=3508, A4H=2480, HALF=A4W/2;
+    const out=document.createElement('canvas'); out.width=A4W; out.height=A4H;
+    const ctx=out.getContext('2d');
+    ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,A4W,A4H);
+    // 각 카드(5:7)를 A5 영역(1754x2480, 비율 약 0.707)에 가운데 맞춤으로 그림
+    function drawCentered(cv, offsetX){
+      const areaW=HALF, areaH=A4H;
+      const scale=Math.min(areaW/cv.width, areaH/cv.height);
+      const w=cv.width*scale, h=cv.height*scale;
+      const x=offsetX+(areaW-w)/2, y=(areaH-h)/2;
+      ctx.drawImage(cv,x,y,w,h);
+    }
+    drawCentered(cb, 0);        // 왼쪽: 뒷면
+    drawCentered(cf, HALF);     // 오른쪽: 앞면 (접으면 겉면)
+    saveDataUrl(out.toDataURL('image/jpeg',0.95), `${safeName()}_A4.jpg`, 'image/jpeg');
+  });
+  function savePDF(pdf, filename){
+    if(!isInApp){ pdf.save(filename); return; }
+    // 인앱: PDF를 새 창/현재 창에서 열기 (사용자가 공유→저장)
+    try{ const url=pdf.output('bloburl'); const w=window.open(url,'_blank'); if(!w){ window.location.href=url; } }
+    catch(e){ pdf.save(filename); }
+  }
+  $('dl-pdf').addEventListener('click',async()=>{ const pdf=await buildPDF(); savePDF(pdf, `${safeName()}_compcard.pdf`); });
+  $('dl-mail').addEventListener('click',async()=>{
+    const pdf=await buildPDF(); savePDF(pdf, `${safeName()}_compcard.pdf`);
+    const name=txt('p-name')||'(이름 미입력)';
+    const subject=encodeURIComponent(`[컴카드 제출] ${name}`);
+    const body=encodeURIComponent(`안녕하세요, 컴카드를 제출합니다.\n\n이름: ${name}\n키: ${txt('e-height')||'-'}cm\nBWH: ${txt('e-bust')||'-'}-${txt('e-waist')||'-'}-${txt('e-hips')||'-'}\n신발: ${txt('e-shoes')||'-'}mm\n연락처: ${getCC()} ${txt('e-phone')||'-'}\n\n※ 방금 다운로드된 PDF(${safeName()}_compcard.pdf)를 이 메일에 첨부해 보내주세요.`);
+    setTimeout(()=>{ window.location.href=`mailto:yoogeeone@gmail.com?subject=${subject}&body=${body}`; },600);
+  });
+
+  // 화면 크기에 따라 카드 직접편집 on/off (PC는 잠금, 모바일은 편집)
+  function applyEditMode(){
+    const editable = isMobile();
+    document.querySelectorAll('#card-front .ed, #card-front .editable').forEach(el=>{
+      el.setAttribute('contenteditable', editable ? 'true' : 'false');
+    });
+  }
+  let _rt;
+  window.addEventListener('resize',()=>{ clearTimeout(_rt); _rt=setTimeout(()=>{ applyMobileClass(); applyEditMode(); refresh(); },150); });
+
+  try{ renderMain(); }catch(e){ console.error('renderMain',e); }
+  try{ buildBackGrid(); }catch(e){ console.error('buildBackGrid',e); }
+  try{ applyEditMode(); }catch(e){ console.error('applyEditMode',e); }
+  try{ refresh(); }catch(e){ console.error('refresh',e); }
+})();
+</script>
+</body>
+</html>
