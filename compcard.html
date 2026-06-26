@@ -572,19 +572,26 @@
     while(n--){ u8[n]=bstr.charCodeAt(n); }
     return new Blob([u8],{type:mime});
   }
+  function showImageForSave(dataUrl, filename){
+    const w=window.open('','_blank');
+    if(w){
+      w.document.write(`<html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>${filename}</title><style>body{margin:0;background:#111;display:flex;flex-direction:column;align-items:center;font-family:-apple-system,sans-serif}p{color:#fff;font-size:15px;padding:16px;text-align:center;line-height:1.7}b{color:#ffd84d}img{max-width:100%;height:auto;display:block}</style></head><body><p>아래 이미지를 <b>길게 누른 뒤</b><br><b>'사진에 추가(이미지 저장)'</b>를 선택하세요.</p><img src="${dataUrl}"></body></html>`);
+      w.document.close();
+      return true;
+    }
+    return false;
+  }
   function saveDataUrl(dataUrl, filename, mime){
-    // 인앱 브라우저: 새 화면에 이미지 띄워 '꾹 눌러 저장' 유도
+    // 모바일(인앱·사파리 등): 이미지를 새 화면에 띄워 길게 눌러 사진첩 저장
+    if(isMobile() && mime.startsWith('image')){
+      if(showImageForSave(dataUrl, filename)) return;
+    }
+    // 인앱인데 팝업이 막혔거나 PDF인 경우: 현재 창에서 열기
     if(isInApp){
-      const w=window.open('','_blank');
-      if(w && mime.startsWith('image')){
-        w.document.write(`<html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>${filename}</title><style>body{margin:0;background:#111;display:flex;flex-direction:column;align-items:center;font-family:sans-serif}p{color:#fff;font-size:14px;padding:14px;text-align:center;line-height:1.6}img{max-width:100%;height:auto;display:block}</style></head><body><p>이미지를 길게 눌러 <b>'사진에 저장'</b>을 선택하세요.<br>(${filename})</p><img src="${dataUrl}"></body></html>`);
-        w.document.close();
-      } else {
-        const a=document.createElement('a'); a.href=dataUrl; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      }
+      const a=document.createElement('a'); a.href=dataUrl; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
       return;
     }
-    // 일반 브라우저(사파리 포함): Blob URL로 저장 → iOS 사파리 호환
+    // PC(데스크톱): Blob URL로 파일 다운로드
     try{
       const blob=dataUrlToBlob(dataUrl);
       const url=URL.createObjectURL(blob);
@@ -592,7 +599,6 @@
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
       setTimeout(()=>URL.revokeObjectURL(url), 4000);
     }catch(e){
-      // 폴백: 새 탭에 이미지 띄움
       const w=window.open('','_blank');
       if(w){ w.document.write(`<img src="${dataUrl}" style="max-width:100%">`); w.document.close(); }
     }
