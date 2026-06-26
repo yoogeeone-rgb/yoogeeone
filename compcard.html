@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-=======
-
->>>>>>> dd741ba80a4eed01e7b3d0325a299bfbc663d9a0
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -85,7 +81,6 @@
   .card-inner { position:absolute; inset:0; display:flex; flex-direction:column; padding:6%; }
   .card.serif { --card-display:'Cormorant Garamond','Noto Serif KR',serif; --card-body:'Noto Serif KR','Cormorant Garamond',serif; }
 
-<<<<<<< HEAD
   /* FRONT — reference-style header */
   .f-head { border-top:5px solid var(--ink); border-bottom:5px solid var(--ink); padding:3.5% 0; display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
   .f-left { flex:1; min-width:0; }
@@ -139,62 +134,6 @@
   body.is-mobile .desktop-only { display:none; }
   .mailnote { font-size:11px; color:var(--muted); margin-top:4px; line-height:1.6; }
 </style>
-=======
-/* FRONT — reference-style header */
-.f-head { border-top:5px solid var(–ink); border-bottom:5px solid var(–ink); padding:3.5% 0; display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
-.f-left { flex:1; min-width:0; }
-.f-name { font-family:var(–card-display); font-weight:900; font-size:clamp(22px,6.6vw,40px); line-height:1; letter-spacing:-0.02em; text-transform:uppercase; border-bottom:2.5px solid var(–ink); padding-bottom:6px; display:inline-block; }
-.card.serif .f-name { font-weight:700; letter-spacing:0; }
-.f-headspec { font-family:var(–card-body); font-size:clamp(8px,1.95vw,11px); color:var(–ink); margin-top:3%; line-height:1.65; letter-spacing:0; font-weight:500; }
-.f-headspec .lbl { color:var(–muted); font-weight:700; white-space:nowrap; }
-.f-headspec .unit { color:var(–ink); }
-.ed, .editable { outline:none; cursor:text; border-radius:2px; transition:background .12s; display:inline-block; min-width:0.6em; }
-.ed:empty::before, .editable:empty::before { content:attr(data-ph); color:#bdbdbd; }
-.ed:hover, .editable:hover { background:rgba(0,0,0,0.05); }
-.ed:focus, .editable:focus { background:rgba(206,176,112,0.20); }
-.capture-mode .ed:empty::before, .capture-mode .editable:empty::before { content:’’; }
-.capture-mode .ed, .capture-mode .editable { background:transparent !important; }
-.f-contact { text-align:left; min-width:fit-content; }
-.f-contact .ctitle { font-family:var(–card-display); font-weight:800; font-size:clamp(9px,2vw,12px); margin-bottom:5px; }
-.card.serif .f-contact .ctitle { font-weight:700; }
-.f-contact .crow { font-family:var(–card-body); font-size:clamp(7.5px,1.7vw,9.5px); color:var(–ink); line-height:1.9; white-space:nowrap; font-weight:500; }
-.f-contact .crow b { display:inline-block; width:1.4em; font-weight:800; }
-.f-main { flex:1; margin-top:5%; background:#f0eeea; overflow:hidden; display:flex; align-items:center; justify-content:center; position:relative; }
-.zoomctrl { position:absolute; left:8px; right:8px; bottom:8px; z-index:10; display:flex; align-items:center; }
-.zslider { width:100%; height:4px; -webkit-appearance:none; appearance:none; background:rgba(255,255,255,0.55); border-radius:3px; outline:none; cursor:pointer; margin:0; padding:0; }
-.zslider::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:16px; height:16px; border-radius:50%; background:#fff; border:2px solid #0a0a0a; cursor:pointer; }
-.zslider::-moz-range-thumb { width:16px; height:16px; border-radius:50%; background:#fff; border:2px solid #0a0a0a; cursor:pointer; }
-.f-main img { display:block; }
-.f-main .ph, .b-cell .ph { color:#b3ad9f; font-weight:700; text-align:center; line-height:1.5; font-size:clamp(10px,2vw,13px); }
-.f-main .ph .plus, .b-cell .ph .plus { font-size:1.8em; font-weight:400; display:inline-block; margin-bottom:2px; }
-.f-main.empty, .b-cell.empty { cursor:pointer; transition:background .15s; }
-.f-main.empty:hover, .b-cell.empty:hover { background:#e8e5df; }
-.replace-btn { position:absolute; top:6px; left:6px; z-index:11; width:26px; height:26px; border:none; border-radius:50%; background:rgba(10,10,10,0.6); color:#fff; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1; }
-.replace-btn:hover { background:rgba(10,10,10,0.85); }
-.b-cell .replace-btn { width:22px; height:22px; font-size:12px; top:4px; left:4px; }
-
-/* BACK */
-.b-head { border-top:5px solid var(–ink); border-bottom:3px solid var(–ink); padding:2.5% 0; margin-bottom:5%; display:flex; justify-content:space-between; align-items:baseline; }
-.b-head .bn { font-family:var(–card-display); font-weight:900; font-size:clamp(13px,3.4vw,20px); text-transform:uppercase; letter-spacing:-0.01em; }
-.card.serif .b-head .bn { font-weight:700; letter-spacing:0; }
-.b-head .bb { font-family:var(–card-body); font-size:clamp(7px,1.6vw,9px); letter-spacing:0.2em; text-transform:uppercase; color:var(–muted); font-weight:700; }
-.b-grid { flex:1; display:grid; gap:4%; }
-.b-cell { background:#f0eeea; overflow:hidden; display:flex; align-items:center; justify-content:center; position:relative; }
-.b-cell img { display:block; }
-
-.b-cell .zoomctrl { left:5px; right:5px; bottom:5px; }
-.b-cell .zslider::-webkit-slider-thumb { width:13px; height:13px; }
-.b-cell .zslider::-moz-range-thumb { width:13px; height:13px; }
-.note { font-size:12px; color:var(–muted); margin-top:6px; line-height:1.7; }
-.divider { height:1px; background:var(–line); margin:18px 0; }
-.mobile-only { display:none; }
-.desktop-only { display:block; }
-body.is-mobile .mobile-only { display:block; }
-body.is-mobile .desktop-only { display:none; }
-.mailnote { font-size:11px; color:var(–muted); margin-top:4px; line-height:1.6; }
-</style>
-
->>>>>>> dd741ba80a4eed01e7b3d0325a299bfbc663d9a0
 </head>
 <body>
 <script>
@@ -228,7 +167,6 @@ body.is-mobile .desktop-only { display:none; }
         </div>
       </div>
 
-<<<<<<< HEAD
       <div class="panel desktop-only" id="input-panel" style="margin-top:20px;">
         <h2>모델 정보 입력</h2>
         <div class="field"><label>이름 / Name</label><input id="i-name" type="text" placeholder="예: HONG GIL DONG"></div>
@@ -346,143 +284,13 @@ body.is-mobile .desktop-only { display:none; }
             <div class="b-grid" id="b-grid"></div>
           </div>
         </div>
-=======
-```
-  <div class="panel desktop-only" id="input-panel" style="margin-top:20px;">
-    <h2>모델 정보 입력</h2>
-    <div class="field"><label>이름 / Name</label><input id="i-name" type="text" placeholder="예: HONG GIL DONG"></div>
-    <div class="row2">
-      <div class="field"><label>키 (cm)</label><input id="i-height" type="text" inputmode="numeric" placeholder="예: 172"></div>
-      <div class="field"><label>신발 (mm)</label><input id="i-shoes" type="text" inputmode="numeric" placeholder="예: 245"></div>
-    </div>
-    <div class="row3">
-      <div class="field"><label>Bust</label><input id="i-bust" type="text" inputmode="numeric" placeholder="82"></div>
-      <div class="field"><label>Waist</label><input id="i-waist" type="text" inputmode="numeric" placeholder="62"></div>
-      <div class="field"><label>Hips</label><input id="i-hips" type="text" inputmode="numeric" placeholder="88"></div>
-    </div>
-    <div class="row2">
-      <div class="field"><label>Eyes</label><input id="i-eyes" type="text" placeholder="예: Brown"></div>
-      <div class="field"><label>Hair</label><input id="i-hair" type="text" placeholder="예: Brown"></div>
-    </div>
-    <div class="field"><label>국적 / Nationality</label><input id="i-nat" type="text" placeholder="예: Korean"></div>
-    <div class="divider"></div>
-    <div class="field">
-      <label>전화 / Phone</label>
-      <div class="phone-row">
-        <select id="i-cc" style="width:auto;">
-          <option value="+82" selected>+82 한국</option>
-          <option value="+1">+1 미국/캐나다</option>
-          <option value="+44">+44 영국</option>
-          <option value="+33">+33 프랑스</option>
-          <option value="+39">+39 이탈리아</option>
-          <option value="+49">+49 독일</option>
-          <option value="+81">+81 일본</option>
-          <option value="">없음</option>
-          <option value="__custom">직접 추가…</option>
-        </select>
-        <input id="i-phone" type="text" inputmode="tel" placeholder="예: 10-1234-5678">
-      </div>
-      <input id="i-cc-custom" type="text" placeholder="예: +34 (국가번호 직접 입력)" style="display:none; margin-top:8px;">
-    </div>
-    <div class="field"><label>이메일 / Email</label><input id="i-email" type="text" inputmode="email" placeholder="예: contact@sunsetblvd.kr"></div>
-    <div class="field"><label>인스타그램 / Instagram</label><input id="i-insta" type="text" placeholder="예: @sunsetblvd.seoul"></div>
-  </div>
-
-  <div class="panel mobile-only" id="cc-panel-mobile" style="margin-top:20px;">
-    <h2>전화 국가번호</h2>
-    <div class="field">
-      <select id="i-cc-m">
-        <option value="+82" selected>+82 한국</option>
-        <option value="+1">+1 미국/캐나다</option>
-        <option value="+44">+44 영국</option>
-        <option value="+33">+33 프랑스</option>
-        <option value="+39">+39 이탈리아</option>
-        <option value="+49">+49 독일</option>
-        <option value="+81">+81 일본</option>
-        <option value="">없음</option>
-        <option value="__custom">직접 추가…</option>
-      </select>
-      <input id="i-cc-custom-m" type="text" placeholder="예: +34 (국가번호 직접 입력)" style="display:none; margin-top:8px;">
-    </div>
-    <p class="note">전화번호 등 나머지 정보는 아래 카드의 텍스트를 직접 눌러 입력하세요.</p>
-  </div>
-
-  <div class="panel" style="margin-top:20px;">
-    <h2>뒷면 사진 수량</h2>
-    <div class="field">
-      <select id="i-count">
-        <option value="1">1장</option>
-        <option value="4" selected>4장 (권장)</option>
-        <option value="6">6장</option>
-        <option value="8">8장</option>
-      </select>
-    </div>
-    <p class="note">오른쪽 미리보기에서 사진 칸을 누르면 업로드됩니다. 세로 사진(3:4 비율) 권장.</p>
-  </div>
-
-  <div class="panel actions" id="save-panel" style="margin-top:20px;">
-    <button class="dl" id="dl-front">앞면 JPG 저장</button>
-    <button class="dl" id="dl-back">뒷면 JPG 저장</button>
-    <button class="dl" id="dl-a4">A4 한 장 JPG 저장 (앞+뒤)</button>
-    <button class="dl ghost" id="dl-pdf">앞·뒤 묶어 PDF 저장</button>
-    <button class="dl mail" id="dl-mail">스튜디오로 제출하기</button>
-    <p class="mailnote">PDF가 다운로드되고 yoogeeone@gmail.com 수신 메일창이 열립니다. 받은 PDF를 첨부해 보내주세요.</p>
-  </div>
-</div>
-
-<div class="preview-col">
-  <div class="preview-block">
-    <div class="plabel">Front · 앞면 <span style="text-transform:none;letter-spacing:0;font-weight:500;color:#a8a8a8;">· 텍스트·사진을 직접 눌러 편집</span></div>
-    <div class="card" id="card-front">
-      <div class="card-inner">
-        <div class="f-head">
-          <div class="f-left">
-            <div class="f-name editable" id="p-name" contenteditable="true" data-ph="NAME"></div>
-            <div class="f-headspec">
-              <span class="lbl">HEIGHT</span> <span class="ed" id="e-height" contenteditable="true" inputmode="numeric" data-ph="000"></span><span class="unit">cm</span> /
-              <span class="lbl">BWH</span> <span class="ed" id="e-bust" contenteditable="true" inputmode="numeric" data-ph="00"></span>-<span class="ed" id="e-waist" contenteditable="true" inputmode="numeric" data-ph="00"></span>-<span class="ed" id="e-hips" contenteditable="true" inputmode="numeric" data-ph="00"></span> /
-              <span class="lbl">SHOES</span> <span class="ed" id="e-shoes" contenteditable="true" inputmode="numeric" data-ph="000"></span><span class="unit">mm</span><br>
-              <span class="lbl">EYES</span> <span class="ed" id="e-eyes" contenteditable="true" data-ph="Brown"></span> /
-              <span class="lbl">HAIR</span> <span class="ed" id="e-hair" contenteditable="true" data-ph="Brown"></span> /
-              <span class="lbl">NAT.</span> <span class="ed" id="e-nat" contenteditable="true" data-ph="Korean"></span>
-            </div>
-          </div>
-          <div class="f-contact">
-            <div class="ctitle">Contact Info.</div>
-            <div class="crow"><b>T</b> <span class="cc-prefix" id="e-ccpref">+82</span> <span class="ed" id="e-phone" contenteditable="true" inputmode="tel" data-ph="10-1234-5678"></span></div>
-            <div class="crow"><b>E</b> <span class="ed" id="e-email" contenteditable="true" inputmode="email" data-ph="contact@sunsetblvd.kr"></span></div>
-            <div class="crow"><b>IG</b> <span class="ed" id="e-insta" contenteditable="true" data-ph="@sunsetblvd.seoul"></span></div>
-          </div>
-        </div>
-        <div class="f-main" id="p-main"><span class="ph">메인 이미지</span></div>
       </div>
     </div>
-  </div>
-  <div class="preview-block">
-    <div class="plabel">Back · 뒷면 <span style="text-transform:none;letter-spacing:0;font-weight:500;color:#a8a8a8;">· 칸을 눌러 사진 추가 · 드래그·슬라이더로 조절</span></div>
-    <div class="card" id="card-back">
-      <div class="card-inner">
-        <div class="b-grid" id="b-grid"></div>
->>>>>>> dd741ba80a4eed01e7b3d0325a299bfbc663d9a0
-      </div>
-    </div>
-  </div>
-</div>
-<<<<<<< HEAD
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-=======
-```
-
   </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
->>>>>>> dd741ba80a4eed01e7b3d0325a299bfbc663d9a0
 <script>
 (function(){
   const $ = id => document.getElementById(id);
@@ -741,7 +549,6 @@ body.is-mobile .desktop-only { display:none; }
     const w=window.open('','_blank');
     if(w && mime.startsWith('image')){
       w.document.write(`<html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>${filename}</title><style>body{margin:0;background:#111;display:flex;flex-direction:column;align-items:center;font-family:sans-serif}p{color:#fff;font-size:14px;padding:14px;text-align:center;line-height:1.6}img{max-width:100%;height:auto;display:block}</style></head><body><p>이미지를 길게 눌러 <b>'사진에 저장'</b>을 선택하세요.<br>(${filename})</p><img src="${dataUrl}"></body></html>`);
-<<<<<<< HEAD
       w.document.close();
     } else {
       // 팝업이 막혔거나 PDF인 경우: 현재 창에서 열기
@@ -811,81 +618,5 @@ body.is-mobile .desktop-only { display:none; }
   try{ refresh(); }catch(e){ console.error('refresh',e); }
 })();
 </script>
-=======
-
-```
-  w.document.close();
-} else {
-  // 팝업이 막혔거나 PDF인 경우: 현재 창에서 열기
-  const a=document.createElement('a'); a.href=dataUrl; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
-}
-```
-
-}
-
-async function exportJPG(el,fn){ const c=await renderCanvas(el); saveDataUrl(c.toDataURL(‘image/jpeg’,0.95), fn, ‘image/jpeg’); }
-async function buildPDF(){
-const { jsPDF }=window.jspdf;
-const cf=await renderCanvas($(‘card-front’)); const cb=await renderCanvas($(‘card-back’));
-const pdf=new jsPDF({orientation:‘portrait’,unit:‘mm’,format:‘a5’}); const w=148,h=210;
-pdf.addImage(cf.toDataURL(‘image/jpeg’,0.95),‘JPEG’,0,0,w,h); pdf.addPage();
-pdf.addImage(cb.toDataURL(‘image/jpeg’,0.95),‘JPEG’,0,0,w,h); return pdf;
-}
-$(‘dl-front’).addEventListener(‘click’,()=>exportJPG($(‘card-front’),`${safeName()}_front.jpg`));
-$(‘dl-back’).addEventListener(‘click’,()=>exportJPG($(‘card-back’),`${safeName()}_back.jpg`));
-
-$(‘dl-a4’).addEventListener(‘click’,async()=>{
-const cf=await renderCanvas($(‘card-front’));
-const cb=await renderCanvas($(‘card-back’));
-// A4 가로 297x210mm @300dpi = 3508x2480px, A5 절반 = 1754x2480
-const A4W=3508, A4H=2480, HALF=A4W/2;
-const out=document.createElement(‘canvas’); out.width=A4W; out.height=A4H;
-const ctx=out.getContext(‘2d’);
-ctx.fillStyle=’#ffffff’; ctx.fillRect(0,0,A4W,A4H);
-// 각 카드(5:7)를 A5 영역(1754x2480, 비율 약 0.707)에 가운데 맞춤으로 그림
-function drawCentered(cv, offsetX){
-const areaW=HALF, areaH=A4H;
-const scale=Math.min(areaW/cv.width, areaH/cv.height);
-const w=cv.width*scale, h=cv.height*scale;
-const x=offsetX+(areaW-w)/2, y=(areaH-h)/2;
-ctx.drawImage(cv,x,y,w,h);
-}
-drawCentered(cb, 0);        // 왼쪽: 뒷면
-drawCentered(cf, HALF);     // 오른쪽: 앞면 (접으면 겉면)
-saveDataUrl(out.toDataURL(‘image/jpeg’,0.95), `${safeName()}_A4.jpg`, ‘image/jpeg’);
-});
-function savePDF(pdf, filename){
-if(!isInApp){ pdf.save(filename); return; }
-// 인앱: PDF를 새 창/현재 창에서 열기 (사용자가 공유→저장)
-try{ const url=pdf.output(‘bloburl’); const w=window.open(url,’_blank’); if(!w){ window.location.href=url; } }
-catch(e){ pdf.save(filename); }
-}
-$(‘dl-pdf’).addEventListener(‘click’,async()=>{ const pdf=await buildPDF(); savePDF(pdf, `${safeName()}_compcard.pdf`); });
-$(‘dl-mail’).addEventListener(‘click’,async()=>{
-const pdf=await buildPDF(); savePDF(pdf, `${safeName()}_compcard.pdf`);
-const name=txt(‘p-name’)||’(이름 미입력)’;
-const subject=encodeURIComponent(`[컴카드 제출] ${name}`);
-const body=encodeURIComponent(`안녕하세요, 컴카드를 제출합니다.\n\n이름: ${name}\n키: ${txt('e-height')||'-'}cm\nBWH: ${txt('e-bust')||'-'}-${txt('e-waist')||'-'}-${txt('e-hips')||'-'}\n신발: ${txt('e-shoes')||'-'}mm\n연락처: ${getCC()} ${txt('e-phone')||'-'}\n\n※ 방금 다운로드된 PDF(${safeName()}_compcard.pdf)를 이 메일에 첨부해 보내주세요.`);
-setTimeout(()=>{ window.location.href=`mailto:yoogeeone@gmail.com?subject=${subject}&body=${body}`; },600);
-});
-
-// 화면 크기에 따라 카드 직접편집 on/off (PC는 잠금, 모바일은 편집)
-function applyEditMode(){
-const editable = isMobile();
-document.querySelectorAll(’#card-front .ed, #card-front .editable’).forEach(el=>{
-el.setAttribute(‘contenteditable’, editable ? ‘true’ : ‘false’);
-});
-}
-let _rt;
-window.addEventListener(‘resize’,()=>{ clearTimeout(_rt); _rt=setTimeout(()=>{ applyMobileClass(); applyEditMode(); refresh(); },150); });
-
-try{ renderMain(); }catch(e){ console.error(‘renderMain’,e); }
-try{ buildBackGrid(); }catch(e){ console.error(‘buildBackGrid’,e); }
-try{ applyEditMode(); }catch(e){ console.error(‘applyEditMode’,e); }
-try{ refresh(); }catch(e){ console.error(‘refresh’,e); }
-})();
-</script>
-
->>>>>>> dd741ba80a4eed01e7b3d0325a299bfbc663d9a0
 </body>
 </html>
