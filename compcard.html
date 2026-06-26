@@ -531,10 +531,12 @@
   }
 
   const safeName=()=>{ const n=txt('p-name'); return (n?n.replace(/\s+/g,'_'):'compcard'); };
-  async function renderCanvas(el){
+  async function renderCanvas(el, targetW){
     el.classList.add('capture-mode');
     el.querySelectorAll('.zoomctrl,.replace-btn').forEach(z=>z.style.visibility='hidden');
-    const canvas = await html2canvas(el,{ scale:Math.max(1240/el.offsetWidth,3), backgroundColor:'#ffffff', useCORS:true, logging:false });
+    // targetW(목표 가로 px)가 주어지면 그 폭이 나오도록 배율 계산, 최소 3배 보장
+    const scale = targetW ? Math.max(targetW/el.offsetWidth, 2) : Math.max(1240/el.offsetWidth,3);
+    const canvas = await html2canvas(el,{ scale:scale, backgroundColor:'#ffffff', useCORS:true, logging:false });
     el.querySelectorAll('.zoomctrl,.replace-btn').forEach(z=>z.style.visibility='visible');
     el.classList.remove('capture-mode');
     return canvas;
@@ -556,20 +558,22 @@
     }
   }
 
-  async function exportJPG(el,fn){ const c=await renderCanvas(el); saveDataUrl(c.toDataURL('image/jpeg',0.95), fn, 'image/jpeg'); }
+  // 앞/뒤 단일 JPG: 인스타 권장 세로(1350)에 맞춰 가로 약 1200 목표
+  async function exportJPG(el,fn){ const c=await renderCanvas(el, 1200); saveDataUrl(c.toDataURL('image/jpeg',0.92), fn, 'image/jpeg'); }
   async function buildPDF(){
     const { jsPDF }=window.jspdf;
-    const cf=await renderCanvas($('card-front')); const cb=await renderCanvas($('card-back'));
+    // PDF: A5 비율 유지 + 고해상도(300dpi 인쇄용 ≈ 가로 1748px), 고품질
+    const cf=await renderCanvas($('card-front'), 1748); const cb=await renderCanvas($('card-back'), 1748);
     const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a5'}); const w=148,h=210;
-    pdf.addImage(cf.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h); pdf.addPage();
-    pdf.addImage(cb.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h); return pdf;
+    pdf.addImage(cf.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h,undefined,'SLOW'); pdf.addPage();
+    pdf.addImage(cb.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h,undefined,'SLOW'); return pdf;
   }
   $('dl-front').addEventListener('click',()=>exportJPG($('card-front'),`${safeName()}_front.jpg`));
   $('dl-back').addEventListener('click',()=>exportJPG($('card-back'),`${safeName()}_back.jpg`));
 
   $('dl-a4').addEventListener('click',async()=>{
-    const cf=await renderCanvas($('card-front'));
-    const cb=await renderCanvas($('card-back'));
+    const cf=await renderCanvas($('card-front'), 1754);
+    const cb=await renderCanvas($('card-back'), 1754);
     // A4 가로 297x210mm @300dpi = 3508x2480px, A5 절반 = 1754x2480
     const A4W=3508, A4H=2480, HALF=A4W/2;
     const out=document.createElement('canvas'); out.width=A4W; out.height=A4H;
