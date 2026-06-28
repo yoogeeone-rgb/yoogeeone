@@ -6,25 +6,35 @@
 <title>Comp Card Generator — Sunset Blvd</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Noto+Sans+KR:wght@500;700;900&family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+KR:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&display=swap" rel="stylesheet">
+<script>
+  // 세리프 폰트는 '세리프' 선택 시에만 로드 (초기 로딩 가볍게)
+  window.loadSerifFonts = function(){
+    if(window._serifLoaded) return; window._serifLoaded = true;
+    const l=document.createElement('link'); l.rel='stylesheet';
+    l.href='https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+KR:wght@500;600;700&display=swap';
+    document.head.appendChild(l);
+  };
+</script>
 <style>
   :root { --bg:#fff; --ink:#0a0a0a; --muted:#6b6b6b; --line:#e2e2e2;
-          --card-display:'Archivo','Noto Sans KR',sans-serif;
-          --card-body:'Archivo','Noto Sans KR',sans-serif; }
+          --card-display:'Archivo','Apple SD Gothic Neo','Malgun Gothic','Pretendard',sans-serif;
+          --card-body:'Archivo','Apple SD Gothic Neo','Malgun Gothic','Pretendard',sans-serif; }
   * { box-sizing:border-box; margin:0; padding:0; }
-  body { background:#f4f3f0; color:var(--ink); font-family:'Archivo','Noto Sans KR','Apple SD Gothic Neo',sans-serif; font-weight:500; line-height:1.6; padding:32px 20px 80px; }
+  body { background:#f4f3f0; color:var(--ink); font-family:'Archivo','Apple SD Gothic Neo','Malgun Gothic','Pretendard',sans-serif; font-weight:500; line-height:1.6; padding:32px 20px 80px; }
   .wrap { max-width:1100px; margin:0 auto; }
   header.top { text-align:center; margin-bottom:8px; }
   header.top .brand { font-weight:700; font-size:13px; letter-spacing:0.35em; text-transform:uppercase; color:var(--muted); }
   header.top h1 { font-weight:800; font-size:34px; letter-spacing:-0.01em; margin-top:4px; }
   header.top p { color:var(--muted); font-size:13px; margin-top:6px; }
+  header.top p.subnote { font-size:11px; color:#a8a8a8; margin-top:3px; }
   .layout { display:grid; grid-template-columns:360px 1fr; gap:32px; margin-top:32px; align-items:start; }
   @media (max-width:1024px){
-    .layout { grid-template-columns:1fr; display:flex; flex-direction:column; }
+    .layout { grid-template-columns:1fr; display:flex; flex-direction:column; align-items:stretch; }
     .layout > div:first-child { display:contents; }
-    .layout > div:first-child > .panel { margin-top:16px; margin-left:10px; margin-right:10px; }
+    .layout > div:first-child > .panel { margin-top:16px; margin-left:4px; margin-right:4px; width:auto; align-self:stretch; box-sizing:border-box; }
     .preview-col { order:50; margin-top:16px; gap:24px; }
-    #save-panel { order:100; }
+    #save-panel { order:100; width:auto; align-self:stretch; box-sizing:border-box; }
     body { padding:20px 0 60px; }
     .wrap { padding:0; }
     header.top { padding:0 10px; }
@@ -32,12 +42,12 @@
     .card { border-radius:0; border-left:none; border-right:none; box-shadow:0 2px 16px rgba(0,0,0,0.10); }
   }
   /* JS가 모바일로 판정하면 폭과 무관하게 모바일 레이아웃 적용 */
-  body.is-mobile .layout { grid-template-columns:1fr; display:flex; flex-direction:column; gap:0; width:100%; }
+  body.is-mobile .layout { grid-template-columns:1fr; display:flex; flex-direction:column; gap:0; width:100%; align-items:stretch; }
   body.is-mobile .layout > div:first-child { display:contents; }
-  body.is-mobile .layout > div:first-child > .panel { margin-top:16px; margin-left:10px; margin-right:10px; }
+  body.is-mobile .layout > div:first-child > .panel { margin-top:16px; margin-left:4px; margin-right:4px; width:auto; align-self:stretch; box-sizing:border-box; }
   body.is-mobile .preview-col { order:50; margin:16px 0 0; gap:24px; width:100%; }
   body.is-mobile .preview-block { width:100%; }
-  body.is-mobile #save-panel { order:100; }
+  body.is-mobile #save-panel { order:100; width:auto; align-self:stretch; box-sizing:border-box; }
   body.is-mobile { padding:20px 0 60px; }
   body.is-mobile .wrap { padding:0; max-width:100%; width:100%; }
   body.is-mobile header.top { padding:0 10px; }
@@ -64,6 +74,14 @@
   .seg button.active { background:var(--ink); color:#fff; border-color:var(--ink); }
   .seg button .pf { display:block; font-size:16px; margin-bottom:2px; }
   .seg button .sw { display:inline-block; width:18px; height:18px; border-radius:50%; margin-bottom:4px; vertical-align:middle; }
+  .picker-row { display:flex; gap:10px; margin-top:12px; }
+  .subtitle { font-size:11px; letter-spacing:0.1em; color:var(--muted); font-weight:700; margin-top:16px; }
+  .subtitle + .picker-row { margin-top:8px; }
+  .picker { flex:1; display:flex; align-items:center; justify-content:space-between; gap:8px; border:1px solid var(--line); border-radius:6px; padding:8px 10px; cursor:pointer; }
+  .picker span { font-size:12px; font-weight:700; color:var(--muted); }
+  .picker input[type=color] { width:32px; height:32px; border:none; background:none; padding:0; cursor:pointer; }
+  .picker input[type=color]::-webkit-color-swatch-wrapper { padding:0; }
+  .picker input[type=color]::-webkit-color-swatch { border:1px solid var(--line); border-radius:5px; }
   /* 카드 배경 모드: 색상 변수 정의 (기본 라이트) */
   .card { --c-bg:#ffffff; --c-ink:#0a0a0a; --c-muted:#6b6b6b; --c-line:#e2e2e2; --c-ph:#bdbdbd; --c-imgbg:#f0eeea; }
   .card.bg-gray { --c-bg:#dddddd; --c-ink:#1a1917; --c-muted:#777; --c-line:#b5b5b5; --c-ph:#aaaaaa; --c-imgbg:#cccccc; }
@@ -157,7 +175,8 @@
   <header class="top">
     <div class="brand">Studio 석양대로</div>
     <h1>Comp Card Generator</h1>
-    <p>사진을 올리고 정보를 입력하면 앞면·뒷면 컴카드를 JPG / PDF로 저장합니다</p>
+    <p>정보를 입력하고 사진을 추가하면 컴카드가 완성됩니다.</p>
+    <p class="subnote">입력 정보는 서버로 전송되지 않고 브라우저 내에서만 처리됩니다.</p>
   </header>
   <div id="inapp-banner" style="display:none; margin:0 auto 4px; max-width:1100px; background:#fff3cd; border:1px solid #f0d98c; color:#664d03; border-radius:8px; padding:12px 14px; font-size:13px; line-height:1.6;">
     저장이 막히는 인앱 브라우저입니다. 오른쪽 위 <b>···</b> 메뉴 → <b>Safari(또는 Chrome)로 열기</b>를 누르면 저장이 정상 작동합니다.
@@ -174,8 +193,12 @@
         <h2 style="margin-top:18px;">배경 색상</h2>
         <div class="seg" id="bg-seg">
           <button data-bg="light" class="active"><span class="sw" style="background:#ffffff;border:1px solid #ddd;"></span>라이트</button>
-          <button data-bg="gray"><span class="sw" style="background:#dddddd;"></span>라이트그레이</button>
           <button data-bg="dark"><span class="sw" style="background:#343434;"></span>다크</button>
+        </div>
+        <div class="subtitle">직접 선택 메뉴</div>
+        <div class="picker-row">
+          <label class="picker"><span>배경색</span><input type="color" id="pick-bg" value="#ffffff"></label>
+          <label class="picker"><span>텍스트색</span><input type="color" id="pick-ink" value="#0a0a0a"></label>
         </div>
       </div>
 
@@ -254,10 +277,8 @@
       <div class="panel actions" id="save-panel" style="margin-top:20px;">
         <button class="dl" id="dl-front">앞면 JPG 저장</button>
         <button class="dl" id="dl-back">뒷면 JPG 저장</button>
-        <button class="dl" id="dl-a4">A4 한 장 JPG 저장 (앞+뒤)</button>
+        <button class="dl" id="dl-a4">한 장으로 저장</button>
         <button class="dl ghost" id="dl-pdf">앞·뒤 묶어 PDF 저장</button>
-        <button class="dl mail" id="dl-mail">스튜디오로 제출하기</button>
-        <p class="mailnote">PDF가 다운로드되고 yoogeeone@gmail.com 수신 메일창이 열립니다. 받은 PDF를 첨부해 보내주세요.</p>
       </div>
     </div>
 
@@ -301,8 +322,31 @@
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  // 저장 라이브러리 지연 로딩: 첫 화면을 빠르게, 라이브러리는 백그라운드/필요 시 로드
+  (function(){
+    const SRC = {
+      html2canvas: 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+      jspdf: 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
+    };
+    const loaded = {};
+    function load(key){
+      if(loaded[key]) return loaded[key];
+      loaded[key] = new Promise((res,rej)=>{
+        const s=document.createElement('script'); s.src=SRC[key]; s.async=true;
+        s.onload=res; s.onerror=()=>rej(new Error(key+' load failed'));
+        document.head.appendChild(s);
+      });
+      return loaded[key];
+    }
+    // 둘 다 준비 보장 (저장 직전 호출)
+    window.ensureSaveLibs = function(){ return Promise.all([load('html2canvas'), load('jspdf')]); };
+    // 한가할 때 미리 받아둠
+    function preload(){ load('html2canvas'); load('jspdf'); }
+    if('requestIdleCallback' in window){ requestIdleCallback(preload,{timeout:3000}); }
+    else { setTimeout(preload, 1500); }
+  })();
+</script>
 <script>
 (function(){
   const $ = id => document.getElementById(id);
@@ -489,21 +533,50 @@
     document.querySelectorAll('#font-seg button').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     const serif = btn.getAttribute('data-font')==='serif';
+    if(serif && window.loadSerifFonts){ window.loadSerifFonts(); }
     $('card-front').classList.toggle('serif',serif);
     $('card-back').classList.toggle('serif',serif);
   });
 
-  // 배경 색상 토글
+  // 배경 색상 토글 (프리셋)
+  const BG_PRESET = {
+    light:{ bg:'#ffffff', ink:'#0a0a0a' },
+    dark:{ bg:'#343434', ink:'#ffffff' }
+  };
+  function applyCardColors(bg, ink){
+    [$('card-front'),$('card-back')].forEach(c=>{
+      c.classList.remove('bg-light','bg-gray','bg-dark');
+      c.style.setProperty('--c-bg', bg);
+      c.style.setProperty('--c-ink', ink);
+      // 부속 색 자동 계산: 배경과 텍스트를 섞어 muted/line/placeholder/이미지칸 생성
+      c.style.setProperty('--c-muted', mix(ink, bg, 0.45));
+      c.style.setProperty('--c-line', mix(ink, bg, 0.78));
+      c.style.setProperty('--c-ph', mix(ink, bg, 0.62));
+      c.style.setProperty('--c-imgbg', mix(bg, ink, 0.90));
+    });
+  }
+  // 두 hex 색을 비율(t: 0=c1, 1=c2)로 혼합
+  function mix(c1, c2, t){
+    const h=x=>{ x=x.replace('#',''); if(x.length===3)x=x.split('').map(s=>s+s).join(''); return [parseInt(x.slice(0,2),16),parseInt(x.slice(2,4),16),parseInt(x.slice(4,6),16)]; };
+    const a=h(c1), b=h(c2);
+    const r=Math.round(a[0]+(b[0]-a[0])*t), g=Math.round(a[1]+(b[1]-a[1])*t), bl=Math.round(a[2]+(b[2]-a[2])*t);
+    return `rgb(${r},${g},${bl})`;
+  }
   $('bg-seg').addEventListener('click',e=>{
     const btn=e.target.closest('button'); if(!btn) return;
     document.querySelectorAll('#bg-seg button').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    const mode = btn.getAttribute('data-bg'); // light/gray/dark
-    [$('card-front'),$('card-back')].forEach(c=>{
-      c.classList.remove('bg-light','bg-gray','bg-dark');
-      c.classList.add('bg-'+mode);
-    });
+    const p = BG_PRESET[btn.getAttribute('data-bg')];
+    applyCardColors(p.bg, p.ink);
+    $('pick-bg').value=p.bg; $('pick-ink').value=p.ink;
   });
+  // 직접 선택 컬러피커
+  function fromPickers(){
+    document.querySelectorAll('#bg-seg button').forEach(b=>b.classList.remove('active'));
+    applyCardColors($('pick-bg').value, $('pick-ink').value);
+  }
+  $('pick-bg').addEventListener('input',fromPickers);
+  $('pick-ink').addEventListener('input',fromPickers);
 
   // 파일 선택 트리거 (칸 클릭 시)
   function pickFile(cb){
@@ -556,6 +629,7 @@
 
   const safeName=()=>{ const n=txt('p-name'); return (n?n.replace(/\s+/g,'_'):'compcard'); };
   async function renderCanvas(el, targetW){
+    if(window.ensureSaveLibs){ await window.ensureSaveLibs(); }
     el.classList.add('capture-mode');
     el.querySelectorAll('.zoomctrl,.replace-btn').forEach(z=>z.style.visibility='hidden');
     // targetW(목표 가로 px)가 주어지면 그 폭이 나오도록 배율 계산, 최소 2배 보장
@@ -575,7 +649,7 @@
   function showImageForSave(dataUrl, filename){
     const w=window.open('','_blank');
     if(w){
-      w.document.write(`<html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>${filename}</title><style>body{margin:0;background:#111;display:flex;flex-direction:column;align-items:center;font-family:-apple-system,sans-serif}p{color:#fff;font-size:15px;padding:16px;text-align:center;line-height:1.7}b{color:#ffd84d}img{max-width:100%;height:auto;display:block}</style></head><body><p>아래 이미지를 <b>길게 누른 뒤</b><br><b>'사진에 추가(이미지 저장)'</b>를 선택하세요.</p><img src="${dataUrl}"></body></html>`);
+      w.document.write(`<html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>${filename}</title><style>body{margin:0;background:#111;display:flex;flex-direction:column;align-items:center;font-family:-apple-system,sans-serif}p{color:#fff;font-size:15px;padding:16px 16px 8px;text-align:center;line-height:1.7}b{color:#ffd84d}img{max-width:100%;height:auto;display:block}button{margin:16px 0 24px;padding:12px 28px;border:none;border-radius:8px;background:#fff;color:#111;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer}</style></head><body><p>아래 이미지를 <b>길게 누른 뒤</b><br><b>'사진에 추가(이미지 저장)'</b>를 선택하세요.</p><img src="${dataUrl}"><button onclick="window.close()">닫기</button></body></html>`);
       w.document.close();
       return true;
     }
@@ -607,6 +681,7 @@
   // 앞/뒤 단일 JPG: 인스타 권장 세로(1350)에 맞춰 가로 약 1200 목표
   async function exportJPG(el,fn){ const c=await renderCanvas(el, 1200); saveDataUrl(c.toDataURL('image/jpeg',0.92), fn, 'image/jpeg'); }
   async function buildPDF(){
+    if(window.ensureSaveLibs){ await window.ensureSaveLibs(); }
     const { jsPDF }=window.jspdf;
     // PDF: A5 비율 유지 + 고해상도(300dpi 인쇄용 ≈ 가로 1748px), 고품질
     const cf=await renderCanvas($('card-front'), 1748); const cb=await renderCanvas($('card-back'), 1748);
@@ -614,10 +689,16 @@
     pdf.addImage(cf.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h,undefined,'SLOW'); pdf.addPage();
     pdf.addImage(cb.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h,undefined,'SLOW'); return pdf;
   }
-  $('dl-front').addEventListener('click',()=>exportJPG($('card-front'),`${safeName()}_front.jpg`));
-  $('dl-back').addEventListener('click',()=>exportJPG($('card-back'),`${safeName()}_back.jpg`));
+  // 저장 중 표시 래퍼
+  async function withBusy(btn, fn){
+    const orig=btn.textContent;
+    btn.disabled=true; btn.dataset.orig=orig; btn.textContent='저장 중…';
+    try{ await fn(); } finally { btn.disabled=false; btn.textContent=btn.dataset.orig; }
+  }
+  $('dl-front').addEventListener('click',e=>withBusy(e.currentTarget,()=>exportJPG($('card-front'),`${safeName()}_front.jpg`)));
+  $('dl-back').addEventListener('click',e=>withBusy(e.currentTarget,()=>exportJPG($('card-back'),`${safeName()}_back.jpg`)));
 
-  $('dl-a4').addEventListener('click',async()=>{
+  $('dl-a4').addEventListener('click',e=>withBusy(e.currentTarget,async()=>{
     const cf=await renderCanvas($('card-front'), 1754);
     const cb=await renderCanvas($('card-back'), 1754);
     // A4 가로 297x210mm @300dpi = 3508x2480px, A5 절반 = 1754x2480
@@ -625,7 +706,6 @@
     const out=document.createElement('canvas'); out.width=A4W; out.height=A4H;
     const ctx=out.getContext('2d');
     ctx.fillStyle=getComputedStyle($('card-front')).backgroundColor||'#ffffff'; ctx.fillRect(0,0,A4W,A4H);
-    // 각 카드(5:7)를 A5 영역(1754x2480, 비율 약 0.707)에 가운데 맞춤으로 그림
     function drawCentered(cv, offsetX){
       const areaW=HALF, areaH=A4H;
       const scale=Math.min(areaW/cv.width, areaH/cv.height);
@@ -636,21 +716,14 @@
     drawCentered(cf, 0);        // 왼쪽: 앞면
     drawCentered(cb, HALF);     // 오른쪽: 뒷면
     saveDataUrl(out.toDataURL('image/jpeg',0.95), `${safeName()}_A4.jpg`, 'image/jpeg');
-  });
+  }));
   function savePDF(pdf, filename){
     if(!isInApp){ pdf.save(filename); return; }
     // 인앱: PDF를 새 창/현재 창에서 열기 (사용자가 공유→저장)
     try{ const url=pdf.output('bloburl'); const w=window.open(url,'_blank'); if(!w){ window.location.href=url; } }
     catch(e){ pdf.save(filename); }
   }
-  $('dl-pdf').addEventListener('click',async()=>{ const pdf=await buildPDF(); savePDF(pdf, `${safeName()}_compcard.pdf`); });
-  $('dl-mail').addEventListener('click',async()=>{
-    const pdf=await buildPDF(); savePDF(pdf, `${safeName()}_compcard.pdf`);
-    const name=txt('p-name')||'(이름 미입력)';
-    const subject=encodeURIComponent(`[컴카드 제출] ${name}`);
-    const body=encodeURIComponent(`안녕하세요, 컴카드를 제출합니다.\n\n이름: ${name}\n키: ${txt('e-height')||'-'}cm\nBWH: ${txt('e-bust')||'-'}-${txt('e-waist')||'-'}-${txt('e-hips')||'-'}\n신발: ${txt('e-shoes')||'-'}mm\n연락처: ${getCC()} ${txt('e-phone')||'-'}\n\n※ 방금 다운로드된 PDF(${safeName()}_compcard.pdf)를 이 메일에 첨부해 보내주세요.`);
-    setTimeout(()=>{ window.location.href=`mailto:yoogeeone@gmail.com?subject=${subject}&body=${body}`; },600);
-  });
+  $('dl-pdf').addEventListener('click',e=>withBusy(e.currentTarget,async()=>{ const pdf=await buildPDF(); savePDF(pdf, `${safeName()}_compcard.pdf`); }));
 
   // 화면 크기에 따라 카드 직접편집 on/off (PC는 잠금, 모바일은 편집)
   function applyEditMode(){
