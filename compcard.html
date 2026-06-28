@@ -73,7 +73,7 @@
   .seg button { flex:1; padding:10px; border:1px solid var(--line); border-radius:6px; background:#fff; cursor:pointer; font-family:inherit; font-size:13px; font-weight:700; color:var(--muted); transition:all .15s; }
   .seg button.active { background:var(--ink); color:#fff; border-color:var(--ink); }
   .seg button .pf { display:block; font-size:16px; margin-bottom:2px; }
-  .seg button .sw { display:inline-block; width:18px; height:18px; border-radius:50%; margin-bottom:4px; vertical-align:middle; }
+  .seg button .sw { display:inline-block; width:18px; height:18px; border-radius:50%; margin-bottom:4px; margin-right:12px; vertical-align:middle; }
   .picker-row { display:flex; gap:10px; margin-top:12px; }
   .subtitle { font-size:11px; letter-spacing:0.1em; color:var(--muted); font-weight:700; margin-top:16px; }
   .subtitle + .picker-row { margin-top:8px; }
@@ -195,7 +195,7 @@
           <button data-bg="light" class="active"><span class="sw" style="background:#ffffff;border:1px solid #ddd;"></span>라이트</button>
           <button data-bg="dark"><span class="sw" style="background:#343434;"></span>다크</button>
         </div>
-        <div class="subtitle">직접 선택 메뉴</div>
+        <div class="subtitle">직접 선택</div>
         <div class="picker-row">
           <label class="picker"><span>배경색</span><input type="color" id="pick-bg" value="#ffffff"></label>
           <label class="picker"><span>텍스트색</span><input type="color" id="pick-ink" value="#0a0a0a"></label>
