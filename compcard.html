@@ -115,11 +115,11 @@
   .card.serif { --card-display:'Cormorant Garamond','Noto Serif KR',serif; --card-body:'Noto Serif KR','Cormorant Garamond',serif; }
 
   /* FRONT — reference-style header */
-  .f-head { border-top:5px solid var(--c-ink); border-bottom:5px solid var(--c-ink); padding:3.5% 0; display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .f-head { border-top:4px solid var(--c-ink); border-bottom:4px solid var(--c-ink); padding:4.5% 0; display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
   .f-left { flex:1; min-width:0; }
-  .f-name { font-family:var(--card-display); font-weight:900; font-size:clamp(22px,6.6vw,40px); line-height:1; letter-spacing:-0.02em; text-transform:uppercase; color:var(--c-ink); border-bottom:2.5px solid var(--c-ink); padding-bottom:6px; display:inline-block; }
+  .f-name { font-family:var(--card-display); font-weight:900; font-size:clamp(24px,7vw,44px); line-height:1; letter-spacing:-0.02em; text-transform:uppercase; color:var(--c-ink); border-bottom:1px solid var(--c-ink); padding-bottom:8px; display:inline-block; }
   .card.serif .f-name { font-weight:700; letter-spacing:0; }
-  .f-headspec { font-family:var(--card-body); font-size:clamp(8px,1.95vw,11px); color:var(--c-ink); margin-top:3%; line-height:1.65; letter-spacing:0; font-weight:500; }
+  .f-headspec { font-family:var(--card-body); font-size:clamp(8px,1.95vw,11px); color:var(--c-ink); margin-top:1.5%; line-height:1.5; letter-spacing:0; font-weight:400; }
   .f-headspec .lbl { color:var(--c-muted); font-weight:700; white-space:nowrap; }
   .f-headspec .unit { color:var(--c-ink); }
   .ed, .editable { outline:none; cursor:text; border-radius:2px; transition:background .12s; display:inline-block; min-width:0.6em; color:var(--c-ink); }
@@ -131,9 +131,9 @@
   .f-contact { text-align:left; min-width:fit-content; }
   .f-contact .ctitle { font-family:var(--card-display); font-weight:800; font-size:clamp(9px,2vw,12px); margin-bottom:5px; color:var(--c-ink); }
   .card.serif .f-contact .ctitle { font-weight:700; }
-  .f-contact .crow { font-family:var(--card-body); font-size:clamp(7.5px,1.7vw,9.5px); color:var(--c-ink); line-height:1.9; white-space:nowrap; font-weight:500; }
+  .f-contact .crow { font-family:var(--card-body); font-size:clamp(7.5px,1.7vw,9.5px); color:var(--c-ink); line-height:1.55; white-space:nowrap; font-weight:400; }
   .f-contact .crow b { display:inline-block; width:1.4em; font-weight:800; }
-  .f-main { flex:1; margin-top:5%; background:var(--c-imgbg); overflow:hidden; display:flex; align-items:center; justify-content:center; position:relative; }
+  .f-main { flex:1; margin-top:4%; background:var(--c-imgbg); overflow:hidden; display:flex; align-items:center; justify-content:center; position:relative; }
   .zoomctrl { position:absolute; left:8px; right:8px; bottom:8px; z-index:10; display:flex; align-items:center; }
   .zslider { width:100%; height:4px; -webkit-appearance:none; appearance:none; background:rgba(255,255,255,0.55); border-radius:3px; outline:none; cursor:pointer; margin:0; padding:0; }
   .zslider::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:16px; height:16px; border-radius:50%; background:#fff; border:2px solid #0a0a0a; cursor:pointer; }
@@ -277,7 +277,6 @@
             <option value="1">1장</option>
             <option value="4" selected>4장 (권장)</option>
             <option value="6">6장</option>
-            <option value="8">8장</option>
           </select>
         </div>
         <p class="note">오른쪽 미리보기에서 사진 칸을 누르면 업로드됩니다. 세로 사진(3:4 비율) 권장.</p>
@@ -410,6 +409,20 @@
     p.ty = Math.max(-maxY, Math.min(maxY, p.ty));
   }
 
+  // 사진 구도 드래그: 전역 상태 1개 + window 리스너 1쌍만 사용 (칸마다 달지 않음)
+  let activeDrag=null;
+  window.addEventListener('mousemove',e=>{
+    if(!activeDrag) return;
+    activeDrag.p.tx = activeDrag.otx + (e.clientX - activeDrag.sx);
+    activeDrag.p.ty = activeDrag.oty + (e.clientY - activeDrag.sy);
+    clampOffset(activeDrag.wrap, activeDrag.p);
+    applyTransform(activeDrag.imgEl, activeDrag.p, activeDrag.wrap);
+    e.preventDefault();
+  });
+  window.addEventListener('mouseup',()=>{
+    if(activeDrag){ activeDrag.imgEl.style.cursor='grab'; activeDrag=null; }
+  });
+
   function makeEditable(wrap, imgEl, p){
     wrap.style.position='relative'; wrap.style.overflow='hidden';
     imgEl.style.position='absolute';
@@ -435,23 +448,25 @@
     slider.addEventListener('mousedown',e=>e.stopPropagation());
     slider.addEventListener('touchstart',e=>e.stopPropagation(),{passive:false});
 
-    // drag to move (pixel based)
-    let dragging=false, sx=0, sy=0, otx=0, oty=0;
-    function down(e){ if(reorderMode) return; if(e.target.classList.contains('zslider'))return; dragging=true; imgEl.style.cursor='grabbing'; const q=e.touches?e.touches[0]:e; sx=q.clientX; sy=q.clientY; otx=p.tx; oty=p.ty; e.preventDefault(); }
-    function move(e){
-      if(!dragging) return; const q=e.touches?e.touches[0]:e;
-      p.tx = otx + (q.clientX - sx);
-      p.ty = oty + (q.clientY - sy);
-      clampOffset(wrap,p);
-      applyTransform(imgEl,p,wrap); e.preventDefault();
+    // drag to move (pixel based) — 전역 공유 핸들러 사용 (리스너 누수 방지)
+    function down(e){
+      if(reorderMode) return; if(e.target.classList.contains('zslider'))return;
+      const q=e.touches?e.touches[0]:e;
+      activeDrag={ imgEl, p, wrap, sx:q.clientX, sy:q.clientY, otx:p.tx, oty:p.ty };
+      imgEl.style.cursor='grabbing'; e.preventDefault();
     }
-    function up(){ dragging=false; imgEl.style.cursor='grab'; }
     imgEl.addEventListener('mousedown',down);
-    window.addEventListener('mousemove',move); window.addEventListener('mouseup',up);
 
-    // touch: drag + pinch zoom
+    // touch: drag + pinch zoom (터치는 wrap 단위라 누수 없음)
     let pinch=false, startDist=0, startZ=1;
     function dist(t){ const dx=t[0].clientX-t[1].clientX, dy=t[0].clientY-t[1].clientY; return Math.hypot(dx,dy); }
+    function tMove(e){
+      if(!activeDrag || activeDrag.wrap!==wrap) return;
+      const q=e.touches[0];
+      activeDrag.p.tx = activeDrag.otx + (q.clientX - activeDrag.sx);
+      activeDrag.p.ty = activeDrag.oty + (q.clientY - activeDrag.sy);
+      clampOffset(wrap,activeDrag.p); applyTransform(activeDrag.imgEl,activeDrag.p,wrap); e.preventDefault();
+    }
     wrap.addEventListener('touchstart',e=>{
       if(reorderMode) return;
       if(e.target.classList.contains('zslider')) return;
@@ -460,11 +475,11 @@
     },{passive:false});
     wrap.addEventListener('touchmove',e=>{
       if(pinch && e.touches.length===2){ const r=dist(e.touches)/startDist; p.z=clampZ(Math.round(startZ*r*100)/100); slider.value=p.z; clampOffset(wrap,p); applyTransform(imgEl,p,wrap); e.preventDefault(); }
-      else { move(e); }
+      else { tMove(e); }
     },{passive:false});
-    wrap.addEventListener('touchend',e=>{ if(e.touches.length<2) pinch=false; up(); });
+    wrap.addEventListener('touchend',e=>{ if(e.touches.length<2) pinch=false; if(activeDrag&&activeDrag.wrap===wrap){ activeDrag.imgEl.style.cursor='grab'; activeDrag=null; } });
   }
-  const GRID = { 1:{cols:1,rows:1},4:{cols:2,rows:2},6:{cols:2,rows:3},8:{cols:2,rows:4} };
+  const GRID = { 1:{cols:1,rows:1},4:{cols:2,rows:2},6:{cols:3,rows:2} };
   let reorderMode = false;  // 순서 변경 모드 on/off
 
   const _mm = q => { try { return !!(window.matchMedia && window.matchMedia(q).matches); } catch(e){ return false; } };
@@ -785,11 +800,12 @@
 
   // 앞/뒤 단일 JPG: 인스타 권장 세로(1350)에 맞춰 가로 약 1200 목표
   async function exportJPG(el,fn){ const c=await renderCanvas(el, 1200); saveDataUrl(c.toDataURL('image/jpeg',0.92), fn, 'image/jpeg'); }
-  async function buildPDF(){
+  async function buildPDF(preCf, preCb){
     if(window.ensureSaveLibs){ await window.ensureSaveLibs(); }
     const { jsPDF }=window.jspdf;
-    // PDF: A5 비율 유지 + 고해상도(300dpi 인쇄용 ≈ 가로 1748px), 고품질
-    const cf=await renderCanvas($('card-front'), 1748); const cb=await renderCanvas($('card-back'), 1748);
+    // PDF: A5 비율 유지 + 고해상도(≈1748px). 미리 렌더된 캔버스가 있으면 재사용
+    const cf=preCf||await renderCanvas($('card-front'), 1748);
+    const cb=preCb||await renderCanvas($('card-back'), 1748);
     const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a5'}); const w=148,h=210;
     pdf.addImage(cf.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h,undefined,'SLOW'); pdf.addPage();
     pdf.addImage(cb.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h,undefined,'SLOW'); return pdf;
