@@ -98,6 +98,8 @@
   button.dl { width:100%; padding:13px; border:none; border-radius:6px; background:var(--ink); color:#fff; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; cursor:pointer; font-family:inherit; font-weight:700; transition:opacity .15s; }
   button.dl:hover { opacity:0.82; }
   button.dl.ghost { background:#fff; color:var(--ink); border:1px solid var(--ink); }
+  button.dl.submit { background:#1a5c3a; }
+  button.dl.submit:disabled { opacity:0.6; cursor:default; }
   button.dl.mail { background:#1a5c3a; }
   .preview-col { display:flex; flex-direction:column; gap:24px; }
   .preview-block .plabel { font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; font-weight:700; }
@@ -279,6 +281,8 @@
         <button class="dl" id="dl-back">뒷면 JPG 저장</button>
         <button class="dl" id="dl-a4">한 장으로 저장</button>
         <button class="dl ghost" id="dl-pdf">앞·뒤 묶어 PDF 저장</button>
+        <button class="dl submit" id="dl-submit">스튜디오로 제출</button>
+        <p class="mailnote" id="submit-note">앞·뒷면 이미지가 스튜디오로 바로 전송됩니다.</p>
       </div>
     </div>
 
@@ -724,6 +728,48 @@
     catch(e){ pdf.save(filename); }
   }
   $('dl-pdf').addEventListener('click',e=>withBusy(e.currentTarget,async()=>{ const pdf=await buildPDF(); savePDF(pdf, `${safeName()}_compcard.pdf`); }));
+
+  // 스튜디오로 제출 (Google Apps Script 웹앱 → 드라이브 저장)
+  const SUBMIT_URL = 'https://script.google.com/macros/s/AKfycbwMiFv0N-f4W-kEhapKTslL62GiMk3v5_nnH7X0N9OX5yvvmG6YymrcrmFzRQTvnJyt/exec';
+  const SUBMIT_KEY = '910909';
+  $('dl-submit').addEventListener('click',e=>withBusy(e.currentTarget,async()=>{
+    const note=$('submit-note');
+    try{
+      // 앞/뒤 이미지를 dataURL로 생성 (인스타 해상도)
+      const cf=await renderCanvas($('card-front'), 1200);
+      const cb=await renderCanvas($('card-back'), 1200);
+      const nm = txt('p-name') || 'noname';
+      const info =
+        `이름: ${txt('p-name')||'-'}\n`+
+        `키: ${txt('e-height')||'-'}cm\n`+
+        `BWH: ${txt('e-bust')||'-'}-${txt('e-waist')||'-'}-${txt('e-hips')||'-'}\n`+
+        `신발: ${txt('e-shoes')||'-'}mm\n`+
+        `눈: ${txt('e-eyes')||'-'} / 머리: ${txt('e-hair')||'-'} / 국적: ${txt('e-nat')||'-'}\n`+
+        `전화: ${getCC()} ${txt('e-phone')||'-'}\n`+
+        `이메일: ${txt('e-email')||'-'}\n`+
+        `인스타: ${txt('e-insta')||'-'}\n`+
+        `제출시각: ${new Date().toLocaleString('ko-KR')}`;
+      const payload = {
+        key: SUBMIT_KEY,
+        name: nm,
+        info: info,
+        files: [
+          { filename: `${safeName()}_front.jpg`, dataUrl: cf.toDataURL('image/jpeg',0.9) },
+          { filename: `${safeName()}_back.jpg`,  dataUrl: cb.toDataURL('image/jpeg',0.9) }
+        ]
+      };
+      await fetch(SUBMIT_URL, {
+        method:'POST',
+        mode:'no-cors',
+        headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      // no-cors는 응답을 못 읽으므로 전송 성공으로 간주
+      if(note){ note.textContent='✓ 제출되었습니다. 감사합니다!'; note.style.color='#1a5c3a'; }
+    }catch(err){
+      if(note){ note.textContent='전송에 실패했습니다. 잠시 후 다시 시도해 주세요.'; note.style.color='#b3261e'; }
+    }
+  }));
 
   // 화면 크기에 따라 카드 직접편집 on/off (PC는 잠금, 모바일은 편집)
   function applyEditMode(){
