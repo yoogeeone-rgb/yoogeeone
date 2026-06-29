@@ -1051,6 +1051,17 @@
         key: SUBMIT_KEY,
         name: nm,
         info: info,
+        fields: {
+          name: txt('p-name')||'',
+          height: txt('e-height')||'',
+          bust: txt('e-bust')||'', waist: txt('e-waist')||'', hips: txt('e-hips')||'',
+          shoes: txt('e-shoes')||'',
+          eyes: txt('e-eyes')||'', hair: txt('e-hair')||'', nat: txt('e-nat')||'',
+          phone: (getCC()+' '+(txt('e-phone')||'')).trim(),
+          email: txt('e-email')||'',
+          insta: txt('e-insta')||''
+        },
+        thumbFile: `${safeName()}_front.jpg`,
         files: files
       };
       await fetch(SUBMIT_URL, {
