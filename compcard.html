@@ -822,7 +822,7 @@
     el.querySelectorAll('.zoomctrl,.replace-btn').forEach(z=>z.style.visibility='hidden');
     // targetW(목표 가로 px)가 주어지면 그 폭이 나오도록 배율 계산, 최소 2배 보장
     const scale = targetW ? Math.max(targetW/el.offsetWidth, 2) : Math.max(1240/el.offsetWidth,3);
-    const bg = getComputedStyle(el).backgroundColor || '#ffffff';
+    const bg = cardBg(el);
     const canvas = await html2canvas(el,{ scale:scale, backgroundColor:bg, useCORS:true, logging:false });
     el.querySelectorAll('.zoomctrl,.replace-btn').forEach(z=>z.style.visibility='visible');
     el.classList.remove('capture-mode');
@@ -901,6 +901,13 @@
     await exportJPG($('card-back3'),`${safeName()}_back3.jpg`);
   }));
 
+  // 카드의 실제 배경색을 정확히 반환 (--c-bg 우선, 없으면 computed)
+  function cardBg(el){
+    const v=getComputedStyle(el).getPropertyValue('--c-bg').trim();
+    if(v) return v;
+    const bg=getComputedStyle(el).backgroundColor;
+    return (bg && bg!=='rgba(0, 0, 0, 0)' && bg!=='transparent') ? bg : '#ffffff';
+  }
   // 두 카드를 A4 한 장(왼쪽/오른쪽)으로 합성. 인자 없으면 앞면+뒷면1
   async function buildA4Canvas(leftEl, rightEl){
     leftEl = leftEl || $('card-front');
@@ -910,7 +917,7 @@
     const A4W=3508, A4H=2480, HALF=A4W/2;
     const out=document.createElement('canvas'); out.width=A4W; out.height=A4H;
     const ctx=out.getContext('2d');
-    ctx.fillStyle=getComputedStyle(leftEl).backgroundColor||'#ffffff'; ctx.fillRect(0,0,A4W,A4H);
+    ctx.fillStyle=cardBg(leftEl); ctx.fillRect(0,0,A4W,A4H);
     function drawCentered(cv, offsetX){
       const areaW=HALF, areaH=A4H;
       const scale=Math.min(areaW/cv.width, areaH/cv.height);
