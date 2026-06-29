@@ -115,7 +115,7 @@
   .card.serif { --card-display:'Cormorant Garamond','Noto Serif KR',serif; --card-body:'Noto Serif KR','Cormorant Garamond',serif; }
 
   /* FRONT — reference-style header */
-  .f-head { border-top:4px solid var(--c-ink); border-bottom:4px solid var(--c-ink); padding:4.5% 0; display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .f-head { border-top:4px solid var(--c-ink); border-bottom:4px solid var(--c-ink); padding:2.5% 0; display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
   .f-left { flex:1; min-width:0; }
   .f-name { font-family:var(--card-display); font-weight:900; font-size:clamp(24px,7vw,44px); line-height:1; letter-spacing:-0.02em; text-transform:uppercase; color:var(--c-ink); border-bottom:1px solid var(--c-ink); padding-bottom:8px; display:inline-block; }
   .card.serif .f-name { font-weight:700; letter-spacing:0; }
@@ -270,21 +270,12 @@
         <p class="note">전화번호 등 나머지 정보는 아래 카드의 텍스트를 직접 눌러 입력하세요.</p>
       </div>
 
-      <div class="panel" style="margin-top:20px;">
-        <h2>뒷면 사진 수량</h2>
-        <div class="field">
-          <select id="i-count">
-            <option value="1">1장</option>
-            <option value="4" selected>4장 (권장)</option>
-            <option value="6">6장</option>
-          </select>
-        </div>
-        <p class="note">오른쪽 미리보기에서 사진 칸을 누르면 업로드됩니다. 세로 사진(3:4 비율) 권장.</p>
-      </div>
+      <input type="hidden" id="i-count" value="4">
 
       <div class="panel actions" id="save-panel" style="margin-top:20px;">
         <button class="dl" id="dl-front">앞면 JPG 저장</button>
         <button class="dl" id="dl-back">뒷면 JPG 저장</button>
+        <button class="dl" id="dl-back2" style="display:none;">뒷면 추가 JPG 저장</button>
         <button class="dl" id="dl-a4">한 장으로 저장</button>
         <button class="dl ghost" id="dl-pdf">앞·뒤 묶어 PDF 저장</button>
         <button class="dl submit" id="dl-submit">스튜디오로 제출</button>
@@ -324,6 +315,7 @@
         <div class="plabel" style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
           <span>Back · 뒷면 <span style="text-transform:none;letter-spacing:0;font-weight:500;color:#a8a8a8;">· 여러 장 한 번에 선택 가능</span></span>
           <span style="display:flex; gap:6px;">
+            <button type="button" id="add-back2" class="reorder-btn">＋뒷면 추가</button>
             <button type="button" id="clear-all" class="reorder-btn">전체 삭제</button>
             <button type="button" id="reorder-toggle" class="reorder-btn">순서 변경</button>
           </span>
@@ -331,6 +323,36 @@
         <div class="card" id="card-back">
           <div class="card-inner">
             <div class="b-grid" id="b-grid"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-block back2-group" style="display:none;">
+        <div class="plabel" style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+          <span>Back 2 · 뒷면 추가 <span style="text-transform:none;letter-spacing:0;font-weight:500;color:#a8a8a8;">· 여러 장 한 번에 선택 가능</span></span>
+          <span style="display:flex; gap:6px;">
+            <button type="button" id="clear-all2" class="reorder-btn">전체 삭제</button>
+            <button type="button" id="reorder-toggle2" class="reorder-btn">순서 변경</button>
+          </span>
+        </div>
+        <div class="card" id="card-back2">
+          <div class="card-inner">
+            <div class="b-grid" id="b-grid2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-block back2-group" style="display:none;">
+        <div class="plabel" style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+          <span>Back 3 · 뒷면 추가 <span style="text-transform:none;letter-spacing:0;font-weight:500;color:#a8a8a8;">· 여러 장 한 번에 선택 가능</span></span>
+          <span style="display:flex; gap:6px;">
+            <button type="button" id="clear-all3" class="reorder-btn">전체 삭제</button>
+            <button type="button" id="reorder-toggle3" class="reorder-btn">순서 변경</button>
+          </span>
+        </div>
+        <div class="card" id="card-back3">
+          <div class="card-inner">
+            <div class="b-grid" id="b-grid3"></div>
           </div>
         </div>
       </div>
@@ -368,10 +390,10 @@
   const $ = id => document.getElementById(id);
   const val = (id,fb) => { const v=$(id).value.trim(); return v?v:(fb||''); };
   const dash = v => v?v:'—';
-  const imgData = { main:null, quad:[null,null,null,null,null,null,null,null] };
+  const imgData = { main:null, quad:new Array(12).fill(null) };
   const Z0 = 1.0;
   const mk = ()=>({tx:0,ty:0,z:Z0,nw:0,nh:0});
-  const imgPos = { main:mk(), quad:[mk(),mk(),mk(),mk(),mk(),mk(),mk(),mk()] };
+  const imgPos = { main:mk(), quad:Array.from({length:12},()=>mk()) };
   const ZMIN=1, ZMAX=4;
 
   function forceRepaint(el){
@@ -568,9 +590,13 @@
     btn.classList.add('active');
     const serif = btn.getAttribute('data-font')==='serif';
     if(serif && window.loadSerifFonts){ window.loadSerifFonts(); }
-    $('card-front').classList.toggle('serif',serif);
-    $('card-back').classList.toggle('serif',serif);
+    allCards().forEach(c=>c.classList.toggle('serif',serif));
   });
+
+  // 모든 카드 요소 (존재하는 것만)
+  function allCards(){
+    return ['card-front','card-back','card-back2','card-back3'].map(id=>$(id)).filter(Boolean);
+  }
 
   // 배경 색상 토글 (프리셋)
   const BG_PRESET = {
@@ -578,7 +604,7 @@
     dark:{ bg:'#343434', ink:'#ffffff' }
   };
   function applyCardColors(bg, ink){
-    [$('card-front'),$('card-back')].forEach(c=>{
+    allCards().forEach(c=>{
       c.classList.remove('bg-light','bg-gray','bg-dark');
       c.style.setProperty('--c-bg', bg);
       c.style.setProperty('--c-ink', ink);
@@ -636,10 +662,14 @@
     inp.click();
   }
 
-  function buildBackGrid(){
-    const n=parseInt($('i-count').value); const g=GRID[n]; const grid=$('b-grid');
-    grid.style.gridTemplateColumns=`repeat(${g.cols},1fr)`; grid.style.gridTemplateRows=`repeat(${g.rows},1fr)`; grid.innerHTML='';
-    for(let i=0;i<n;i++){
+  let back2On = false;  // 뒷면 추가 활성 여부
+
+  function renderGrid(grid, cardEl, base){
+    // base: quad 시작 인덱스 (뒷면1=0, 뒷면2=4). 항상 4칸(2x2)
+    const cols=2, rows=2, count=4;
+    grid.style.gridTemplateColumns=`repeat(${cols},1fr)`; grid.style.gridTemplateRows=`repeat(${rows},1fr)`; grid.innerHTML='';
+    for(let c=0;c<count;c++){
+      const i=base+c;
       const cell=document.createElement('div'); cell.className='b-cell'; cell.dataset.idx=i;
       if(imgData.quad[i]){
         const im=document.createElement('img'); im.src=imgData.quad[i]; cell.appendChild(im); makeEditable(cell, im, imgPos.quad[i]);
@@ -650,14 +680,12 @@
         const s=document.createElement('span'); s.className='ph'; s.innerHTML=`<span class="plus">＋</span><br>사진 추가`; cell.appendChild(s);
         cell.onclick=()=>{
           pickFiles(srcs=>{
-            // 현재 칸(i)부터 시작해 비어있는 칸에 순서대로 채움
-            const total=parseInt($('i-count').value);
+            // 이 그리드(base~base+4) 빈 칸부터 순서대로 채움
             let k=0;
-            for(let j=i; j<total && k<srcs.length; j++){
+            for(let j=i; j<base+count && k<srcs.length; j++){
               if(!imgData.quad[j]){ imgData.quad[j]=srcs[k]; imgPos.quad[j]=mk(); k++; }
             }
-            // 클릭한 칸 앞쪽에 빈 칸이 있으면 거기에도 남은 사진 채움
-            for(let j=0; j<total && k<srcs.length; j++){
+            for(let j=base; j<base+count && k<srcs.length; j++){
               if(!imgData.quad[j]){ imgData.quad[j]=srcs[k]; imgPos.quad[j]=mk(); k++; }
             }
             buildBackGrid();
@@ -666,11 +694,19 @@
       }
       grid.appendChild(cell);
     }
-    $('card-back').classList.toggle('reordering', reorderMode);
+    cardEl.classList.toggle('reordering', reorderMode);
+  }
+
+  function buildBackGrid(){
+    renderGrid($('b-grid'), $('card-back'), 0);
+    if(back2On){
+      renderGrid($('b-grid2'), $('card-back2'), 4);
+      renderGrid($('b-grid3'), $('card-back3'), 8);
+    }
   }
   $('i-count').addEventListener('change',()=>{ buildBackGrid(); });
 
-  // 순서 변경: 핸들 추가 + 드래그로 칸 swap
+  // 순서 변경: 드래그로 칸 swap
   function swapPhotos(a, b){
     if(a===b) return;
     const td=imgData.quad[a]; imgData.quad[a]=imgData.quad[b]; imgData.quad[b]=td;
@@ -712,15 +748,47 @@
     reorderMode=!reorderMode;
     e.currentTarget.classList.toggle('active', reorderMode);
     e.currentTarget.textContent = reorderMode ? '완료' : '순서 변경';
+    syncReorderBtns(); buildBackGrid();
+  });
+  function syncReorderBtns(){
+    ['reorder-toggle','reorder-toggle2','reorder-toggle3'].forEach(id=>{
+      const b=$(id); if(b){ b.classList.toggle('active', reorderMode); b.textContent = reorderMode ? '완료' : '순서 변경'; }
+    });
+  }
+  $('reorder-toggle2').addEventListener('click',()=>{ reorderMode=!reorderMode; syncReorderBtns(); buildBackGrid(); });
+  $('reorder-toggle3').addEventListener('click',()=>{ reorderMode=!reorderMode; syncReorderBtns(); buildBackGrid(); });
+  // 전체 삭제 (뒷면1: 0~3)
+  $('clear-all').addEventListener('click',()=>{
+    if(!imgData.quad.slice(0,4).some(v=>v)) return;
+    if(!confirm('뒷면 사진을 모두 삭제할까요?')) return;
+    for(let i=0;i<4;i++){ imgData.quad[i]=null; imgPos.quad[i]=mk(); }
     buildBackGrid();
   });
-  // 전체 삭제 버튼
-  $('clear-all').addEventListener('click',()=>{
-    const has = imgData.quad.some(v=>v);
-    if(!has) return;
-    if(!confirm('뒷면 사진을 모두 삭제할까요?')) return;
-    for(let i=0;i<imgData.quad.length;i++){ imgData.quad[i]=null; imgPos.quad[i]=mk(); }
-    if(reorderMode){ reorderMode=false; const rt=$('reorder-toggle'); rt.classList.remove('active'); rt.textContent='순서 변경'; }
+  // 전체 삭제 (뒷면2: 4~7)
+  $('clear-all2').addEventListener('click',()=>{
+    if(!imgData.quad.slice(4,8).some(v=>v)) return;
+    if(!confirm('뒷면2 사진을 모두 삭제할까요?')) return;
+    for(let i=4;i<8;i++){ imgData.quad[i]=null; imgPos.quad[i]=mk(); }
+    buildBackGrid();
+  });
+  // 전체 삭제 (뒷면3: 8~11)
+  $('clear-all3').addEventListener('click',()=>{
+    if(!imgData.quad.slice(8,12).some(v=>v)) return;
+    if(!confirm('뒷면3 사진을 모두 삭제할까요?')) return;
+    for(let i=8;i<12;i++){ imgData.quad[i]=null; imgPos.quad[i]=mk(); }
+    buildBackGrid();
+  });
+  // 뒷면 추가 토글 (뒷면2 + 뒷면3 함께)
+  $('add-back2').addEventListener('click',e=>{
+    back2On=!back2On;
+    document.querySelectorAll('.back2-group').forEach(el=>{ el.style.display = back2On ? '' : 'none'; });
+    $('dl-back2').style.display = back2On ? '' : 'none';
+    e.currentTarget.classList.toggle('active', back2On);
+    e.currentTarget.textContent = back2On ? '－뒷면 제거' : '＋뒷면 추가';
+    if(!back2On){
+      // 끄면 뒷면2·3 데이터 비움
+      for(let i=4;i<12;i++){ imgData.quad[i]=null; imgPos.quad[i]=mk(); }
+    }
     buildBackGrid();
   });
 
@@ -808,7 +876,17 @@
     const cb=preCb||await renderCanvas($('card-back'), 1748);
     const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a5'}); const w=148,h=210;
     pdf.addImage(cf.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h,undefined,'SLOW'); pdf.addPage();
-    pdf.addImage(cb.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h,undefined,'SLOW'); return pdf;
+    pdf.addImage(cb.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h,undefined,'SLOW');
+    // 뒷면 추가가 켜져 있으면 뒷면2, 뒷면3 페이지 추가 (총 4페이지)
+    if(back2On){
+      const cb2=await renderCanvas($('card-back2'), 1748);
+      pdf.addPage();
+      pdf.addImage(cb2.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h,undefined,'SLOW');
+      const cb3=await renderCanvas($('card-back3'), 1748);
+      pdf.addPage();
+      pdf.addImage(cb3.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,h,undefined,'SLOW');
+    }
+    return pdf;
   }
   // 저장 중 표시 래퍼
   async function withBusy(btn, fn){
@@ -818,15 +896,21 @@
   }
   $('dl-front').addEventListener('click',e=>withBusy(e.currentTarget,()=>exportJPG($('card-front'),`${safeName()}_front.jpg`)));
   $('dl-back').addEventListener('click',e=>withBusy(e.currentTarget,()=>exportJPG($('card-back'),`${safeName()}_back.jpg`)));
+  $('dl-back2').addEventListener('click',e=>withBusy(e.currentTarget,async()=>{
+    await exportJPG($('card-back2'),`${safeName()}_back2.jpg`);
+    await exportJPG($('card-back3'),`${safeName()}_back3.jpg`);
+  }));
 
-  // 앞·뒤를 A4 한 장(앞면 왼쪽/뒷면 오른쪽)으로 합성한 캔버스 생성
-  async function buildA4Canvas(){
-    const cf=await renderCanvas($('card-front'), 1754);
-    const cb=await renderCanvas($('card-back'), 1754);
+  // 두 카드를 A4 한 장(왼쪽/오른쪽)으로 합성. 인자 없으면 앞면+뒷면1
+  async function buildA4Canvas(leftEl, rightEl){
+    leftEl = leftEl || $('card-front');
+    rightEl = rightEl || $('card-back');
+    const cl=await renderCanvas(leftEl, 1754);
+    const cr=await renderCanvas(rightEl, 1754);
     const A4W=3508, A4H=2480, HALF=A4W/2;
     const out=document.createElement('canvas'); out.width=A4W; out.height=A4H;
     const ctx=out.getContext('2d');
-    ctx.fillStyle=getComputedStyle($('card-front')).backgroundColor||'#ffffff'; ctx.fillRect(0,0,A4W,A4H);
+    ctx.fillStyle=getComputedStyle(leftEl).backgroundColor||'#ffffff'; ctx.fillRect(0,0,A4W,A4H);
     function drawCentered(cv, offsetX){
       const areaW=HALF, areaH=A4H;
       const scale=Math.min(areaW/cv.width, areaH/cv.height);
@@ -834,13 +918,19 @@
       const x=offsetX+(areaW-w)/2, y=(areaH-h)/2;
       ctx.drawImage(cv,x,y,w,h);
     }
-    drawCentered(cf, 0);        // 왼쪽: 앞면
-    drawCentered(cb, HALF);     // 오른쪽: 뒷면
+    drawCentered(cl, 0);        // 왼쪽
+    drawCentered(cr, HALF);     // 오른쪽
     return out;
   }
   $('dl-a4').addEventListener('click',e=>withBusy(e.currentTarget,async()=>{
-    const out=await buildA4Canvas();
-    saveDataUrl(out.toDataURL('image/jpeg',0.95), `${safeName()}_A4.jpg`, 'image/jpeg');
+    // 1장째: 앞면 + 뒷면1
+    const out1=await buildA4Canvas($('card-front'), $('card-back'));
+    saveDataUrl(out1.toDataURL('image/jpeg',0.95), `${safeName()}_A4_1.jpg`, 'image/jpeg');
+    // 뒷면 추가가 켜져 있으면 2장째: 뒷면2 + 뒷면3
+    if(back2On){
+      const out2=await buildA4Canvas($('card-back2'), $('card-back3'));
+      saveDataUrl(out2.toDataURL('image/jpeg',0.95), `${safeName()}_A4_2.jpg`, 'image/jpeg');
+    }
   }));
   function savePDF(pdf, filename){
     if(!isInApp){ pdf.save(filename); return; }
@@ -875,16 +965,28 @@
         `이메일: ${txt('e-email')||'-'}\n`+
         `인스타: ${txt('e-insta')||'-'}\n`+
         `제출시각: ${new Date().toLocaleString('ko-KR')}`;
+      const files = [
+        { filename: `${safeName()}_front.jpg`, dataUrl: cf.toDataURL('image/jpeg',0.9) },
+        { filename: `${safeName()}_back.jpg`,  dataUrl: cb.toDataURL('image/jpeg',0.9) }
+      ];
+      // 뒷면 추가가 켜져 있으면 뒷면2·3도 포함
+      if(back2On){
+        const cb2=await renderCanvas($('card-back2'), 1200);
+        files.push({ filename: `${safeName()}_back2.jpg`, dataUrl: cb2.toDataURL('image/jpeg',0.9) });
+        const cb3=await renderCanvas($('card-back3'), 1200);
+        files.push({ filename: `${safeName()}_back3.jpg`, dataUrl: cb3.toDataURL('image/jpeg',0.9) });
+      }
+      files.push({ filename: `${safeName()}_full_1.jpg`, dataUrl: a4.toDataURL('image/jpeg',0.92) });
+      if(back2On){
+        const a4b=await buildA4Canvas($('card-back2'), $('card-back3'));
+        files.push({ filename: `${safeName()}_full_2.jpg`, dataUrl: a4b.toDataURL('image/jpeg',0.92) });
+      }
+      files.push({ filename: `${safeName()}_compcard.pdf`, dataUrl: pdfDataUrl });
       const payload = {
         key: SUBMIT_KEY,
         name: nm,
         info: info,
-        files: [
-          { filename: `${safeName()}_front.jpg`, dataUrl: cf.toDataURL('image/jpeg',0.9) },
-          { filename: `${safeName()}_back.jpg`,  dataUrl: cb.toDataURL('image/jpeg',0.9) },
-          { filename: `${safeName()}_full.jpg`,  dataUrl: a4.toDataURL('image/jpeg',0.92) },
-          { filename: `${safeName()}_compcard.pdf`, dataUrl: pdfDataUrl }
-        ]
+        files: files
       };
       await fetch(SUBMIT_URL, {
         method:'POST',
