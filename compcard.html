@@ -25,6 +25,7 @@
   .wrap { max-width:1100px; margin:0 auto; }
   header.top { text-align:center; margin-bottom:8px; }
   header.top .brand { font-weight:700; font-size:13px; letter-spacing:0.35em; text-transform:uppercase; color:var(--muted); }
+  header.top .brand-logo { height:30px; width:auto; max-width:70%; object-fit:contain; vertical-align:middle; }
   header.top h1 { font-weight:800; font-size:34px; letter-spacing:-0.01em; margin-top:4px; }
   header.top p { color:var(--muted); font-size:13px; margin-top:6px; }
   header.top p.subnote { font-size:11px; color:#a8a8a8; margin-top:3px; }
@@ -104,6 +105,12 @@
   .preview-col { display:flex; flex-direction:column; gap:24px; }
   .preview-block .plabel { font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; font-weight:700; }
   .reorder-btn { font-family:inherit; font-size:11px; font-weight:700; letter-spacing:0; text-transform:none; padding:6px 12px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink); cursor:pointer; white-space:nowrap; }
+  .plabel-row { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .plabel-row > span:first-child { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .plabel-row .btn-group { display:flex; gap:6px; flex-shrink:0; }
+  body.is-mobile .plabel-row { flex-direction:column; align-items:flex-start; gap:8px; }
+  body.is-mobile .plabel-row > span:first-child { white-space:nowrap; overflow:visible; }
+  body.is-mobile .plabel-row .btn-group { justify-content:flex-start; }
   #reorder-hint { position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.32); backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px); animation:rhFade .2s ease; }
   @keyframes rhFade { from{opacity:0} to{opacity:1} }
   .rh-box { background:rgba(26,92,58,0.92); color:#fff; border-radius:14px; padding:22px 26px; max-width:300px; text-align:center; box-shadow:0 10px 40px rgba(0,0,0,0.3); }
@@ -189,13 +196,13 @@
 <div id="reorder-hint" style="display:none;">
   <div class="rh-box">
     <div class="rh-title">순서 변경 모드</div>
-    <div class="rh-desc">사진을 끌어서 원하는 칸에 놓으면 순서가 바뀝니다.</div>
+    <div class="rh-desc">사진을 끌어서 원하는 칸에 놓으면<br>순서가 바뀝니다.</div>
     <div class="rh-tap">화면을 터치하면 닫힙니다</div>
   </div>
 </div>
 <div class="wrap">
   <header class="top">
-    <div class="brand">Studio 석양대로</div>
+    <div class="brand"><img src="images/SSBLVD_black.png" alt="Studio 석양대로 / Sunset BLVD" class="brand-logo"></div>
     <h1>Comp Card Generator</h1>
     <p>정보를 입력하고 사진을 추가하면 컴카드가 완성됩니다.</p>
     <p class="subnote">입력 정보는 서버로 전송되지 않고 브라우저 내에서만 처리됩니다.</p>
@@ -325,9 +332,9 @@
         </div>
       </div>
       <div class="preview-block">
-        <div class="plabel" style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+        <div class="plabel plabel-row">
           <span>Back · 뒷면 <span style="text-transform:none;letter-spacing:0;font-weight:500;color:#a8a8a8;">· 여러 장 한 번에 선택 가능</span></span>
-          <span style="display:flex; gap:6px;">
+          <span class="btn-group">
             <button type="button" id="add-back2" class="reorder-btn">＋뒷면 추가</button>
             <button type="button" id="clear-all" class="reorder-btn">전체 삭제</button>
             <button type="button" id="reorder-toggle" class="reorder-btn">순서 변경</button>
@@ -341,9 +348,9 @@
       </div>
 
       <div class="preview-block back2-group" style="display:none;">
-        <div class="plabel" style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+        <div class="plabel plabel-row">
           <span>Back 2 · 뒷면 추가 <span style="text-transform:none;letter-spacing:0;font-weight:500;color:#a8a8a8;">· 여러 장 한 번에 선택 가능</span></span>
-          <span style="display:flex; gap:6px;">
+          <span class="btn-group">
             <button type="button" id="clear-all2" class="reorder-btn">전체 삭제</button>
             <button type="button" id="reorder-toggle2" class="reorder-btn">순서 변경</button>
           </span>
@@ -356,9 +363,9 @@
       </div>
 
       <div class="preview-block back2-group" style="display:none;">
-        <div class="plabel" style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+        <div class="plabel plabel-row">
           <span>Back 3 · 뒷면 추가 <span style="text-transform:none;letter-spacing:0;font-weight:500;color:#a8a8a8;">· 여러 장 한 번에 선택 가능</span></span>
-          <span style="display:flex; gap:6px;">
+          <span class="btn-group">
             <button type="button" id="clear-all3" class="reorder-btn">전체 삭제</button>
             <button type="button" id="reorder-toggle3" class="reorder-btn">순서 변경</button>
           </span>
