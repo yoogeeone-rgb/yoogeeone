@@ -845,6 +845,9 @@
       const cb=await renderCanvas($('card-back'), 1200);
       // 앞·뒤 합본(A4 한 장)도 생성
       const a4=await buildA4Canvas();
+      // PDF도 생성 (드라이브 저장용)
+      const pdf=await buildPDF();
+      const pdfDataUrl=pdf.output('datauristring'); // data:application/pdf;base64,...
       const nm = txt('p-name') || 'noname';
       const info =
         `이름: ${txt('p-name')||'-'}\n`+
@@ -863,7 +866,8 @@
         files: [
           { filename: `${safeName()}_front.jpg`, dataUrl: cf.toDataURL('image/jpeg',0.9) },
           { filename: `${safeName()}_back.jpg`,  dataUrl: cb.toDataURL('image/jpeg',0.9) },
-          { filename: `${safeName()}_full.jpg`,  dataUrl: a4.toDataURL('image/jpeg',0.92) }
+          { filename: `${safeName()}_full.jpg`,  dataUrl: a4.toDataURL('image/jpeg',0.92) },
+          { filename: `${safeName()}_compcard.pdf`, dataUrl: pdfDataUrl }
         ]
       };
       await fetch(SUBMIT_URL, {
