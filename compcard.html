@@ -104,6 +104,12 @@
   .preview-col { display:flex; flex-direction:column; gap:24px; }
   .preview-block .plabel { font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; font-weight:700; }
   .reorder-btn { font-family:inherit; font-size:11px; font-weight:700; letter-spacing:0; text-transform:none; padding:6px 12px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink); cursor:pointer; white-space:nowrap; }
+  #reorder-hint { position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.32); backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px); animation:rhFade .2s ease; }
+  @keyframes rhFade { from{opacity:0} to{opacity:1} }
+  .rh-box { background:rgba(26,92,58,0.92); color:#fff; border-radius:14px; padding:22px 26px; max-width:300px; text-align:center; box-shadow:0 10px 40px rgba(0,0,0,0.3); }
+  .rh-title { font-size:15px; font-weight:800; margin-bottom:8px; }
+  .rh-desc { font-size:13.5px; line-height:1.6; opacity:0.95; }
+  .rh-tap { font-size:11px; margin-top:14px; opacity:0.7; }
   .reorder-btn.active { background:#1a5c3a; color:#fff; border-color:#1a5c3a; }
   .b-cell .drag-handle { display:none !important; }
   .card.reordering .b-cell { outline:1.5px dashed var(--c-line); outline-offset:-3px; cursor:grab; touch-action:none; }
@@ -180,6 +186,13 @@
     }catch(e){}
   })();
 </script>
+<div id="reorder-hint" style="display:none;">
+  <div class="rh-box">
+    <div class="rh-title">순서 변경 모드</div>
+    <div class="rh-desc">사진을 끌어서 원하는 칸에 놓으면 순서가 바뀝니다.</div>
+    <div class="rh-tap">화면을 터치하면 닫힙니다</div>
+  </div>
+</div>
 <div class="wrap">
   <header class="top">
     <div class="brand">Studio 석양대로</div>
@@ -706,12 +719,40 @@
   }
   $('i-count').addEventListener('change',()=>{ buildBackGrid(); });
 
-  // 순서 변경: 드래그로 칸 swap
+  // 순서 변경: 드래그로 칸 swap (FLIP 슬라이드 애니메이션)
   function swapPhotos(a, b){
     if(a===b) return;
+    // 1) 바꾸기 전, 두 칸의 화면 위치 기록
+    const cellA=document.querySelector(`.b-cell[data-idx="${a}"]`);
+    const cellB=document.querySelector(`.b-cell[data-idx="${b}"]`);
+    const rectA=cellA?cellA.getBoundingClientRect():null;
+    const rectB=cellB?cellB.getBoundingClientRect():null;
+    // 2) 데이터 swap 후 다시 그림
     const td=imgData.quad[a]; imgData.quad[a]=imgData.quad[b]; imgData.quad[b]=td;
     const tp=imgPos.quad[a]; imgPos.quad[a]=imgPos.quad[b]; imgPos.quad[b]=tp;
     buildBackGrid();
+    // 3) 새로 그려진 칸을 '이전 위치'에서 시작시켜 제자리로 미끄러지게
+    if(rectA && rectB){
+      const newA=document.querySelector(`.b-cell[data-idx="${a}"]`);
+      const newB=document.querySelector(`.b-cell[data-idx="${b}"]`);
+      flipMove(newA, rectB, rectA); // a 자리엔 b가 있던 내용 → b위치에서 a위치로
+      flipMove(newB, rectA, rectB);
+    }
+  }
+  function flipMove(el, fromRect, toRect){
+    if(!el) return;
+    const dx=fromRect.left-toRect.left, dy=fromRect.top-toRect.top;
+    if(!dx && !dy) return;
+    el.style.transition='none';
+    el.style.transform=`translate(${dx}px, ${dy}px)`;
+    el.style.zIndex='10';
+    // 다음 프레임에 제자리로
+    requestAnimationFrame(()=>{
+      el.style.transition='transform .28s cubic-bezier(.22,.61,.36,1)';
+      el.style.transform='translate(0,0)';
+      const clear=()=>{ el.style.transition=''; el.style.transform=''; el.style.zIndex=''; el.removeEventListener('transitionend',clear); };
+      el.addEventListener('transitionend',clear);
+    });
   }
   let dragSrcIdx=null;
   function addDragHandle(cell, idx){
@@ -744,19 +785,28 @@
     });
   }
   // 순서 변경 토글 버튼
-  $('reorder-toggle').addEventListener('click',e=>{
+  function toggleReorder(){
     reorderMode=!reorderMode;
-    e.currentTarget.classList.toggle('active', reorderMode);
-    e.currentTarget.textContent = reorderMode ? '완료' : '순서 변경';
     syncReorderBtns(); buildBackGrid();
-  });
+    if(reorderMode){ showReorderHint(); }
+  }
+  $('reorder-toggle').addEventListener('click',toggleReorder);
   function syncReorderBtns(){
     ['reorder-toggle','reorder-toggle2','reorder-toggle3'].forEach(id=>{
       const b=$(id); if(b){ b.classList.toggle('active', reorderMode); b.textContent = reorderMode ? '완료' : '순서 변경'; }
     });
   }
-  $('reorder-toggle2').addEventListener('click',()=>{ reorderMode=!reorderMode; syncReorderBtns(); buildBackGrid(); });
-  $('reorder-toggle3').addEventListener('click',()=>{ reorderMode=!reorderMode; syncReorderBtns(); buildBackGrid(); });
+  // 순서 변경 안내 박스
+  function showReorderHint(){
+    const h=$('reorder-hint'); if(!h) return;
+    h.style.display='flex';
+  }
+  function hideReorderHint(){
+    const h=$('reorder-hint'); if(h) h.style.display='none';
+  }
+  $('reorder-hint').addEventListener('click',hideReorderHint);
+  $('reorder-toggle2').addEventListener('click',toggleReorder);
+  $('reorder-toggle3').addEventListener('click',toggleReorder);
   // 전체 삭제 (뒷면1: 0~3)
   $('clear-all').addEventListener('click',()=>{
     if(!imgData.quad.slice(0,4).some(v=>v)) return;
