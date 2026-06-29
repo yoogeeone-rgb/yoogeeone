@@ -103,6 +103,13 @@
   button.dl.mail { background:#1a5c3a; }
   .preview-col { display:flex; flex-direction:column; gap:24px; }
   .preview-block .plabel { font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; font-weight:700; }
+  .reorder-btn { font-family:inherit; font-size:11px; font-weight:700; letter-spacing:0; text-transform:none; padding:6px 12px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink); cursor:pointer; white-space:nowrap; }
+  .reorder-btn.active { background:#1a5c3a; color:#fff; border-color:#1a5c3a; }
+  .b-cell .drag-handle { display:none !important; }
+  .card.reordering .b-cell { outline:1.5px dashed var(--c-line); outline-offset:-3px; cursor:grab; touch-action:none; }
+  .card.reordering .b-cell img { pointer-events:none; }
+  .b-cell.drag-over { outline:2.5px solid #1a5c3a !important; }
+  .b-cell.dragging { opacity:0.5; }
   .card { width:100%; aspect-ratio:5/7; background:var(--c-bg); border:1px solid var(--line); position:relative; overflow:hidden; border-radius:2px; }
   .card-inner { position:absolute; inset:0; display:flex; flex-direction:column; padding:6%; }
   .card.serif { --card-display:'Cormorant Garamond','Noto Serif KR',serif; --card-body:'Noto Serif KR','Cormorant Garamond',serif; }
@@ -315,7 +322,13 @@
         </div>
       </div>
       <div class="preview-block">
-        <div class="plabel">Back · 뒷면 <span style="text-transform:none;letter-spacing:0;font-weight:500;color:#a8a8a8;">· 칸을 눌러 사진 추가 · 드래그·슬라이더로 조절</span></div>
+        <div class="plabel" style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+          <span>Back · 뒷면 <span style="text-transform:none;letter-spacing:0;font-weight:500;color:#a8a8a8;">· 여러 장 한 번에 선택 가능</span></span>
+          <span style="display:flex; gap:6px;">
+            <button type="button" id="clear-all" class="reorder-btn">전체 삭제</button>
+            <button type="button" id="reorder-toggle" class="reorder-btn">순서 변경</button>
+          </span>
+        </div>
         <div class="card" id="card-back">
           <div class="card-inner">
             <div class="b-grid" id="b-grid"></div>
@@ -424,7 +437,7 @@
 
     // drag to move (pixel based)
     let dragging=false, sx=0, sy=0, otx=0, oty=0;
-    function down(e){ if(e.target.classList.contains('zslider'))return; dragging=true; imgEl.style.cursor='grabbing'; const q=e.touches?e.touches[0]:e; sx=q.clientX; sy=q.clientY; otx=p.tx; oty=p.ty; e.preventDefault(); }
+    function down(e){ if(reorderMode) return; if(e.target.classList.contains('zslider'))return; dragging=true; imgEl.style.cursor='grabbing'; const q=e.touches?e.touches[0]:e; sx=q.clientX; sy=q.clientY; otx=p.tx; oty=p.ty; e.preventDefault(); }
     function move(e){
       if(!dragging) return; const q=e.touches?e.touches[0]:e;
       p.tx = otx + (q.clientX - sx);
@@ -440,6 +453,7 @@
     let pinch=false, startDist=0, startZ=1;
     function dist(t){ const dx=t[0].clientX-t[1].clientX, dy=t[0].clientY-t[1].clientY; return Math.hypot(dx,dy); }
     wrap.addEventListener('touchstart',e=>{
+      if(reorderMode) return;
       if(e.target.classList.contains('zslider')) return;
       if(e.touches.length===2){ pinch=true; startDist=dist(e.touches); startZ=p.z; }
       else { down(e); }
@@ -451,6 +465,7 @@
     wrap.addEventListener('touchend',e=>{ if(e.touches.length<2) pinch=false; up(); });
   }
   const GRID = { 1:{cols:1,rows:1},4:{cols:2,rows:2},6:{cols:2,rows:3},8:{cols:2,rows:4} };
+  let reorderMode = false;  // 순서 변경 모드 on/off
 
   const _mm = q => { try { return !!(window.matchMedia && window.matchMedia(q).matches); } catch(e){ return false; } };
   const _mobileUA = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini|Mobile|Silk/i.test(navigator.userAgent || '');
@@ -582,11 +597,27 @@
   $('pick-bg').addEventListener('input',fromPickers);
   $('pick-ink').addEventListener('input',fromPickers);
 
-  // 파일 선택 트리거 (칸 클릭 시)
+  // 파일 선택 트리거 (단일, 교체용)
   function pickFile(cb){
     const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*';
     inp.style.display='none'; document.body.appendChild(inp);
     inp.addEventListener('change',ev=>{ const f=ev.target.files[0]; if(f){ const r=new FileReader(); r.onload=x=>cb(x.target.result); r.readAsDataURL(f); } document.body.removeChild(inp); });
+    inp.click();
+  }
+  // 파일 여러 장 선택 (빈 칸 클릭 시) → dataURL 배열로 콜백
+  function pickFiles(cb){
+    const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.multiple=true;
+    inp.style.display='none'; document.body.appendChild(inp);
+    inp.addEventListener('change',ev=>{
+      const files=Array.from(ev.target.files||[]);
+      if(!files.length){ document.body.removeChild(inp); return; }
+      let pending=files.length; const results=new Array(files.length);
+      files.forEach((f,idx)=>{
+        const r=new FileReader();
+        r.onload=x=>{ results[idx]=x.target.result; if(--pending===0){ cb(results); document.body.removeChild(inp); } };
+        r.readAsDataURL(f);
+      });
+    });
     inp.click();
   }
 
@@ -594,19 +625,89 @@
     const n=parseInt($('i-count').value); const g=GRID[n]; const grid=$('b-grid');
     grid.style.gridTemplateColumns=`repeat(${g.cols},1fr)`; grid.style.gridTemplateRows=`repeat(${g.rows},1fr)`; grid.innerHTML='';
     for(let i=0;i<n;i++){
-      const cell=document.createElement('div'); cell.className='b-cell';
+      const cell=document.createElement('div'); cell.className='b-cell'; cell.dataset.idx=i;
       if(imgData.quad[i]){
         const im=document.createElement('img'); im.src=imgData.quad[i]; cell.appendChild(im); makeEditable(cell, im, imgPos.quad[i]);
         addReplaceBtn(cell, ()=>{ pickFile(src=>{ imgData.quad[i]=src; imgPos.quad[i]=mk(); buildBackGrid(); }); });
+        addDragHandle(cell, i);
       } else {
         cell.classList.add('empty');
         const s=document.createElement('span'); s.className='ph'; s.innerHTML=`<span class="plus">＋</span><br>사진 추가`; cell.appendChild(s);
-        cell.onclick=()=>{ pickFile(src=>{ imgData.quad[i]=src; imgPos.quad[i]=mk(); buildBackGrid(); }); };
+        cell.onclick=()=>{
+          pickFiles(srcs=>{
+            // 현재 칸(i)부터 시작해 비어있는 칸에 순서대로 채움
+            const total=parseInt($('i-count').value);
+            let k=0;
+            for(let j=i; j<total && k<srcs.length; j++){
+              if(!imgData.quad[j]){ imgData.quad[j]=srcs[k]; imgPos.quad[j]=mk(); k++; }
+            }
+            // 클릭한 칸 앞쪽에 빈 칸이 있으면 거기에도 남은 사진 채움
+            for(let j=0; j<total && k<srcs.length; j++){
+              if(!imgData.quad[j]){ imgData.quad[j]=srcs[k]; imgPos.quad[j]=mk(); k++; }
+            }
+            buildBackGrid();
+          });
+        };
       }
       grid.appendChild(cell);
     }
+    $('card-back').classList.toggle('reordering', reorderMode);
   }
   $('i-count').addEventListener('change',()=>{ buildBackGrid(); });
+
+  // 순서 변경: 핸들 추가 + 드래그로 칸 swap
+  function swapPhotos(a, b){
+    if(a===b) return;
+    const td=imgData.quad[a]; imgData.quad[a]=imgData.quad[b]; imgData.quad[b]=td;
+    const tp=imgPos.quad[a]; imgPos.quad[a]=imgPos.quad[b]; imgPos.quad[b]=tp;
+    buildBackGrid();
+  }
+  let dragSrcIdx=null;
+  function addDragHandle(cell, idx){
+    // 순서 변경 모드에서 칸 자체를 끌어 순서 변경 (핸들 없음)
+    cell.addEventListener('pointerdown',e=>{
+      if(!reorderMode) return;
+      e.preventDefault(); e.stopPropagation();
+      dragSrcIdx=idx; cell.classList.add('dragging');
+      const grid=$('b-grid');
+      function overCell(x,y){
+        const el=document.elementFromPoint(x,y);
+        return el ? el.closest('.b-cell') : null;
+      }
+      function onMove(ev){
+        const t = overCell(ev.clientX, ev.clientY);
+        grid.querySelectorAll('.b-cell').forEach(c=>c.classList.remove('drag-over'));
+        if(t && t!==cell) t.classList.add('drag-over');
+      }
+      function onUp(ev){
+        const t = overCell(ev.clientX, ev.clientY);
+        grid.querySelectorAll('.b-cell').forEach(c=>c.classList.remove('drag-over'));
+        cell.classList.remove('dragging');
+        window.removeEventListener('pointermove',onMove);
+        window.removeEventListener('pointerup',onUp);
+        if(t && t!==cell){ swapPhotos(dragSrcIdx, parseInt(t.dataset.idx)); }
+        dragSrcIdx=null;
+      }
+      window.addEventListener('pointermove',onMove);
+      window.addEventListener('pointerup',onUp);
+    });
+  }
+  // 순서 변경 토글 버튼
+  $('reorder-toggle').addEventListener('click',e=>{
+    reorderMode=!reorderMode;
+    e.currentTarget.classList.toggle('active', reorderMode);
+    e.currentTarget.textContent = reorderMode ? '완료' : '순서 변경';
+    buildBackGrid();
+  });
+  // 전체 삭제 버튼
+  $('clear-all').addEventListener('click',()=>{
+    const has = imgData.quad.some(v=>v);
+    if(!has) return;
+    if(!confirm('뒷면 사진을 모두 삭제할까요?')) return;
+    for(let i=0;i<imgData.quad.length;i++){ imgData.quad[i]=null; imgPos.quad[i]=mk(); }
+    if(reorderMode){ reorderMode=false; const rt=$('reorder-toggle'); rt.classList.remove('active'); rt.textContent='순서 변경'; }
+    buildBackGrid();
+  });
 
   // 다시 올리기 버튼 (사진 있는 칸 좌상단)
   function addReplaceBtn(wrap, onClick){
@@ -702,10 +803,10 @@
   $('dl-front').addEventListener('click',e=>withBusy(e.currentTarget,()=>exportJPG($('card-front'),`${safeName()}_front.jpg`)));
   $('dl-back').addEventListener('click',e=>withBusy(e.currentTarget,()=>exportJPG($('card-back'),`${safeName()}_back.jpg`)));
 
-  $('dl-a4').addEventListener('click',e=>withBusy(e.currentTarget,async()=>{
+  // 앞·뒤를 A4 한 장(앞면 왼쪽/뒷면 오른쪽)으로 합성한 캔버스 생성
+  async function buildA4Canvas(){
     const cf=await renderCanvas($('card-front'), 1754);
     const cb=await renderCanvas($('card-back'), 1754);
-    // A4 가로 297x210mm @300dpi = 3508x2480px, A5 절반 = 1754x2480
     const A4W=3508, A4H=2480, HALF=A4W/2;
     const out=document.createElement('canvas'); out.width=A4W; out.height=A4H;
     const ctx=out.getContext('2d');
@@ -719,6 +820,10 @@
     }
     drawCentered(cf, 0);        // 왼쪽: 앞면
     drawCentered(cb, HALF);     // 오른쪽: 뒷면
+    return out;
+  }
+  $('dl-a4').addEventListener('click',e=>withBusy(e.currentTarget,async()=>{
+    const out=await buildA4Canvas();
     saveDataUrl(out.toDataURL('image/jpeg',0.95), `${safeName()}_A4.jpg`, 'image/jpeg');
   }));
   function savePDF(pdf, filename){
@@ -738,6 +843,8 @@
       // 앞/뒤 이미지를 dataURL로 생성 (인스타 해상도)
       const cf=await renderCanvas($('card-front'), 1200);
       const cb=await renderCanvas($('card-back'), 1200);
+      // 앞·뒤 합본(A4 한 장)도 생성
+      const a4=await buildA4Canvas();
       const nm = txt('p-name') || 'noname';
       const info =
         `이름: ${txt('p-name')||'-'}\n`+
@@ -755,7 +862,8 @@
         info: info,
         files: [
           { filename: `${safeName()}_front.jpg`, dataUrl: cf.toDataURL('image/jpeg',0.9) },
-          { filename: `${safeName()}_back.jpg`,  dataUrl: cb.toDataURL('image/jpeg',0.9) }
+          { filename: `${safeName()}_back.jpg`,  dataUrl: cb.toDataURL('image/jpeg',0.9) },
+          { filename: `${safeName()}_full.jpg`,  dataUrl: a4.toDataURL('image/jpeg',0.92) }
         ]
       };
       await fetch(SUBMIT_URL, {
