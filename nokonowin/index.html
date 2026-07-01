@@ -528,6 +528,7 @@
   </div>
 
   <script>
+    const START_PHOTO = 3;
     const TOTAL_PHOTOS = 98;
     const INITIAL_COUNT = 24;
     const BATCH = 24;
@@ -535,7 +536,7 @@
 
     const grid = document.getElementById('galleryGrid');
     const moreBtn = document.getElementById('galleryMore');
-    let shown = 0;
+    let shown = START_PHOTO - 1;
 
     function renderBatch(){
       const next = Math.min(shown + BATCH, TOTAL_PHOTOS);
@@ -558,7 +559,7 @@
 
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
-    let currentIndex = 1;
+    let currentIndex = START_PHOTO;
 
     function openLightbox(i){
       currentIndex = i;
@@ -569,7 +570,7 @@
       lightbox.classList.remove('open');
     }
     function showRelative(delta){
-      currentIndex = ((currentIndex - 1 + delta) + TOTAL_PHOTOS) % TOTAL_PHOTOS + 1;
+      currentIndex = ((currentIndex - START_PHOTO + delta) + (TOTAL_PHOTOS - START_PHOTO + 1)) % (TOTAL_PHOTOS - START_PHOTO + 1) + START_PHOTO;
       lightboxImg.src = basePath + currentIndex + '.jpg';
       if(currentIndex > shown){ renderBatch(); }
     }
