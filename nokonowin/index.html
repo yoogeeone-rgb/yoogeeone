@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NO KO NO WIN 생활 체육 대회 | 사진 촬영 패키지 신청 안내</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #101010;
+    --bg-soft: #171614;
+    --card: #1c1a17;
+    --line: #302c26;
+    --gold: #CEB070;
+    --gold-dim: #8f7a4f;
+    --red: #E23B33;
+    --text: #F2EFE8;
+    --text-dim: #A8A296;
+    --text-faint: #6f6a60;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Noto Sans KR", sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px; margin:0 auto; padding:0 24px 120px;}
+
+  /* HERO */
+  .hero{
+    position:relative;
+    padding:96px 24px 64px;
+    text-align:center;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(206,176,112,0.10), transparent 60%),
+      var(--bg);
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(206,176,112,0.035) 0px, rgba(206,176,112,0.035) 1px, transparent 1px, transparent 64px),
+      repeating-linear-gradient(90deg, rgba(206,176,112,0.035) 0px, rgba(206,176,112,0.035) 1px, transparent 1px, transparent 64px);
+    pointer-events:none;
+  }
+  .hero-inner{position:relative; max-width:760px; margin:0 auto;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:"Oswald", sans-serif;
+    font-size:12px; letter-spacing:0.35em; text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:22px;
+  }
+  .eyebrow::before, .eyebrow::after{content:""; width:24px; height:1px; background:var(--gold-dim);}
+  .brand-line{
+    font-family:"Oswald", sans-serif;
+    font-weight:700;
+    font-size:clamp(30px, 6vw, 52px);
+    letter-spacing:0.03em;
+    color:var(--text);
+    margin:0;
+    line-height:1.15;
+  }
+  .brand-line span{color:var(--gold);}
+  .sub-line{
+    font-weight:900;
+    font-size:clamp(18px, 3.4vw, 26px);
+    margin:16px 0 0;
+    color:var(--text);
+    letter-spacing:-0.01em;
+  }
+  .sub-line em{
+    font-style:normal;
+    color:var(--gold);
+    border-bottom:2px solid var(--gold-dim);
+    padding-bottom:2px;
+  }
+  .hero-tag{
+    margin-top:26px;
+    font-size:13.5px;
+    color:var(--text-dim);
+    letter-spacing:0.02em;
+  }
+
+  /* SECTION TITLE (title page) */
+  .lede{
+    padding:68px 24px 8px;
+    text-align:left;
+    max-width:820px; margin:0 auto;
+  }
+  .lede h1{
+    font-family:"Oswald", sans-serif;
+    font-weight:600;
+    font-size:clamp(24px, 4.6vw, 36px);
+    letter-spacing:-0.01em;
+    margin:0 0 6px;
+    color:var(--text);
+  }
+  .lede .rule{
+    width:52px; height:3px; background:var(--gold); margin:18px 0 0;
+  }
+
+  /* SECTION BLOCKS */
+  .section{
+    padding:52px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .section:last-of-type{border-bottom:none;}
+  .section-head{
+    display:flex; align-items:baseline; gap:14px;
+    margin-bottom:18px;
+  }
+  .num{
+    font-family:"Oswald", sans-serif;
+    font-size:14px;
+    color:var(--gold);
+    border:1px solid var(--gold-dim);
+    border-radius:999px;
+    width:26px; height:26px;
+    display:inline-flex; align-items:center; justify-content:center;
+    flex:none;
+  }
+  .section-head h2{
+    font-family:"Noto Sans KR", sans-serif;
+    font-weight:700;
+    font-size:20px;
+    margin:0;
+    color:var(--text);
+  }
+  .section p{
+    margin:0 0 12px;
+    color:var(--text-dim);
+    font-size:15px;
+  }
+  .section p:last-child{margin-bottom:0;}
+
+  .subblock{
+    margin-top:22px;
+    padding-left:0;
+  }
+  .subblock-title{
+    font-weight:700;
+    font-size:14.5px;
+    color:var(--text);
+    margin-bottom:8px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .subblock-title .tag{
+    font-family:"Oswald", sans-serif;
+    font-size:12px;
+    color:var(--gold);
+    border:1px solid var(--gold-dim);
+    padding:1px 7px;
+    border-radius:4px;
+  }
+
+  .account-box{
+    margin-top:14px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-left:3px solid var(--gold);
+    border-radius:6px;
+    padding:14px 18px;
+    font-size:14.5px;
+    color:var(--gold);
+    letter-spacing:0.01em;
+  }
+  .account-box b{color:var(--gold);}
+
+  .warn-box{
+    margin-top:14px;
+    background:rgba(226,59,51,0.08);
+    border:1px solid rgba(226,59,51,0.35);
+    border-radius:6px;
+    padding:14px 18px;
+    font-size:14px;
+    color:var(--red);
+    font-weight:500;
+  }
+
+  /* PRICE TABLE */
+  .price-table{
+    margin-top:18px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .price-top{
+    display:grid;
+    grid-template-columns:1fr 0.8fr 1.6fr;
+  }
+  .price-top .cell{
+    padding:16px 18px;
+    font-weight:700;
+    font-size:13.5px;
+    letter-spacing:0.03em;
+    color:var(--bg);
+    background:var(--gold);
+    border-right:1px solid rgba(0,0,0,0.15);
+  }
+  .price-top .cell:last-child{border-right:none;}
+  .price-body{
+    display:grid;
+    grid-template-columns:1fr 0.8fr 1.6fr;
+    background:var(--card);
+  }
+  .price-body .cell{
+    padding:20px 18px;
+    font-size:15px;
+    border-right:1px solid var(--line);
+  }
+  .price-body .cell:last-child{border-right:none;}
+  .price-body .item-name{font-weight:700; color:var(--text);}
+  .price-price{
+    font-family:"Oswald", sans-serif;
+    font-weight:600;
+    font-size:22px;
+    color:var(--gold);
+  }
+  .price-detail{
+    font-size:13.5px;
+    color:var(--text-dim);
+    line-height:1.65;
+  }
+  .price-detail div{margin-bottom:4px;}
+  .price-detail div:last-child{margin-bottom:0;}
+  @media (max-width:640px){
+    .price-top{display:none;}
+    .price-body{grid-template-columns:1fr; row-gap:0;}
+    .price-body .cell{border-right:none; border-bottom:1px solid var(--line); position:relative; padding-left:18px;}
+    .price-body .cell:last-child{border-bottom:none;}
+    .price-body .cell::before{
+      content:attr(data-label);
+      display:block;
+      font-family:"Oswald", sans-serif;
+      font-size:11px;
+      letter-spacing:0.08em;
+      color:var(--gold-dim);
+      margin-bottom:6px;
+      text-transform:uppercase;
+    }
+  }
+
+  ul.plain{margin:0; padding-left:0; list-style:none;}
+  ul.plain li{
+    font-size:14px; color:var(--text-dim);
+    padding-left:14px; position:relative; margin-bottom:4px;
+  }
+  ul.plain li::before{
+    content:"–"; position:absolute; left:0; color:var(--gold-dim);
+  }
+
+  /* FAQ */
+  .faq-item{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px 20px;
+    margin-bottom:12px;
+  }
+  .faq-item:last-child{margin-bottom:0;}
+  .faq-q{
+    font-weight:700; font-size:14.5px; color:var(--gold);
+    margin-bottom:8px;
+    display:flex; gap:8px;
+  }
+  .faq-a{
+    font-size:14.5px; color:var(--text-dim);
+  }
+  .faq-a p{margin:0 0 8px; color:var(--text-dim); font-size:14.5px;}
+  .faq-a p:last-child{margin-bottom:0;}
+  .faq-a a{color:var(--gold); text-decoration:none; border-bottom:1px solid var(--gold-dim);}
+
+  /* GALLERY */
+  .gallery-section{
+    padding:52px 0 20px;
+  }
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:6px;
+    margin-top:22px;
+  }
+  .gallery-grid img{
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    display:block;
+    background:var(--card);
+    cursor:pointer;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .gallery-grid img:hover{opacity:0.82;}
+  @media (max-width:640px){
+    .gallery-grid{grid-template-columns:repeat(3, 1fr); gap:4px;}
+  }
+
+  .gallery-more{
+    display:block;
+    margin:26px auto 0;
+    padding:12px 30px;
+    background:transparent;
+    border:1px solid var(--gold-dim);
+    color:var(--gold);
+    font-family:"Oswald", sans-serif;
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background .2s ease, color .2s ease;
+  }
+  .gallery-more:hover{background:var(--gold); color:var(--bg);}
+  .gallery-more[hidden]{display:none;}
+
+  .lightbox{
+    position:fixed; inset:0;
+    background:rgba(8,8,8,0.94);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:999;
+    padding:24px;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox img{
+    max-width:min(92vw, 900px);
+    max-height:86vh;
+    object-fit:contain;
+    border:1px solid var(--line);
+  }
+  .lightbox-close{
+    position:absolute;
+    top:22px; right:26px;
+    font-family:"Oswald", sans-serif;
+    font-size:14px;
+    letter-spacing:0.1em;
+    color:var(--text-dim);
+    background:none;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:8px 16px;
+    cursor:pointer;
+  }
+  .lightbox-close:hover{color:var(--gold); border-color:var(--gold-dim);}
+  .lightbox-nav{
+    position:absolute;
+    top:50%; transform:translateY(-50%);
+    background:none;
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    font-family:"Oswald", sans-serif;
+    font-size:18px;
+    width:44px; height:44px;
+    border-radius:999px;
+    cursor:pointer;
+  }
+  .lightbox-nav:hover{color:var(--gold); border-color:var(--gold-dim);}
+  .lightbox-prev{left:16px;}
+  .lightbox-next{right:16px;}
+  @media (max-width:640px){
+    .lightbox-nav{width:38px; height:38px; font-size:15px;}
+  }
+
+  .contact-strip{
+    margin-top:60px;
+    text-align:center;
+    padding:40px 24px 0;
+  }
+  .contact-strip .rule{
+    width:52px; height:1px; background:var(--line); margin:0 auto 28px;
+  }
+  .contact-strip .label{
+    font-family:"Oswald", sans-serif;
+    font-size:12px; letter-spacing:0.3em; text-transform:uppercase;
+    color:var(--text-faint);
+    margin-bottom:10px;
+  }
+  .contact-strip .studio{
+    font-weight:700; font-size:16px; color:var(--text);
+  }
+
+  strong.hl{color:var(--gold);}
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <p class="brand-line">NO KO NO WIN <span>생활 체육 대회</span></p>
+      <p class="sub-line">사진 촬영 <em>패키지 신청 안내</em></p>
+      <div class="hero-tag">용기와 열정, 자부심을 담습니다.</div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="section">
+      <div class="section-head">
+        <span class="num">1</span>
+        <h2>촬영 서비스 안내</h2>
+      </div>
+      <p>본 촬영 서비스는 <strong class="hl">8월 15일</strong> 생활체육대회 참가자들을 위한 공식 사진 기록을 제공합니다.</p>
+      <p>승부의 순간, 링 위의 긴장감, 그리고 땀의 흔적까지 생생히 담아드립니다.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="num">2</span>
+        <h2>촬영 안내 및 유의사항</h2>
+      </div>
+
+      <div class="subblock">
+        <div class="subblock-title"><span class="tag">A</span> 촬영신청 및 입금안내</div>
+        <p>촬영을 원하시는 분은 대회 참가비와 함께 촬영비를 아래 계좌로 입금해 주세요.<br>입금 확인 후 촬영 예약이 최종 완료됩니다.</p>
+        <div class="account-box">*입금계좌: 신한 <b>140-015-686471</b> (주)키네틱컬쳐</div>
+        <div class="warn-box">작성해주신 연락처로 사진이 전송됩니다. 연락처를 미작성하여 발생한 피해는 책임지지 않습니다.</div>
+      </div>
+
+      <div class="subblock">
+        <div class="subblock-title"><span class="tag">B</span> 시합 당일 안내</div>
+        <p>시합 당일, 최고의 컨디션으로 멋진 경기를 만들어 주세요.<br>저희는 참가자 여러분의 열정과 에너지를 생생히 담기 위해 최선을 다하겠습니다.</p>
+      </div>
+
+      <div class="subblock">
+        <div class="subblock-title"><span class="tag">C</span> 사진 전달 일정</div>
+        <p>촬영된 사진은 시합 종료 후 <strong class="hl">10일 이내</strong>로 다운로드 링크를 통해 전달드립니다.<br>링크는 신청 시 기재해주신 연락처(문자)로 발송됩니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="num">3</span>
+        <h2>비용 및 서비스 구성</h2>
+      </div>
+      <div class="price-table">
+        <div class="price-top">
+          <div class="cell">항목</div>
+          <div class="cell">가격</div>
+          <div class="cell">제공내역</div>
+        </div>
+        <div class="price-body">
+          <div class="cell item-name" data-label="항목">경기 촬영 사전 예약</div>
+          <div class="cell price-price" data-label="가격">30,000원</div>
+          <div class="cell price-detail" data-label="제공내역">
+            <div>경기사진: 촬영된 이미지 모두 제공</div>
+            <div>– 입장, 경기내용, 퇴장 등 최소 40장 이상</div>
+            <div>– 촬영된 이미지는 모두 색감 보정하여 제공</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="num">4</span>
+        <h2>사진 제공 방식 안내</h2>
+      </div>
+      <p>사진은 대회 종료 후 10일 이내 다운로드 링크를 <strong style="color:var(--red);">"문자"</strong>로 전달 드립니다.</p>
+      <p style="color:var(--red);">전화번호를 미작성 하여 발생하는 피해는 책임지지 않습니다.</p>
+      <p>경기중 촬영된 모든 이미지를 색감 보정까지 완료하여 드립니다.</p>
+      <p>파일은 고화질 이미지(4,000px 72dpi)로 제공됩니다.</p>
+      <p>파일은 네이버 마이박스(클라우드)에 업로드되며 업로드 7일 이후 자동 삭제됩니다.</p>
+      <p>**기한내에 파일을 다운로드 받지 못하여 새로운 업로드를 요청시 30,000원 추가 비용이 발생합니다.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="num">5</span>
+        <h2>신청 방법</h2>
+      </div>
+      <p>계좌이체를 통해서만 예약이 가능합니다.</p>
+      <p>신청자와 입금자 명의가 다를 경우 꼭 별도의 메시지를 남겨주세요.</p>
+      <div class="account-box">*입금계좌: 신한 <b>140-015-686471</b> (주)키네틱컬쳐</div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="num">6</span>
+        <h2>자주 묻는 질문 (FAQ)</h2>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Q. 사진은 언제 받게 되나요?</div>
+        <div class="faq-a">A. 경기 종료 후 10일 후 개별 링크를 문자로 발송해 드립니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Q. 포토그래퍼의 결과물을 보고싶어요.</div>
+        <div class="faq-a">
+          <p>A. 포토그래퍼의 복싱 사진은 <a href="#gallery">아래 갤러리</a>에서 확인하실 수 있습니다.<br>더 많은 사진이 궁금하시면 홈페이지와 인스타그램 링크도 참조해주세요.</p>
+          <p>– 홈페이지: <a href="https://yoogeeone.kr" target="_blank" rel="noopener">yoogeeone.kr</a></p>
+          <p>– 인스타그램: <a href="https://instagram.com/sunsetblvd.seoul" target="_blank" rel="noopener">instagram.com/sunsetblvd.seoul</a></p>
+          <p>– 더 궁금하신 내용이 있다면 우측 하단의 카카오톡 문의를 이용해주세요. 빠르게 안내해드리겠습니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section gallery-section" id="gallery">
+      <div class="section-head">
+        <span class="num">7</span>
+        <h2>포토그래퍼 결과물 갤러리</h2>
+      </div>
+      <p>NO KO NO WIN 생활 체육 대회에서 촬영된 이미지 일부입니다. 촬영 색감과 스타일을 참고해 주세요.</p>
+      <div class="gallery-grid" id="galleryGrid"></div>
+      <button class="gallery-more" id="galleryMore">사진 더 보기</button>
+    </div>
+
+    <div class="contact-strip">
+      <div class="rule"></div>
+      <div class="label">Photographed by</div>
+      <div class="studio">Sideline Seoul · 석양대로 Sunset BLVD</div>
+    </div>
+
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">닫기 ✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</button>
+    <img id="lightboxImg" src="" alt="">
+    <button class="lightbox-nav lightbox-next" id="lightboxNext">›</button>
+  </div>
+
+  <script>
+    const TOTAL_PHOTOS = 98;
+    const INITIAL_COUNT = 24;
+    const BATCH = 24;
+    const basePath = "images/nokonowin/nokonowin_";
+
+    const grid = document.getElementById('galleryGrid');
+    const moreBtn = document.getElementById('galleryMore');
+    let shown = 0;
+
+    function renderBatch(){
+      const next = Math.min(shown + BATCH, TOTAL_PHOTOS);
+      for(let i = shown + 1; i <= next; i++){
+        const img = document.createElement('img');
+        img.src = basePath + i + '.jpg';
+        img.alt = 'NO KO NO WIN 생활 체육 대회 사진 ' + i;
+        img.loading = 'lazy';
+        img.dataset.index = i;
+        img.addEventListener('click', () => openLightbox(i));
+        grid.appendChild(img);
+      }
+      shown = next;
+      if(shown >= TOTAL_PHOTOS){
+        moreBtn.hidden = true;
+      }
+    }
+    renderBatch();
+    moreBtn.addEventListener('click', renderBatch);
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    let currentIndex = 1;
+
+    function openLightbox(i){
+      currentIndex = i;
+      lightboxImg.src = basePath + i + '.jpg';
+      lightbox.classList.add('open');
+    }
+    function closeLightbox(){
+      lightbox.classList.remove('open');
+    }
+    function showRelative(delta){
+      currentIndex = ((currentIndex - 1 + delta) + TOTAL_PHOTOS) % TOTAL_PHOTOS + 1;
+      lightboxImg.src = basePath + currentIndex + '.jpg';
+      if(currentIndex > shown){ renderBatch(); }
+    }
+
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    document.getElementById('lightboxPrev').addEventListener('click', () => showRelative(-1));
+    document.getElementById('lightboxNext').addEventListener('click', () => showRelative(1));
+    lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+      if(!lightbox.classList.contains('open')) return;
+      if(e.key === 'Escape') closeLightbox();
+      if(e.key === 'ArrowLeft') showRelative(-1);
+      if(e.key === 'ArrowRight') showRelative(1);
+    });
+  </script>
+
+</body>
+</html>
