@@ -232,11 +232,12 @@
   }
   .notice-title{
     font-family:"Oswald", sans-serif;
-    font-size:12px;
-    letter-spacing:0.2em;
+    font-size:17px;
+    letter-spacing:0.06em;
     text-transform:uppercase;
     color:var(--gold);
-    margin-bottom:10px;
+    margin-bottom:12px;
+    font-weight:600;
   }
   .notice-box p{
     font-size:14.5px;
@@ -244,6 +245,40 @@
     margin:0 0 8px;
   }
   .notice-box p:last-child{margin-bottom:0;}
+
+  .timeline{
+    margin-top:18px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:10px;
+  }
+  .timeline-item{
+    background:var(--bg-soft);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:12px 14px;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    min-width:0;
+  }
+  .timeline-date{
+    font-family:"Oswald", sans-serif;
+    font-size:15px;
+    font-weight:600;
+    color:var(--gold);
+    letter-spacing:0.01em;
+  }
+  .timeline-label{
+    font-size:12.5px;
+    color:var(--text-dim);
+  }
+  @media (max-width:640px){
+    .timeline{grid-template-columns:1fr;}
+    .timeline-item{flex-direction:row; align-items:center; justify-content:space-between;}
+  }
 
   /* PRICE TABLE */
   .price-table{
@@ -463,9 +498,28 @@
   <div class="wrap">
 
     <div class="notice-box">
-      <div class="notice-title">필독 안내</div>
+      <div class="notice-title">꼭 읽어주세요</div>
       <p>촬영 패키지 신청 및 입금을 완료하신 분은 아래 안내사항 전체에 동의 및 숙지하신 것으로 간주합니다.</p>
       <p>특히 <strong class="hl">신청자 전화번호를 정확히 기입</strong>해 주시고, 발송된 다운로드 링크는 <strong class="hl">안내된 보관 기간 내에 반드시 다운로드</strong>해 주시기 바랍니다.</p>
+      <p>이 페이지는 <strong class="hl">9월 2일까지만</strong> 유지됩니다.</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="timeline-date">8월 15일</span>
+          <span class="timeline-label">촬영</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-date">8월 25일 이내</span>
+          <span class="timeline-label">사진 업로드 및 링크 발송</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-date">9월 1일</span>
+          <span class="timeline-label">업로드 파일 자동 삭제</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-date">9월 2일</span>
+          <span class="timeline-label">본 페이지 종료</span>
+        </div>
+      </div>
     </div>
 
     <div class="section">
@@ -484,12 +538,8 @@
       </div>
 
       <div class="subblock">
-        <div class="subblock-title"><span class="tag">A</span> 촬영신청 및 입금안내</div>
-        <p>촬영을 원하시는 분은 대회 참가비와 함께 촬영비를 아래 계좌로 입금해 주세요.<br>입금 확인 후 촬영 예약이 최종 완료됩니다.</p>
-        <div class="account-box">
-          <span>*입금계좌: 신한 <b>140-015-686471</b> (주)키네틱컬쳐</span>
-          <button class="copy-btn" data-copy="140-015-686471" type="button">계좌번호 복사</button>
-        </div>
+        <div class="subblock-title"><span class="tag">A</span> 촬영신청 방법</div>
+        <p>대회 참가 신청서 작성 시 <strong class="hl">촬영 패키지 신청</strong> 항목에 체크해 주세요.<br>대회 참가비와 촬영 비용을 함께 입금해 주시면 신청이 완료됩니다.</p>
       </div>
 
       <div class="subblock">
@@ -517,7 +567,7 @@
         </div>
         <div class="price-body">
           <div class="cell item-name" data-label="항목">경기 촬영 사전 예약</div>
-          <div class="cell price-price" data-label="가격">30,000원</div>
+          <div class="cell price-price" data-label="가격">50,000원</div>
           <div class="cell price-detail" data-label="제공내역">
             <div>경기사진: 촬영된 이미지 모두 제공</div>
             <div>– 입장, 경기내용, 퇴장 등 최소 40장 이상</div>
@@ -537,8 +587,7 @@
       <div class="info-box">개인 전화번호 대신 소속 체육관 번호가 기재되어 있는 경우, 사진은 해당 체육관 번호로 일괄 전송됩니다.<br>전화번호를 기입했는데 다운로드 링크를 받지 못하신 경우, 체육관 관장님께 문의해 주세요.</div>
       <p>경기중 촬영된 모든 이미지를 색감 보정까지 완료하여 드립니다.</p>
       <p>파일은 고화질 이미지(4,000px 72dpi)로 제공됩니다.</p>
-      <p>파일은 네이버 마이박스(클라우드)에 업로드되며 업로드 7일 이후 자동 삭제됩니다.</p>
-      <p>**기한내에 파일을 다운로드 받지 못하여 새로운 업로드를 요청시 30,000원 추가 비용이 발생합니다.</p>
+      <p>파일은 네이버 마이박스(클라우드)에 업로드되며 업로드 7일 이후 <strong style="color:var(--red);">자동 삭제</strong>됩니다. 삭제된 파일은 이후 복구가 불가능하오니 기한 내에 반드시 다운로드해 주세요.</p>
     </div>
 
     <div class="section">
@@ -546,12 +595,9 @@
         <span class="num">5</span>
         <h2>신청 방법</h2>
       </div>
-      <p>계좌이체를 통해서만 예약이 가능합니다.</p>
+      <p>대회 참가 신청서 작성 시 <strong class="hl">촬영 패키지 신청</strong> 항목에 체크해 주세요.</p>
+      <p>대회 참가비와 촬영 비용을 함께 입금해 주시면 신청이 완료됩니다.</p>
       <p>신청자와 입금자 명의가 다를 경우 꼭 별도의 메시지를 남겨주세요.</p>
-      <div class="account-box">
-        <span>*입금계좌: 신한 <b>140-015-686471</b> (주)키네틱컬쳐</span>
-        <button class="copy-btn" data-copy="140-015-686471" type="button">계좌번호 복사</button>
-      </div>
     </div>
 
     <div class="section">
@@ -562,7 +608,7 @@
 
       <div class="faq-item">
         <div class="faq-q">Q. 사진은 언제 받게 되나요?</div>
-        <div class="faq-a">A. 경기 종료 후 10일 후 개별 링크를 문자로 발송해 드립니다.</div>
+        <div class="faq-a">A. 경기 종료 후 10일 후 개별 링크를 문자로 발송해 드립니다. 해당 다운로드 링크는 이 페이지에도 함께 업로드됩니다.</div>
       </div>
 
       <div class="faq-item">
