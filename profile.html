@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Profile — Studio Sunset BLVD.</title>
+  <link rel="canonical" href="https://yoogeeone.kr/profile">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+
+    :root { --paper:#efefeb; --ink:#252522; --muted:#62625c; --line:#c9c9c2; --sans:'DM Sans','Noto Sans KR',sans-serif; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { background:#242423; }
+    body { max-width:430px; margin:auto; background:var(--paper); color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+    a { color:inherit; text-underline-offset:4px; }
+    a:focus-visible, summary:focus-visible { outline:2px solid var(--ink); outline-offset:5px; }
+    .sheet { position:relative; padding:28px 26px; min-height:660px; display:flex; flex-direction:column; border-bottom:10px solid #242423; }
+    .folio { display:flex; justify-content:space-between; gap:16px; font-size:9px; line-height:1.3; text-transform:uppercase; letter-spacing:.02em; }
+    .page-foot { display:flex; justify-content:space-between; align-items:end; gap:12px; margin-top:auto; padding-top:36px; font-size:9px; line-height:1.3; text-transform:uppercase; }
+    .ghost { font-weight:800; font-size:24px; letter-spacing:-.06em; color:#d1d1ca; }
+    .site-nav { display:flex; justify-content:center; }
+    .nav-logo { display:inline-flex; min-width:44px; min-height:44px; justify-content:center; }
+    .nav-logo img { height:48px; width:auto; mix-blend-mode:multiply; }
+    .cover { min-height:720px; }
+    .cover-art { width:76%; margin:94px auto 0; position:relative; }
+    .cover-art img, .portrait img { display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover; }
+    .cover-art img { border:1px solid #b9b9b2; padding:4px; }
+    .side-note { position:absolute; left:-20px; top:4px; writing-mode:vertical-rl; font-size:8px; letter-spacing:.09em; }
+    .cover-title { position:relative; margin:-5px -9px 0; font-size:45px; font-weight:900; line-height:.85; letter-spacing:-.07em; text-transform:uppercase; }
+    .cover-caption { display:flex; justify-content:space-between; font-size:8px; padding-top:12px; text-transform:uppercase; }
+    h1,h2 { font-size:42px; line-height:.88; font-weight:900; letter-spacing:-.065em; text-transform:uppercase; }
+    .about h1 { margin-top:86px; max-width:280px; }
+    .about-copy { margin-top:42px; max-width:255px; }
+    p { font-size:13px; line-height:1.85; word-break:keep-all; }
+    .about-copy p + p { margin-top:14px; }
+    .text-link { display:inline-flex; align-items:center; min-height:44px; font-size:11px; margin-top:14px; }
+    .file-spec { display:inline-block; }
+    .portfolio h2 { margin:80px 0 38px; font-size:38px; }
+    .portfolio-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:5px; }
+    .portfolio-placeholder { aspect-ratio:4/5; display:grid; place-items:center; background:#e1e1db; color:var(--muted); font-size:10px; }
+    .portfolio-grid img { display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; }
+    .portfolio-link { display:flex; align-items:center; justify-content:space-between; min-height:48px; margin-top:22px; font-size:12px; text-decoration:none; border-bottom:1px solid var(--ink); }
+    .services h2 { margin-top:82px; }
+    .service-list { margin-top:40px; }
+    .service-row { display:grid; grid-template-columns:28px minmax(0,1fr); column-gap:12px; border-top:1px solid var(--line); padding:22px 0; }
+    .number { font-size:10px; padding-top:4px; }
+    h3 { font-weight:800; font-size:23px; line-height:1.1; letter-spacing:-.045em; }
+    .service-spec { margin-top:9px; font-size:12px; }
+    .service-action { border-top:1px solid var(--line); padding-top:18px; }
+    .service-action p { font-size:11px; color:var(--muted); }
+    .service-inquiry { display:flex; justify-content:space-between; align-items:center; min-height:48px; margin-top:16px; border-bottom:1px solid var(--ink); font-size:13px; font-weight:700; text-decoration:none; }
+    .process h2 { margin:80px 0 38px; }
+    .process-list { list-style:none; }
+    .process-step { display:grid; grid-template-columns:28px minmax(0,1fr); gap:12px; padding:22px 0; border-top:1px solid var(--line); }
+    .process-step:last-child { border-bottom:1px solid var(--line); }
+    .process-step h3 { font-size:21px; }
+    .process-step p { margin-top:12px; font-size:13px; line-height:1.85; color:var(--muted); }
+    .faq { min-height:620px; }
+    .faq h2 { margin:80px 0 36px; }
+    .faq-item { border-top:1px solid var(--line); }
+    .faq-item:last-child { border-bottom:1px solid var(--line); }
+    .faq-item summary { list-style:none; display:flex; align-items:center; justify-content:space-between; gap:14px; min-height:64px; padding:18px 0; font-size:13px; font-weight:700; line-height:1.6; word-break:keep-all; cursor:pointer; }
+    .faq-item summary::-webkit-details-marker { display:none; }
+    .faq-item summary::after { content:'+'; flex:0 0 16px; font-size:20px; font-weight:400; }
+    .faq-item[open] summary::after { content:'−'; }
+    .faq-answer { padding:0 0 24px; }
+    .faq-answer p,.faq-answer li { font-size:13px; line-height:1.9; color:var(--muted); word-break:keep-all; }
+    .faq-answer ul { padding-left:16px; }
+    .faq-answer li + li,.faq-answer p + p,.faq-answer ul + p { margin-top:12px; }
+    .faq-answer strong { color:var(--ink); font-weight:700; }
+    .contacts { min-height:720px; border-bottom:0; }
+    .portrait { width:64%; margin:60px auto 0; padding:4px; border:1px solid #b9b9b2; }
+    .contacts h2 { margin:-5px 0 30px; position:relative; font-size:40px; }
+    .contact-links { display:flex; flex-direction:column; align-items:flex-start; margin-left:22%; }
+    .contact-links a { min-height:44px; display:flex; align-items:center; font-size:12px; }
+    .address { font-size:11px; margin:16px 0 0 22%; }
+    .studio-location { margin-top:28px; }
+    #studio-map { width:100%; height:280px; background:#e0ddd8; display:grid; place-items:center; }
+    .map-placeholder { padding:24px; text-align:center; font-size:12px; color:var(--muted); }
+    .map-link { display:flex; align-items:center; justify-content:space-between; min-height:48px; font-size:12px; border-bottom:1px solid var(--line); text-decoration:none; }
+    .review-note { font-size:10px; color:var(--muted); padding:16px 26px; border-top:1px solid var(--line); }
+  </style>
+</head>
+
+<body>
+  <main>
+    <section class="sheet cover" aria-label="프로필 촬영">
+      <header class="site-nav"><a class="nav-logo" href="/" aria-label="스튜디오 석양대로 홈"><img src="/images/SSBLVD_black.png" alt="SSBLVD"></a></header>
+      <figure class="cover-art">
+        <span class="side-note" aria-hidden="true">STUDIO SUNSET BLVD. — PORTRAIT</span>
+        <img src="/images/service/profile/main.jpg" alt="스튜디오 석양대로 프로필 촬영 작품" width="1510" height="1888" fetchpriority="high">
+        <figcaption><div class="cover-title">Sunset<br>Blvd.</div><div class="cover-caption"><span>Profile photography</span><span>Seoul, KR</span></div></figcaption>
+      </figure>
+      <div class="page-foot"><span>Studio Sunset Blvd.</span><span>01 — Profile</span></div>
+    </section>
+    <section class="sheet about" aria-labelledby="about-title">
+      <div class="folio"><span>Studio Sunset Blvd.</span><span>02 / About</span></div>
+      <h1 id="about-title">About<br>Sunset<br>Blvd.</h1>
+      <div class="about-copy"><p>작가의 시선으로 인물의 본질을 담아냅니다.</p><p>사전 미팅을 통해 촬영의 목적과 방향을 함께 스케치하고, 당신이 표현하고자 하는 고유의 분위기를 고민합니다.</p></div>
+      <div class="page-foot"><span class="ghost" aria-hidden="true">SUNSET BLVD.</span><span>Portrait<br>Photography</span></div>
+    </section>
+    <section class="sheet portfolio" aria-labelledby="portfolio-title">
+      <div class="folio"><span>Studio Sunset Blvd.</span><span>03 / Portfolio</span></div>
+      <h2 id="portfolio-title">Portfolio</h2>
+      <div class="portfolio-grid" aria-label="포트폴리오 사진 9장, 선정 예정">
+        <div class="portfolio-placeholder" role="img" aria-label="사진 1 선정 예정"><span>01</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 2 선정 예정"><span>02</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 3 선정 예정"><span>03</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 4 선정 예정"><span>04</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 5 선정 예정"><span>05</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 6 선정 예정"><span>06</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 7 선정 예정"><span>07</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 8 선정 예정"><span>08</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 9 선정 예정"><span>09</span></div>
+      </div>
+      <a class="portfolio-link" href="https://yoogeeone.kr/#work/portrait">포트폴리오 전체보기 <span aria-hidden="true">↗</span></a>
+      <div class="page-foot"><span class="ghost" aria-hidden="true">SUNSET BLVD.</span><span>Portrait works</span></div>
+    </section>
+    <section class="sheet services" aria-labelledby="services-title">
+      <div class="folio"><span>Profile sessions</span><span>04 / Services</span></div>
+      <h2 id="services-title">Services</h2>
+      <div class="service-list">
+        <article class="service-row"><span class="number">01</span><div><h3>Standard</h3><p class="service-spec">1컨셉 / 30분 / 보정 2장</p></div></article>
+        <article class="service-row"><span class="number">02</span><div><h3>Essential</h3><p class="service-spec">2컨셉 / 60분 / 보정 5장</p></div></article>
+        <article class="service-row"><span class="number">03</span><div><h3>Essential Plus</h3><p class="service-spec">3컨셉 / 90분 / 보정 7장</p></div></article>
+      </div>
+      <div class="service-action"><p>모든 상품에 촬영 원본 전체 파일이 제공됩니다. <span class="file-spec">4,000px / jpg / 72dpi</span></p><a class="service-inquiry" href="https://ig.me/m/sunsetblvd.seoul" target="_blank" rel="noopener noreferrer">인스타그램 DM 상담 <span aria-hidden="true">↗</span></a></div>
+      <div class="page-foot"><span class="ghost" aria-hidden="true">SUNSET BLVD.</span><span>Seoul, KR</span></div>
+    </section>
+    <section class="sheet process" aria-labelledby="process-title">
+      <div class="folio"><span>From inquiry to shoot</span><span>05 / Process</span></div>
+      <h2 id="process-title">Process</h2>
+      <ol class="process-list">
+        <li class="process-step"><span class="number" aria-hidden="true">01</span><div><h3>문의 및 상담</h3><p>인스타그램 DM으로 희망 촬영일과 상품을 보내 주세요. 접수 순서에 따라 1:1 상담을 진행합니다.</p></div></li>
+        <li class="process-step"><span class="number" aria-hidden="true">02</span><div><h3>예약 확정</h3><p>DM으로 촬영 일정과 세부 사항을 조율합니다. 상담 후 안내드리는 네이버 예약 링크에서 예약·결제를 진행합니다.</p></div></li>
+        <li class="process-step"><span class="number" aria-hidden="true">03</span><div><h3>사전 준비</h3><p>헤어·메이크업과 의상 준비 등 촬영 전에 확인하실 내용을 인스타그램 DM으로 안내해 드립니다.</p></div></li>
+        <li class="process-step"><span class="number" aria-hidden="true">04</span><div><h3>촬영</h3><p>콘셉트와 스타일링을 최종 점검한 뒤 촬영합니다. 촬영한 이미지를 함께 확인하고 베스트 컷을 선택합니다.</p></div></li>
+      </ol>
+      <div class="page-foot"><span class="ghost" aria-hidden="true">SUNSET BLVD.</span><span>Session process</span></div>
+    </section>
+    <section class="sheet faq" aria-labelledby="faq-title">
+      <div class="folio"><span>Before your session</span><span>06 / FAQ</span></div>
+      <h2 id="faq-title">FAQ.</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>원본과 보정본은 어떻게 제공되나요?</summary>
+          <div class="faq-answer">
+            <ul>
+              <li>촬영 원본 전체 파일을 <strong>4,000px / 72dpi</strong>로 제공합니다.</li>
+              <li>세부 리터칭을 마친 보정본은 <strong>고해상도 출력용과 웹용 JPG</strong>로 제공합니다.</li>
+              <li>요청하시면 촬영 전 미팅과 컨설팅을 진행합니다.</li>
+            </ul>
+            <p>최종 보정은 <strong>사진 셀렉일 기준 약 3영업일</strong>이 소요됩니다. 오디션이나 제출 마감이 촉박한 경우 미리 알려주시면 일정을 조율해 드립니다.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>예약 일정 변경이나 취소가 가능한가요?</summary>
+          <div class="faq-answer">
+            <p>모든 촬영은 <strong>100% 사전 예약제</strong>로 운영됩니다. 일정 변경과 취소는 <strong>촬영일 기준 7일 전까지</strong> 가능합니다.</p>
+            <p><strong>촬영일 6일 전부터는 변경·취소가 불가</strong>합니다. 이 기간에 취소하시면 환불 규정에 따라 위약금이 발생할 수 있으니, 예약 전 일정을 확인해 주세요.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>예약 시간에 늦으면 어떻게 되나요?</summary>
+          <div class="faq-answer">
+            <p>예약 시간보다 <strong>15분 이상 늦으면 자동 노쇼(No-Show) 처리</strong>되어 촬영과 환불이 불가능합니다.</p>
+            <p>다음 예약 고객의 촬영을 정시에 진행해야 하므로 예약 시간을 꼭 지켜 주세요.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>의상과 헤어·메이크업은 어떻게 준비하나요?</summary>
+          <div class="faq-answer">
+            <ul>
+              <li><strong>헤어·메이크업</strong>은 방문 전에 마치고 오시는 것을 권장합니다. 준비가 어려우시면 예약 시 말씀해 주세요. 사전 조율을 통해 제휴 전문 아티스트를 소개해 드립니다.</li>
+              <li><strong>의상</strong>은 협의한 콘셉트에 맞춰 구김 없이 준비해 주세요. 스튜디오에 의상 교체 공간이 마련되어 있습니다.</li>
+              <li><strong>원하는 분위기나 참고 시안</strong>이 있다면 촬영 전에 공유해 주세요. 요청하신 방향을 함께 확인하고 촬영을 준비합니다.</li>
+            </ul>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>스튜디오 위치와 주차가 궁금해요.</summary>
+          <div class="faq-answer">
+            <p>스튜디오는 <strong>서울시 송파구 중대로 20길 12, 지하 1층</strong>에 있습니다.</p>
+            <p>가락동 스튜디오 건물 내 주차 공간을 이용하실 수 있습니다. <strong>차량으로 방문하실 경우 반드시 사전에 알려 주세요.</strong></p>
+          </div>
+        </details>
+      </div>
+
+      <div class="page-foot"><span class="ghost" aria-hidden="true">SUNSET BLVD.</span><span>Session guide</span></div>
+    </section>
+    <section class="sheet contacts" id="contacts" aria-labelledby="contacts-title">
+      <div class="folio"><span>Studio Sunset Blvd.</span><span>07 / Contact</span></div>
+      <figure class="portrait"><img src="/images/work/portrait/Profile_015.jpg" alt="스튜디오 석양대로 인물 촬영 작품" width="2200" height="1650" loading="lazy"></figure>
+      <h2 id="contacts-title">Contacts</h2>
+      <div class="contact-links"><a href="https://ig.me/m/sunsetblvd.seoul" target="_blank" rel="noopener noreferrer">인스타그램 DM 상담 ↗</a><a href="https://instagram.com/sunsetblvd.seoul" target="_blank" rel="noopener noreferrer">@sunsetblvd.seoul</a></div>
+      <p class="address">서울시 송파구 중대로 20길 12<br>지하 1층, 스튜디오 석양대로</p>
+      <div class="studio-location">
+        <div id="studio-map" role="region" aria-label="스튜디오 석양대로 위치 지도"><p class="map-placeholder">스튜디오 석양대로<br>서울시 송파구 중대로 20길 12</p></div>
+        <a class="map-link" href="https://map.naver.com/p/entry/place/1321577995" target="_blank" rel="noopener noreferrer">네이버 지도에서 보기 <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="page-foot"><span class="ghost" aria-hidden="true">SUNSET BLVD.</span><span>Seoul, KR</span></div>
+    </section>
+  </main>
+  <footer class="review-note">검토용 시안 · 사진은 기존 스튜디오 작업물로 임시 배치했습니다.</footer>
+<script>
+(function () {
+  // Reuse the homepage's Naver Maps client and studio coordinates.
+  // Downloaded file previews retain the address and place link.
+  if (location.protocol === 'file:') return;
+  var loader = document.createElement('script');
+  loader.src = 'https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=jxliu0otlu';
+  loader.async = true;
+  loader.onload = function () {
+    if (!window.naver || !window.naver.maps) return;
+    var el = document.getElementById('studio-map');
+    var fallback = el.innerHTML;
+    try {
+      el.innerHTML = '';
+      var center = new naver.maps.LatLng(37.498428, 127.127065);
+      var map = new naver.maps.Map(el, { center: center, zoom: 17, scrollWheel: false });
+      var marker = new naver.maps.Marker({ position: center, map: map });
+      var info = new naver.maps.InfoWindow({ content: '<div style="padding:8px 12px;font-size:13px;color:#252522;">석양대로</div>' });
+      info.open(map, marker);
+    } catch (error) {
+      el.innerHTML = fallback;
+    }
+  };
+  document.head.appendChild(loader);
+})();
+</script>
+</body>
+</html>
