@@ -1165,7 +1165,7 @@ footer { border-top: 1px solid var(--line); padding: 20px 40px; margin-top: 80px
 /* ── PAGE ── */
 var visitedPages = new Set();
 
-function showPage(id) {
+function showPage(id, workCategory) {
   document.querySelectorAll('.page').forEach(p => {
     p.classList.toggle('active', p.id === 'page-' + id);
   });
@@ -1186,16 +1186,16 @@ function showPage(id) {
   });
 
   if (history.replaceState) {
-    history.replaceState(null, '', '#' + id);
+    history.replaceState(null, '', '#' + id + (id === 'work' && workCategory === 'portrait' ? '/portrait' : ''));
   } else {
-    window.location.hash = id;
+    window.location.hash = id + (id === 'work' && workCategory === 'portrait' ? '/portrait' : '');
   }
   forceScrollTop();
   requestAnimationFrame(forceScrollTop);
   setTimeout(forceScrollTop, 0);
   setTimeout(forceScrollTop, 60);
   if (id === 'contact') setTimeout(initMap, 200);
-  if (id === 'work') setTimeout(function() { filterWork('all'); }, 0);
+  if (id === 'work') setTimeout(function() { filterWork(workCategory === 'portrait' ? 'portrait' : 'all'); }, 0);
 }
 
 function forceScrollTop() {
@@ -1266,7 +1266,8 @@ function initWorkGrid() {
   initWorkGrid();
   var hash = window.location.hash.replace('#', '');
   var valid = ['work','service','contact','guide'];
-  if (hash && valid.indexOf(hash) !== -1) showPage(hash);
+  if (hash === 'work/portrait') showPage('work', 'portrait');
+  else if (hash && valid.indexOf(hash) !== -1) showPage(hash);
   else showPage('work');
 })();
 
