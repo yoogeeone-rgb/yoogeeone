@@ -39,6 +39,7 @@
     .file-spec { display:inline-block; }
     .portfolio h2 { margin:80px 0 38px; font-size:38px; }
     .portfolio-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:5px; }
+    .portfolio-placeholder { aspect-ratio:4/5; display:grid; place-items:center; background:#e1e1db; color:var(--muted); font-size:10px; }
     .portfolio-grid img { display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; }
     .portfolio-link { display:flex; align-items:center; justify-content:space-between; min-height:48px; margin-top:22px; font-size:12px; text-decoration:none; border-bottom:1px solid var(--ink); }
     .services h2 { margin-top:82px; }
@@ -103,16 +104,16 @@
     <section class="sheet portfolio" aria-labelledby="portfolio-title">
       <div class="folio"><span>Studio Sunset Blvd.</span><span>03 / Portfolio</span></div>
       <h2 id="portfolio-title">Portfolio</h2>
-      <div class="portfolio-grid">
-        <img src="/images/work/portrait/Profile_01.jpg" alt="스튜디오 석양대로 프로필 작품 1" loading="lazy" width="400" height="500">
-        <img src="/images/work/portrait/Profile_05.jpg" alt="스튜디오 석양대로 프로필 작품 2" loading="lazy" width="400" height="500">
-        <img src="/images/work/portrait/Profile_010.jpg" alt="스튜디오 석양대로 프로필 작품 3" loading="lazy" width="400" height="500">
-        <img src="/images/work/portrait/Profile_015.jpg" alt="스튜디오 석양대로 프로필 작품 4" loading="lazy" width="400" height="500">
-        <img src="/images/work/portrait/Profile_020.jpg" alt="스튜디오 석양대로 프로필 작품 5" loading="lazy" width="400" height="500">
-        <img src="/images/work/portrait/Profile_025.jpg" alt="스튜디오 석양대로 프로필 작품 6" loading="lazy" width="400" height="500">
-        <img src="/images/work/portrait/Profile_030.jpg" alt="스튜디오 석양대로 프로필 작품 7" loading="lazy" width="400" height="500">
-        <img src="/images/work/portrait/Profile_032.jpg" alt="스튜디오 석양대로 프로필 작품 8" loading="lazy" width="400" height="500">
-        <img src="/images/work/portrait/Profile_034.jpg" alt="스튜디오 석양대로 프로필 작품 9" loading="lazy" width="400" height="500">
+      <div class="portfolio-grid" aria-label="포트폴리오 사진 9장, 선정 예정">
+        <div class="portfolio-placeholder" role="img" aria-label="사진 1 선정 예정"><span>01</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 2 선정 예정"><span>02</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 3 선정 예정"><span>03</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 4 선정 예정"><span>04</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 5 선정 예정"><span>05</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 6 선정 예정"><span>06</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 7 선정 예정"><span>07</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 8 선정 예정"><span>08</span></div>
+        <div class="portfolio-placeholder" role="img" aria-label="사진 9 선정 예정"><span>09</span></div>
       </div>
       <a class="portfolio-link" href="https://yoogeeone.kr/#work/portrait">포트폴리오 전체보기 <span aria-hidden="true">↗</span></a>
       <div class="page-foot"><span class="ghost" aria-hidden="true">SUNSET BLVD.</span><span>Portrait works</span></div>
@@ -125,16 +126,16 @@
         <article class="service-row"><span class="number">02</span><div><h3>Essential</h3><p class="service-spec">2컨셉 / 60분 / 보정 5장</p></div></article>
         <article class="service-row"><span class="number">03</span><div><h3>Essential Plus</h3><p class="service-spec">3컨셉 / 90분 / 보정 7장</p></div></article>
       </div>
-      <div class="service-action"><p>모든 상품에 촬영 원본 전체 파일이 제공됩니다. <span class="file-spec">4,000px / jpg / 72dpi</span></p><a class="service-inquiry" href="https://ig.me/m/sunsetblvd.seoul" target="_blank" rel="noopener noreferrer">촬영 상담하기 <span aria-hidden="true">↗</span></a></div>
+      <div class="service-action"><p>모든 상품에 촬영 원본 전체 파일이 제공됩니다. <span class="file-spec">4,000px / jpg / 72dpi</span></p><a class="service-inquiry" href="https://ig.me/m/sunsetblvd.seoul" target="_blank" rel="noopener noreferrer">인스타그램 DM 상담 <span aria-hidden="true">↗</span></a></div>
       <div class="page-foot"><span class="ghost" aria-hidden="true">SUNSET BLVD.</span><span>Seoul, KR</span></div>
     </section>
     <section class="sheet process" aria-labelledby="process-title">
       <div class="folio"><span>From inquiry to shoot</span><span>05 / Process</span></div>
       <h2 id="process-title">Process</h2>
       <ol class="process-list">
-        <li class="process-step"><span class="number" aria-hidden="true">01</span><div><h3>문의 및 상담</h3><p>전화 또는 카카오톡으로 예약을 문의해 주세요. 접수 순서에 따라 1:1 상담을 진행합니다.</p></div></li>
-        <li class="process-step"><span class="number" aria-hidden="true">02</span><div><h3>예약 확정</h3><p>촬영 일정과 콘셉트, 헤어·메이크업 등 세부 사항을 조율한 뒤 예약을 확정합니다.</p></div></li>
-        <li class="process-step"><span class="number" aria-hidden="true">03</span><div><h3>사전 준비</h3><p>헤어·메이크업과 의상 준비 등 촬영 전에 확인하실 내용을 문자로 안내해 드립니다.</p></div></li>
+        <li class="process-step"><span class="number" aria-hidden="true">01</span><div><h3>문의 및 상담</h3><p>인스타그램 DM으로 희망 촬영일과 상품을 보내 주세요. 접수 순서에 따라 1:1 상담을 진행합니다.</p></div></li>
+        <li class="process-step"><span class="number" aria-hidden="true">02</span><div><h3>예약 확정</h3><p>DM으로 촬영 일정과 세부 사항을 조율합니다. 상담 후 안내드리는 네이버 예약 링크에서 예약·결제를 진행합니다.</p></div></li>
+        <li class="process-step"><span class="number" aria-hidden="true">03</span><div><h3>사전 준비</h3><p>헤어·메이크업과 의상 준비 등 촬영 전에 확인하실 내용을 인스타그램 DM으로 안내해 드립니다.</p></div></li>
         <li class="process-step"><span class="number" aria-hidden="true">04</span><div><h3>촬영</h3><p>콘셉트와 스타일링을 최종 점검한 뒤 촬영합니다. 촬영한 이미지를 함께 확인하고 베스트 컷을 선택합니다.</p></div></li>
       </ol>
       <div class="page-foot"><span class="ghost" aria-hidden="true">SUNSET BLVD.</span><span>Session process</span></div>
@@ -193,7 +194,7 @@
       <div class="folio"><span>Studio Sunset Blvd.</span><span>07 / Contact</span></div>
       <figure class="portrait"><img src="/images/work/portrait/Profile_015.jpg" alt="스튜디오 석양대로 인물 촬영 작품" width="2200" height="1650" loading="lazy"></figure>
       <h2 id="contacts-title">Contacts</h2>
-      <div class="contact-links"><a href="https://instagram.com/sunsetblvd.seoul">Instagram ↗</a><a href="mailto:yoogeeone@gmail.com">yoogeeone@gmail.com</a><a href="tel:0507-1302-3765">0507-1302-3765</a></div>
+      <div class="contact-links"><a href="https://ig.me/m/sunsetblvd.seoul" target="_blank" rel="noopener noreferrer">인스타그램 DM 상담 ↗</a><a href="https://instagram.com/sunsetblvd.seoul" target="_blank" rel="noopener noreferrer">@sunsetblvd.seoul</a></div>
       <p class="address">서울시 송파구 중대로 20길 12<br>지하 1층, 스튜디오 석양대로</p>
       <div class="studio-location">
         <div id="studio-map" role="region" aria-label="스튜디오 석양대로 위치 지도"><p class="map-placeholder">스튜디오 석양대로<br>서울시 송파구 중대로 20길 12</p></div>
