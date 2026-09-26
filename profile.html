@@ -64,6 +64,10 @@
     .contact-links { display:flex; flex-direction:column; align-items:flex-start; margin-left:22%; }
     .contact-links a { min-height:44px; display:flex; align-items:center; font-size:12px; }
     .address { font-size:11px; margin:16px 0 0 22%; }
+    .studio-location { margin-top:28px; }
+    #studio-map { width:100%; height:280px; background:#e0ddd8; display:grid; place-items:center; }
+    .map-placeholder { padding:24px; text-align:center; font-size:12px; color:var(--muted); }
+    .map-link { display:flex; align-items:center; justify-content:space-between; min-height:48px; font-size:12px; border-bottom:1px solid var(--line); text-decoration:none; }
     .review-note { font-size:10px; color:var(--muted); padding:16px 26px; border-top:1px solid var(--line); }
   </style>
 </head>
@@ -152,9 +156,39 @@
       <h2 id="contacts-title">Contacts</h2>
       <div class="contact-links"><a href="https://instagram.com/sunsetblvd.seoul">Instagram ↗</a><a href="mailto:yoogeeone@gmail.com">yoogeeone@gmail.com</a><a href="tel:0507-1302-3765">0507-1302-3765</a></div>
       <p class="address">서울시 송파구 중대로 20길 12<br>지하 1층, 스튜디오 석양대로</p>
+      <div class="studio-location">
+        <div id="studio-map" role="region" aria-label="스튜디오 석양대로 위치 지도"><p class="map-placeholder">스튜디오 석양대로<br>서울시 송파구 중대로 20길 12<br>아래 링크에서 위치를 확인하실 수 있습니다.</p></div>
+        <a class="map-link" href="https://map.naver.com/p/entry/place/1321577995" target="_blank" rel="noopener noreferrer">네이버 지도에서 보기 <span aria-hidden="true">↗</span></a>
+      </div>
       <div class="page-foot"><span class="ghost" aria-hidden="true">SUNSET BLVD.</span><span>Seoul, KR</span></div>
     </section>
   </main>
   <footer class="review-note">검토용 시안 · 사진은 기존 스튜디오 작업물로 임시 배치했습니다.</footer>
+<script>
+(function () {
+  // Reuse the homepage's Naver Maps client and studio coordinates.
+  // Downloaded file previews retain the address and place link.
+  if (location.protocol === 'file:') return;
+  var loader = document.createElement('script');
+  loader.src = 'https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=jxliu0otlu';
+  loader.async = true;
+  loader.onload = function () {
+    if (!window.naver || !window.naver.maps) return;
+    var el = document.getElementById('studio-map');
+    var fallback = el.innerHTML;
+    try {
+      el.innerHTML = '';
+      var center = new naver.maps.LatLng(37.498428, 127.127065);
+      var map = new naver.maps.Map(el, { center: center, zoom: 17, scrollWheel: false });
+      var marker = new naver.maps.Marker({ position: center, map: map });
+      var info = new naver.maps.InfoWindow({ content: '<div style="padding:8px 12px;font-size:13px;color:#252522;">석양대로</div>' });
+      info.open(map, marker);
+    } catch (error) {
+      el.innerHTML = fallback;
+    }
+  };
+  document.head.appendChild(loader);
+})();
+</script>
 </body>
 </html>
