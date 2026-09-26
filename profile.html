@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
-    /* Reuse index.html's colors, logo and breakpoint; use bold reference typography.
+    /* Instagram landing page: one mobile layout at every screen size.
        Keep this review draft isolated from the existing homepage. */
     :root {
       --bg: #ffffff; --fg: #0a0a0a; --gray: #6b6b6b;
@@ -18,69 +18,56 @@
       --display: 'DM Sans', 'Arial Black', 'Noto Sans KR', sans-serif;
     }
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-weight: 400; -webkit-font-smoothing: antialiased; max-width: 1440px; margin: 0 auto; }
+    body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-weight: 400; -webkit-font-smoothing: antialiased; max-width: 430px; margin: 0 auto; }
     a { color: inherit; text-underline-offset: 4px; }
     a:hover { color: var(--gray); }
     :focus-visible { outline: 2px solid var(--fg); outline-offset: 5px; }
-    .site-nav { display: flex; justify-content: center; align-items: center; padding: 16px 40px; height: 124px; border-bottom: 1px solid var(--line); }
-    .nav-logo img { display: block; height: 92px; max-width: 100%; object-fit: contain; }
-    main { max-width: 880px; margin: 0 auto; padding: 40px 40px 0; }
+    .site-nav { display: flex; justify-content: center; align-items: center; padding: 16px 20px; height: 84px; border-bottom: 1px solid var(--line); }
+    .nav-logo img { display: block; height: 52px; max-width: 100%; object-fit: contain; }
+    main { padding: 20px 20px 0; }
     .eyebrow { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--gray); }
     .draft-note { margin-bottom: 20px; font-size: 11px; line-height: 1.8; color: var(--gray); }
-    .photo-slot { display: grid; place-content: center; text-align: center; gap: 8px; background: #ebebeb; color: var(--gray); aspect-ratio: 3/4; padding: 20px; font-size: 11px; line-height: 1.8; }
+    .photo-slot { display: grid; place-content: center; text-align: center; gap: 8px; background: #ebebeb; color: var(--gray); aspect-ratio: 3/4; padding: 12px; font-size: 11px; line-height: 1.8; }
     .photo-slot small { font-size: 10px; }
     .hero-photo { aspect-ratio: 4/5; }
     .caption { display: flex; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); padding: 16px 0; font-size: 11px; line-height: 1.8; }
-    section + section { margin-top: 80px; }
-    h1, h2 { font-family: var(--display); font-weight: 900; font-size: clamp(36px, 5vw, 64px); line-height: .98; letter-spacing: -.055em; }
+    section + section { margin-top: 56px; }
+    h1, h2 { font-family: var(--display); font-weight: 900; font-size: 36px; line-height: .98; letter-spacing: -.055em; }
     h1 { margin: 0 0 32px; max-width: 11ch; text-wrap: balance; }
     h2 { margin-bottom: 28px; }
     p { font-size: 14px; line-height: 2; color: var(--gray); word-break: keep-all; }
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+    .about-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
     .text-link { display: inline-block; margin-top: 24px; font-size: 12px; }
     .section-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; border-bottom: 1px solid var(--line); padding-bottom: 16px; }
     .section-heading h2 { margin: 0; }
-    .service-row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding: 32px 0; align-items: center; }
+    .service-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; padding: 32px 0; align-items: center; }
     .service-row + .service-row { border-top: 1px solid var(--line); }
     .service-row:nth-child(odd) .service-copy { order: 2; }
-    .number { font-family: var(--display); font-weight: 900; line-height: 1; letter-spacing: -.065em; font-size: clamp(40px, 5vw, 64px); display: block; margin-bottom: 24px; }
-    h3 { font-weight: 800; font-size: clamp(20px, 2.5vw, 28px); letter-spacing: -.04em; line-height: 1.15; margin-bottom: 12px; }
+    .number { font-family: var(--display); font-weight: 900; line-height: 1; letter-spacing: -.065em; font-size: 40px; display: block; margin-bottom: 24px; }
+    h3 { font-weight: 800; font-size: 20px; letter-spacing: -.04em; line-height: 1.15; margin-bottom: 12px; }
     .service-row .photo-slot { aspect-ratio: 4/3; }
     .service-row p { font-size: 13px; }
     .faq-item { border-top: 1px solid var(--line); }
     .faq-item:last-child { border-bottom: 1px solid var(--line); }
-    .faq-item summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px 0; list-style: none; cursor: pointer; font-size: 15px; font-weight: 700; line-height: 1.6; word-break: keep-all; }
+    .faq-item summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 0; list-style: none; cursor: pointer; font-size: 14px; font-weight: 700; line-height: 1.6; word-break: keep-all; }
     .faq-item summary::-webkit-details-marker { display: none; }
     .faq-item summary::after { content: '+'; flex: 0 0 20px; text-align: center; font-size: 24px; font-weight: 400; }
     .faq-item[open] summary::after { content: '−'; }
-    .faq-answer { padding: 0 40px 28px 0; max-width: 680px; }
+    .faq-answer { padding: 0 8px 28px 0; }
     .faq-answer p, .faq-answer li { font-size: 13px; line-height: 1.9; color: var(--gray); word-break: keep-all; }
     .faq-answer p + p, .faq-answer ul + p { margin-top: 12px; }
     .faq-answer ul { padding-left: 18px; }
     .faq-answer li + li { margin-top: 8px; }
     .faq-answer strong { color: var(--fg); font-weight: 700; }
     .service-note { padding-top: 12px; font-size: 11px; color: var(--gray); }
-    .closing-photo { margin-top: 80px; aspect-ratio: 4/5; }
+    .closing-photo { margin-top: 56px; aspect-ratio: 4/5; }
     .contacts { margin-top: 0; padding-top: 32px; }
     .contact-links { display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 32px 0; font-size: 13px; }
     .address { text-align: center; font-size: 11px; }
-    footer { margin-top: 64px; padding: 20px 40px; border-top: 1px solid var(--line); font-size: 11px; color: var(--gray); text-align: center; line-height: 1.8; }
-    @media (max-width: 768px) {
-      .site-nav { height: 84px; padding: 16px 20px; }
-      .nav-logo img { height: 52px; }
-      main { padding: 20px 20px 0; }
-      section + section { margin-top: 56px; }
-      .about-grid, .service-row { gap: 20px; }
-      .about-grid p, .service-row p { font-size: 12px; line-height: 1.9; }
-      .number { margin-bottom: 24px; }
-      .faq-item summary { font-size: 14px; padding: 20px 0; }
-      .faq-answer { padding-right: 8px; }
-      h1 { font-size: clamp(36px, 9.5vw, 64px); }
-      .photo-slot { padding: 12px; }
-      .closing-photo { margin-top: 56px; }
-      .contacts { margin-top: 0; }
-      footer { padding: 20px; }
-    }
+    footer { margin-top: 64px; padding: 20px; border-top: 1px solid var(--line); font-size: 11px; color: var(--gray); text-align: center; line-height: 1.8; }
+    .about-grid p, .service-row p { font-size: 13px; line-height: 1.9; }
+    .text-link { min-height: 44px; display: inline-flex; align-items: center; }
+    .contact-links a { min-height: 44px; display: inline-flex; align-items: center; }
   </style>
 </head>
 <body>
