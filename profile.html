@@ -7,7 +7,7 @@
   <title>Profile — Studio Sunset BLVD.</title>
   <link rel="canonical" href="https://yoogeeone.kr/profile">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
 
     :root { --paper:#efefeb; --ink:#252522; --muted:#62625c; --line:#c9c9c2; --sans:'DM Sans','Noto Sans KR',sans-serif; }
@@ -90,6 +90,60 @@
     .map-placeholder { padding:24px; text-align:center; font-size:12px; color:var(--muted); }
     .map-link { display:flex; align-items:center; justify-content:space-between; min-height:48px; font-size:12px; border-bottom:1px solid var(--line); text-decoration:none; }
     .review-note { font-size:10px; color:var(--muted); padding:16px 26px; border-top:1px solid var(--line); }
+
+    /* Mobile editorial revision: condensed masthead, open images, continuous flow. */
+    :root { --paper:#efefed; --ink:#080808; --muted:#50504d; --line:#8a8a85; }
+    html { background:var(--paper); }
+    body { container-type:inline-size; }
+    .sheet { min-height:0; padding:0 18px 64px; border:0; }
+    .folio,.page-foot,.side-note { display:none; }
+    .site-nav { justify-content:flex-start; padding:20px 0 18px; }
+    .nav-logo img { height:58px; }
+    .cover { padding-bottom:62px; }
+    .cover-art { width:100%; margin:0; display:flex; flex-direction:column; }
+    .cover-art figcaption { order:-1; }
+    .cover-title { font-family:'Anton','Impact',sans-serif; font-size:26cqi; font-weight:400; line-height:.96; letter-spacing:-.035em; margin:8px 0 46px; }
+    .cover-caption { font-size:12px; line-height:1.5; padding:0 0 12px; border-bottom:1px solid var(--line); margin-bottom:20px; }
+    .cover-art img { padding:0; border:0; aspect-ratio:4/5; }
+    h1,h2 { text-transform:none; letter-spacing:-.04em; line-height:1.05; }
+    .about h1 { margin:0 0 24px; }
+    .about-label { font-size:20px; letter-spacing:-.025em; padding-bottom:12px; border-bottom:1px solid var(--line); margin-bottom:24px; }
+    .about-name { font-family:'Anton','Impact',sans-serif; font-size:18cqi; font-weight:400; text-transform:uppercase; letter-spacing:-.025em; line-height:1; }
+    .about-name br { display:none; }
+    .about-copy { margin:0; max-width:none; }
+    p,.about-copy p { font-size:16px; line-height:1.65; }
+    .studio-preview { margin-top:28px; }
+    .studio-preview figcaption { font-size:12px; line-height:1.5; }
+    .portfolio h2,.services h2,.process h2,.faq h2,.contacts h2 { font-family:var(--sans); font-size:24px; font-weight:700; margin:0 0 26px; padding-bottom:12px; border-bottom:1px solid var(--line); letter-spacing:-.035em; }
+    .portfolio-grid { gap:6px; }
+    .portfolio-placeholder { background:#dcdcd8; font-size:12px; }
+    .portfolio-link,.map-link { font-size:14px; min-height:52px; }
+    .service-list { margin:0; }
+    .service-row { grid-template-columns:22px minmax(0,1fr); gap:10px; padding:24px 0; }
+    .service-row:first-child { border-top:0; padding-top:0; }
+    .number { font-size:12px; padding-top:5px; }
+    h3 { font-size:26px; font-weight:700; letter-spacing:-.04em; }
+    .service-price { font-size:28px; line-height:1.25; margin-top:12px; font-weight:700; }
+    .service-spec { font-size:14px; margin-top:14px; }
+    .service-option,.service-total { font-size:13px; line-height:1.7; }
+    .styling-note { font-size:13px; line-height:1.75; margin:10px 0 24px; }
+    .service-action p { font-size:13px; line-height:1.7; }
+    .service-inquiry { background:var(--ink); color:var(--paper); padding:16px 14px; min-height:56px; font-size:14px; margin-top:22px; }
+    .process-step { grid-template-columns:22px minmax(0,1fr); gap:10px; padding:22px 0; }
+    .process-step:first-child { border-top:0; padding-top:0; }
+    .process-step h3 { font-size:20px; }
+    .process-step p { font-size:15px; line-height:1.75; }
+    .faq-item summary { font-size:15px; min-height:68px; font-weight:500; }
+    .faq-item:first-child { border-top:0; }
+    .faq-answer p,.faq-answer li { font-size:14px; line-height:1.8; }
+    .portrait { width:100%; margin:0 0 24px; padding:0; border:0; }
+    .portrait img { aspect-ratio:4/5; }
+    .contacts h2 { order:-1; }
+    .contact-links { margin:0; }
+    .contact-links a { font-size:16px; min-height:48px; }
+    .address { margin:20px 0 0; font-size:14px; line-height:1.7; }
+    .studio-location { margin-top:24px; }
+    .review-note { padding:18px; font-size:11px; }
   </style>
 </head>
 
@@ -106,7 +160,7 @@
     </section>
     <section class="sheet about" aria-labelledby="about-title">
       <div class="folio"><span>Studio Sunset Blvd.</span><span>02 / About</span></div>
-      <h1 id="about-title"><span class="about-label">About</span><span class="about-name">Sunset<br>Blvd.</span></h1>
+      <h1 id="about-title"><span class="about-label">About</span><span class="about-name">Sunset Blvd.</span></h1>
       <div class="about-copy"><p>작가의 시선으로 인물의 본질을 담아냅니다.</p><p>사전 미팅을 통해 촬영의 목적과 방향을 함께 스케치하고, 당신이 표현하고자 하는 고유의 분위기를 고민합니다.</p></div>
       <figure class="studio-preview"><img src="/images/contact/studio.jpeg" alt="스튜디오 석양대로 촬영 공간" loading="lazy" width="1200" height="900"><figcaption>스튜디오 석양대로 · 촬영 공간</figcaption></figure>
       <div class="page-foot"><span class="ghost" aria-hidden="true">SUNSET BLVD.</span><span>Portrait<br>Photography</span></div>
