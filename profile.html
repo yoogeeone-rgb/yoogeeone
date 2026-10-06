@@ -368,6 +368,11 @@
     .studio-preview .studio-caption { display:flex; align-items:center; justify-content:space-between; gap:8px; }
     .studio-controls { display:flex; align-items:center; gap:8px; white-space:nowrap; }
     .studio-controls button { border:0; background:none; color:inherit; font-size:24px; width:36px; height:36px; cursor:pointer; }
+
+    .site-foot .nav-logo img { display:block; width:90px; height:auto; max-width:100%; mix-blend-mode:normal; }
+
+    .site-foot .nav-logo { background:transparent; -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent; }
+    .site-foot .nav-logo img { width:90px; height:auto; background:transparent; mix-blend-mode:normal; filter:none; -webkit-user-select:none; user-select:none; -webkit-user-drag:none; pointer-events:none; }
 </style>
 </head>
 
@@ -551,7 +556,7 @@
       <div class="page-foot"><span class="ghost" aria-hidden="true">Sunset Blvd.</span><span>SEOUL, KR</span></div>
     </section>
   </main>
-  <footer class="site-foot"><a class="nav-logo" href="/" aria-label="스튜디오 석양대로 홈"><img src="images/SSBLVD_black.png" alt="Sunset Blvd."></a>
+  <footer class="site-foot"><a class="nav-logo" href="/" aria-label="스튜디오 석양대로 홈"><img src="images/SSBLVD_black.png" alt="Sunset Blvd." draggable="false"></a>
     <address class="biz-info">
       <span>상호 스튜디오 석양대로</span><span>대표 유지원</span><br>
       <span>사업자등록번호 777-55-00231</span><br>
