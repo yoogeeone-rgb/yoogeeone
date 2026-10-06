@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>모델·배우·뷰티 프로필 촬영 — Sunset Blvd.</title>
+  <meta name="description" content="모델·배우·뷰티 프로필 촬영. 뷰티·패션 10년 차 포토그래퍼의 1:1 촬영, 송파 스튜디오 석양대로.">
+  <link rel="canonical" href="https://yoogeeone.kr/profile">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sunset Blvd. 스튜디오 석양대로">
+  <meta property="og:title" content="모델·배우·뷰티 프로필 촬영 — Sunset Blvd.">
+  <meta property="og:description" content="모델·배우·뷰티 프로필 촬영. 뷰티·패션 10년 차 포토그래퍼의 1:1 촬영, 160,000원부터.">
+  <meta property="og:url" content="https://yoogeeone.kr/profile">
+  <meta property="og:image" content="https://yoogeeone.kr/images/service/profile/main.jpg">
+  <meta property="og:image:width" content="1510">
+  <meta property="og:image:height" content="1888">
+  <meta property="og:locale" content="ko_KR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+
+    :root { --paper:#efefeb; --ink:#252522; --muted:#62625c; --line:#c9c9c2; --sans:'DM Sans','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif; --korean:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { background:#242423; }
+    body { max-width:430px; margin:auto; background:var(--paper); color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+    a { color:inherit; text-underline-offset:4px; }
+    a:focus-visible, summary:focus-visible { outline:2px solid var(--ink); outline-offset:5px; }
+    .sheet { position:relative; padding:28px 26px; min-height:660px; display:flex; flex-direction:column; border-bottom:10px solid #242423; }
+    .folio { display:flex; justify-content:space-between; gap:16px; font-size:9px; line-height:1.3; text-transform:uppercase; letter-spacing:.02em; }
+    .page-foot { display:flex; justify-content:space-between; align-items:end; gap:12px; margin-top:auto; padding-top:36px; font-size:9px; line-height:1.3; text-transform:uppercase; }
+    .ghost { font-weight:800; font-size:24px; letter-spacing:-.06em; color:#d1d1ca; }
+    .site-nav { display:flex; justify-content:center; }
+    .nav-logo { display:inline-flex; min-width:44px; min-height:44px; justify-content:center; }
+    .nav-logo img { height:72px; width:auto; mix-blend-mode:multiply; }
+    .cover { min-height:720px; }
+    .cover-art { width:76%; margin:94px auto 0; position:relative; }
+    .cover-art img, .portrait img { display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover; }
+    .cover-art img { border:1px solid #b9b9b2; padding:4px; }
+    .side-note { position:absolute; left:-20px; top:4px; writing-mode:vertical-rl; font-size:8px; letter-spacing:.09em; }
+    .cover-title { position:relative; margin:-5px -9px 0; font-size:45px; font-weight:900; line-height:.85; letter-spacing:-.07em; text-transform:uppercase; }
+    .cover-caption { display:flex; justify-content:space-between; font-size:8px; padding-top:12px; text-transform:uppercase; }
+    h1,h2 { font-size:42px; line-height:.88; font-weight:900; letter-spacing:-.065em; text-transform:uppercase; }
+    .about h2 { margin-top:86px; max-width:100%; }
+    .about-label { display:block; font-size:22px; letter-spacing:-.03em; line-height:1; margin-bottom:16px; }
+    .about-name { display:block; font-size:56px; line-height:.88; letter-spacing:-.065em; }
+    .about-copy { margin-top:42px; max-width:255px; }
+    p { font-size:13px; line-height:1.85; word-break:keep-all; }
+    .studio-preview { margin-top:30px; }
+    .studio-preview img { display:block; width:100%; height:auto; }
+    .studio-preview figcaption { margin-top:8px; font-size:11px; color:var(--muted); }
+    .about-copy p + p { margin-top:14px; }
+    .text-link { display:inline-flex; align-items:center; min-height:44px; font-size:11px; margin-top:14px; }
+    .file-spec { display:inline-block; }
+    .portfolio h2 { margin:80px 0 38px; font-size:38px; }
+    .portfolio-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:5px; }
+    .portfolio-placeholder { aspect-ratio:4/5; display:grid; place-items:center; background:#e1e1db; color:var(--muted); font-size:10px; }
+    .portfolio-grid img { display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; }
+    .portfolio-link { display:flex; align-items:center; justify-content:space-between; min-height:48px; margin-top:22px; font-size:12px; text-decoration:none; border-bottom:1px solid var(--ink); }
+    .services h2 { margin-top:82px; }
+    .service-list { margin-top:40px; }
+    .service-row { display:grid; grid-template-columns:28px minmax(0,1fr); column-gap:12px; border-top:1px solid var(--line); padding:22px 0; }
+    .number { font-size:10px; padding-top:4px; }
+    h3 { font-weight:800; font-size:23px; line-height:1.1; letter-spacing:-.045em; }
+    .service-price { margin-top:12px; font-size:22px; font-weight:800; letter-spacing:-.03em; }
+    .styling-note { margin:6px 0 18px; font-size:12px; color:var(--muted); line-height:1.85; }
+    .service-spec { margin-top:9px; font-size:12px; }
+    .service-action { border-top:1px solid var(--line); padding-top:18px; }
+    .service-action p { font-size:11px; color:var(--muted); }
+    .service-inquiry { display:flex; justify-content:space-between; align-items:center; min-height:48px; margin-top:16px; border-bottom:1px solid var(--ink); font-size:13px; font-weight:700; text-decoration:none; }
+    .process h2 { margin:80px 0 38px; }
+    .process-list { list-style:none; }
+    .process-step { display:grid; grid-template-columns:28px minmax(0,1fr); gap:12px; padding:22px 0; border-top:1px solid var(--line); }
+    .process-step:last-child { border-bottom:1px solid var(--line); }
+    .process-step h3 { font-size:21px; }
+    .process-step p { margin-top:12px; font-size:13px; line-height:1.85; color:var(--muted); }
+    .faq { min-height:620px; }
+    .faq h2 { margin:80px 0 36px; }
+    .faq-item { border-top:1px solid var(--line); }
+    .faq-item:last-child { border-bottom:1px solid var(--line); }
+    .faq-item summary { list-style:none; display:flex; align-items:center; justify-content:space-between; gap:14px; min-height:64px; padding:18px 0; font-size:13px; font-weight:700; line-height:1.6; word-break:keep-all; cursor:pointer; }
+    .faq-item summary::-webkit-details-marker { display:none; }
+    .faq-item summary::after { content:'+'; flex:0 0 16px; font-size:20px; font-weight:400; }
+    .faq-item[open] summary::after { content:'−'; }
+    .faq-answer { padding:0 0 24px; }
+    .faq-answer p,.faq-answer li { font-size:13px; line-height:1.9; color:var(--muted); word-break:keep-all; }
+    .faq-answer ul { padding-left:16px; }
+    .faq-answer li + li,.faq-answer p + p,.faq-answer ul + p { margin-top:12px; }
+    .faq-answer strong { color:var(--ink); font-weight:700; }
+    .contacts { min-height:720px; border-bottom:0; }
+    .portrait { width:64%; margin:60px auto 0; padding:4px; border:1px solid #b9b9b2; }
+    .contacts h2 { margin:-5px 0 30px; position:relative; font-size:40px; }
+    .contact-links { display:flex; flex-direction:column; align-items:flex-start; margin-left:22%; }
+    .contact-links a { min-height:44px; display:flex; align-items:center; font-size:12px; }
+    .address { font-size:11px; margin:16px 0 0 22%; }
+    .studio-location { margin-top:28px; }
+    #studio-map { width:100%; height:280px; background:#e0ddd8; display:grid; place-items:center; }
+    .map-placeholder { padding:24px; text-align:center; font-size:12px; color:var(--muted); }
+    .map-link { display:flex; align-items:center; justify-content:space-between; min-height:48px; font-size:12px; border-bottom:1px solid var(--line); text-decoration:none; }
+    .review-note { font-size:10px; color:var(--muted); padding:16px 26px; border-top:1px solid var(--line); }
+
+    /* Mobile editorial revision: condensed masthead, open images, continuous flow. */
+    :root { --paper:#efefed; --ink:#080808; --muted:#50504d; --line:#8a8a85; }
+    html { background:var(--paper); }
+    body { container-type:inline-size; }
+    .sheet { min-height:0; padding:0 18px 135px; border:0; }
+    .folio,.page-foot,.side-note { display:none; }
+    .site-nav { justify-content:flex-start; padding:20px 0 18px; }
+    .nav-logo img { height:72px; }
+    .cover { padding-bottom:135px; }
+    .cover-art { width:100%; margin:0; display:flex; flex-direction:column; }
+    .cover-art figcaption { order:-1; }
+    .cover-title { font-family:'Anton','Impact',sans-serif; font-size:22cqi; font-weight:400; line-height:.96; letter-spacing:-.035em; margin:8px 0 46px; }
+    .cover-caption { font-size:12px; line-height:1.5; padding:0 0 12px; border-bottom:1px solid var(--line); margin-bottom:20px; }
+    .cover-art img { padding:0; border:0; aspect-ratio:4/5; }
+    h1,h2 { text-transform:none; letter-spacing:-.04em; line-height:1.05; }
+    .about h2 { margin:0 0 24px; }
+    .about-label { font-size:32px; letter-spacing:-.025em; padding-bottom:12px; border-bottom:1px solid var(--line); margin-bottom:24px; }
+    .about-name { font-family:'Anton','Impact',sans-serif; font-size:18cqi; font-weight:400; text-transform:uppercase; letter-spacing:-.025em; line-height:1; }
+    .about-name br { display:none; }
+    .about-copy { margin:0; max-width:none; }
+    p,.about-copy p { font-size:16px; line-height:1.65; }
+    .studio-preview { margin-top:28px; }
+    .studio-preview figcaption { font-size:12px; line-height:1.5; }
+    .portfolio h2,.services h2,.process h2,.faq h2,.contacts h2 { font-family:var(--sans); font-size:44px; font-weight:700; margin:0 0 40px; padding-bottom:18px; border-bottom:1px solid var(--line); letter-spacing:-.035em; }
+    .portfolio-grid { gap:6px; }
+    .portfolio-placeholder { background:#dcdcd8; font-size:12px; }
+    .portfolio-link,.map-link { font-size:14px; min-height:52px; }
+    .service-list { margin:0; }
+    .service-row { grid-template-columns:22px minmax(0,1fr); gap:10px; padding:24px 0; }
+    .service-row:first-child { border-top:0; padding-top:0; }
+    .number { font-size:12px; padding-top:5px; }
+    h3 { font-size:26px; font-weight:700; letter-spacing:-.04em; }
+    .service-price { font-size:28px; line-height:1.25; margin-top:12px; font-weight:700; }
+    .service-spec { font-size:14px; margin-top:14px; }
+    .styling-note { font-size:13px; line-height:1.75; margin:10px 0 24px; }
+    .service-action p { font-size:13px; line-height:1.7; }
+    .service-inquiry { background:var(--ink); color:var(--paper); padding:16px 14px; min-height:56px; font-size:14px; margin-top:22px; }
+    .process-step { grid-template-columns:22px minmax(0,1fr); gap:10px; padding:22px 0; }
+    .process-step:first-child { border-top:0; padding-top:0; }
+    .process-step h3 { font-size:20px; }
+    .process-step p { font-size:15px; line-height:1.75; }
+    .faq-item summary { font-size:15px; min-height:68px; font-weight:500; }
+    .faq-item:first-child { border-top:0; }
+    .faq-answer p,.faq-answer li { font-size:14px; line-height:1.8; }
+    .portrait { width:100%; margin:0 0 24px; padding:0; border:0; }
+    .portrait img { aspect-ratio:4/5; }
+    .contacts h2 { order:-1; }
+    .contact-links { margin:0; }
+    .contact-links a { font-size:16px; min-height:48px; }
+    .address { margin:20px 0 0; font-size:14px; line-height:1.7; }
+    .studio-location { margin-top:24px; }
+    .review-note { padding:18px; font-size:11px; }
+  
+    .cover-caption { display:block; }
+    .session-title,.about-label { font-family:var(--sans); font-size:44px; font-weight:700; line-height:1.05; letter-spacing:-.035em; }
+    .session-title { margin:0 0 16px; }
+    .cover-caption > span { display:block; }
+    .inquiry-channels { display:grid; gap:10px; margin-top:24px; }
+    .inquiry-channel { display:flex; gap:12px; align-items:center; min-height:72px; padding:14px 16px; text-decoration:none; font-size:15px; font-weight:700; line-height:1.4; }
+    .inquiry-channel svg,.naver-icon { width:24px; height:24px; flex:0 0 24px; }
+    .naver-icon { font-size:23px; font-weight:900; text-align:center; line-height:24px; }
+    .channel-arrow { margin-left:auto; }
+    .inquiry-channel small { display:block; font-size:12px; font-weight:500; }
+    .channel-instagram { background:linear-gradient(110deg,#a82191,#c8274e); color:white; }
+    .channel-naver { background:#03c75a; color:#082918; }
+    .channel-kakao { background:#fee500; color:#191600; }
+    .channel-phone { background:#2456a6; color:white; }
+    .contacts .inquiry-channels { margin-top:0; }
+    .contact-links { margin-top:14px; }
+  
+    .cover-caption > span { font-size:24px; font-weight:700; letter-spacing:-.025em; }
+    .sheet h1,.sheet h2,.service-row h3 { text-transform:uppercase; }
+    .service-row { grid-template-columns:minmax(0,1fr) 64px; gap:18px; align-items:stretch; }
+    .service-row > div { grid-column:1; grid-row:1; }
+    .service-number { position:relative; display:block; min-height:0; grid-column:2; grid-row:1; }
+    .service-number svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+    .service-number text { font-family:'Anton','Impact',sans-serif; font-size:112px; font-weight:400; fill:var(--ink); }
+    .service-row h3 { font-size:25px; line-height:1; font-weight:900; }
+    .service-price { margin-top:5px; line-height:1.05; font-weight:900; }
+    .service-spec { color:#50504d; line-height:1.2; margin-top:4px; }
+    .styling-note,.service-action p { color:#50504d; line-height:1.5; }
+
+    /* Consistent section labels at the Seoul label size. */
+    .cover-caption > span,.about-label,
+    .portfolio h2,.services h2,.process h2,.faq h2,.contacts h2 {
+      font-family:var(--sans); font-size:24px; font-weight:900;
+      line-height:1.05; letter-spacing:-.035em;
+    }
+
+    /* Use the native Korean Gothic face for Korean copy and interface labels. */
+    .about-copy p,.studio-preview figcaption,.service-price,.service-spec,
+    .styling-note,.service-action p,.inquiry-channel,.portfolio-link,
+    .process-step h3,.process-step p,.faq-item summary,.faq-answer,
+    .faq-answer p,.faq-answer li,.contact-links,.address,.map-placeholder,
+    .map-link,.review-note {
+      font-family:var(--korean); letter-spacing:0;
+    }
+    .about-copy p,.process-step p,.faq-answer p,.faq-answer li { font-weight:400; }
+
+    .studio-benefits { margin-top:24px; padding-left:18px; font-family:var(--korean); font-size:15px; font-weight:400; line-height:1.6; letter-spacing:0; word-break:keep-all; }
+    .studio-benefits li + li { margin-top:6px; }
+
+    /* Consistent, comfortably spaced Korean text in the introduction. */
+    .about-copy p,.studio-benefits {
+      font-family:var(--korean); font-size:16px; font-weight:400;
+      line-height:1.75; letter-spacing:normal; word-break:keep-all;
+      -webkit-text-size-adjust:100%; text-size-adjust:100%;
+    }
+    .about-copy p + p { margin-top:12px; }
+    .studio-benefits { margin-top:28px; padding-left:20px; }
+    .studio-benefits li { padding-left:2px; }
+    .studio-benefits li + li { margin-top:8px; }
+    .studio-benefits li::marker { font-size:12px; }
+
+    .about-copy strong,.studio-benefits strong,.service-spec strong,.styling-note strong,.service-action strong,.process-step strong,.faq-answer strong { font-weight:700; color:var(--ink); }
+
+    .about-copy .studio-benefits { font-size:14px; line-height:1.45; margin-top:22px; }
+    .studio-benefits li + li { margin-top:4px; }
+
+    /* ===== Landing demo additions ===== */
+    img { background:#d8d8d4; }
+    body { padding-bottom:84px; }
+    main { overflow-x:clip; }
+    .cover { padding-top:24px; }
+    .contacts { padding-bottom:56px; }
+    .site-foot { display:flex; flex-direction:column; align-items:center; margin:0 18px; padding:28px 0 36px; }
+    .biz-info { margin-top:18px; font-style:normal; text-align:center; font-family:var(--korean); font-size:11px; line-height:1.8; color:var(--muted); word-break:keep-all; }
+    .biz-info span + span::before { content:' · '; }
+    .biz-info a { text-decoration:none; }
+    .biz-info .privacy-link { display:inline-block; margin-top:6px; font-weight:700; color:var(--ink); text-decoration:underline; }
+    .hero-offer { margin-top:20px; }
+    .hero-copy { margin-bottom:22px; padding-bottom:0; }
+    .cover-title { margin-bottom:28px; }
+    .hero-headline { margin-top:6px; }
+    .hero-eyebrow { font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+    .hero-headline { margin-top:6px; font-family:var(--korean); font-size:40px; font-weight:800; line-height:1.18; letter-spacing:-.04em; text-transform:none; word-break:keep-all; }
+    .hero-sub { margin-top:12px; font-family:var(--korean); font-size:15px; line-height:1.6; color:var(--muted); }
+    .hero-sub strong { color:var(--ink); }
+    .hero-cta { display:flex; justify-content:space-between; align-items:center; margin-top:0; min-height:56px; padding:16px 18px; background:var(--ink); color:var(--paper); font-family:var(--korean); font-size:15px; font-weight:700; text-decoration:none; }
+    .trust-strip { display:grid; grid-template-columns:1fr 1fr; margin-top:28px; border-top:1px solid var(--line); }
+    .trust-strip li { list-style:none; padding:14px 0; border-bottom:1px solid var(--line); font-family:var(--korean); font-size:13px; line-height:1.4; word-break:keep-all; }
+    .trust-strip li:nth-child(odd) { padding-right:10px; border-right:1px solid var(--line); }
+    .trust-strip li:nth-child(even) { padding-left:12px; }
+    .trust-strip b { display:block; font-family:var(--sans); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:2px; }
+
+    .philosophy { margin-top:36px; padding:22px 20px; background:#e3e3df; }
+    .philosophy-label { font-family:var(--sans); font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .philosophy-title { margin-top:10px; font-family:var(--korean); font-size:21px; font-weight:800; line-height:1.4; letter-spacing:-.02em; word-break:keep-all; }
+    .philosophy p { margin-top:10px; font-family:var(--korean); font-size:15px; line-height:1.75; color:var(--muted); }
+
+    .photographer h2,.reviews h2 { font-family:var(--sans); font-size:24px; font-weight:900; line-height:1.05; letter-spacing:-.035em; margin:0 0 40px; padding-bottom:18px; border-bottom:1px solid var(--line); text-transform:uppercase; }
+    .photographer-card { display:grid; grid-template-columns:38% minmax(0,1fr); gap:16px; align-items:start; }
+    .photographer-card img { display:block; width:100%; aspect-ratio:3/4; object-fit:cover; }
+    .photographer-name { font-family:'Anton','Impact',sans-serif; font-size:30px; line-height:1; letter-spacing:-.01em; text-transform:uppercase; }
+    .photographer-kr { margin-top:4px; font-family:var(--korean); font-size:13px; color:var(--muted); }
+    .photographer-tags { margin-top:12px; font-family:var(--korean); font-size:13px; line-height:1.6; }
+    .photographer-message { margin-top:22px; font-family:var(--korean); font-size:16px; line-height:1.75; }
+
+    .service-row.is-recommended { position:relative; margin:0 -12px; padding:22px 12px 24px; background:#fff; outline:2px solid var(--ink); border-top:0; }
+    .service-row.is-recommended:first-child { padding-top:22px; }
+    .service-row:has(.service-badge) .service-number { margin-top:34px; }
+    .service-badge { display:inline-block; margin-bottom:10px; padding:4px 8px; line-height:16px; background:var(--ink); color:var(--paper); font-family:var(--korean); font-size:12px; font-weight:700; letter-spacing:0; }
+    .service-why { margin-top:12px; font-family:var(--korean); font-size:14px; line-height:1.65; color:var(--muted); word-break:keep-all; }
+    .service-why strong { color:var(--ink); }
+
+    .review-intro { font-family:var(--korean); font-size:15px; line-height:1.7; color:var(--muted); }
+    .review-track { display:flex; gap:10px; margin:22px -18px 0; padding:0 18px 8px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-padding-inline:18px; -webkit-overflow-scrolling:touch; }
+    .review-card { flex:0 0 82%; scroll-snap-align:start; padding:20px 18px; background:#fff; border:1px solid var(--line); display:flex; flex-direction:column; }
+    .review-source { display:flex; align-items:center; gap:6px; font-family:var(--korean); font-size:12px; font-weight:700; color:#03a94d; }
+    .review-source i { font-style:normal; display:inline-grid; place-items:center; width:16px; height:16px; background:#03c75a; color:#fff; font-size:10px; font-weight:900; }
+    .review-text { margin-top:12px; font-family:var(--korean); font-size:15px; line-height:1.75; word-break:keep-all; flex:1; }
+    .review-meta { margin-top:14px; font-family:var(--korean); font-size:12px; color:var(--muted); }
+    .review-card.is-placeholder .review-text { color:#9a9a94; }
+    .review-count { margin-top:10px; font-family:var(--korean); font-size:12px; color:var(--muted); }
+
+    .styling-title { display:block; margin-bottom:6px; font-family:var(--korean); font-size:20px; font-weight:800; letter-spacing:-.02em; }
+    .styling-recommend { display:block; margin-top:12px; padding-left:10px; border-left:3px solid var(--ink); }
+    .review-keywords { margin-top:22px; padding:18px 16px; background:#fff; border:1px solid var(--line); font-family:var(--korean); }
+    .kw-title { font-size:13px; line-height:1.5; color:var(--muted); margin-bottom:12px; }
+    .kw-title strong { color:var(--ink); }
+    .review-keywords ul { list-style:none; display:grid; gap:9px; }
+    .review-keywords li { display:grid; grid-template-columns:minmax(0,1fr) 34% 24px; align-items:center; gap:10px; font-size:14px; }
+    .kw-label { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .kw-bar { height:6px; background:#e3e3df; }
+    .kw-bar i { display:block; height:100%; background:#03c75a; }
+    .kw-num { text-align:right; font-weight:700; font-size:13px; }
+    /* 섹션 제목 확대 */
+    .about-label,.portfolio h2,.services h2,.process h2,.faq h2,.contacts h2,.photographer h2,.reviews h2 { font-size:34px; letter-spacing:-.04em; }
+    .addon { margin:8px 0 34px; padding:20px 18px 18px; border:1.5px solid var(--ink); }
+    .addon-head { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:12px; }
+    .addon-label { font-family:var(--sans); font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+    .addon-event { padding:4px 8px; background:#c8274e; color:#fff; font-family:var(--korean); font-size:11px; font-weight:700; line-height:16px; white-space:nowrap; }
+    .addon h3 { font-size:25px; line-height:1; font-weight:900; text-transform:uppercase; }
+    .addon h3 small { margin-left:6px; font-family:var(--korean); font-size:14px; font-weight:700; color:var(--muted); letter-spacing:0; }
+    .addon-desc { margin-top:10px; font-family:var(--korean); font-size:14px; line-height:1.6; color:var(--muted); }
+    .addon-desc strong { color:var(--ink); }
+    .addon-price { margin-top:16px; padding-top:14px; border-top:1px solid var(--line); font-family:var(--korean); }
+    .addon-price p { display:flex; justify-content:space-between; align-items:baseline; gap:10px; font-size:14px; line-height:1.5; color:var(--muted); }
+    .addon-price s { font-size:15px; }
+    .addon-deal { margin-top:4px; color:var(--ink) !important; font-weight:700; }
+    .addon-deal strong { font-family:var(--sans); font-size:24px; font-weight:900; letter-spacing:-.03em; }
+    .addon-note { margin-top:12px; font-family:var(--korean); font-size:12px; line-height:1.5; color:var(--muted); }
+    .about-copy p { line-height:1.5; }
+    .about-copy p + p { margin-top:4px; }
+    .service-badge { background:#c8274e; color:#fff; }
+    .timeline { margin:6px 0 30px; }
+    .tl-title { font-family:var(--korean); font-size:13px; font-weight:700; color:var(--muted); margin-bottom:10px; }
+    .tl-bar { display:grid; grid-template-columns:1fr 3.3fr 1fr; gap:3px; }
+    .tl-seg { display:flex; flex-direction:column; justify-content:center; min-height:64px; padding:10px 10px; font-family:var(--korean); line-height:1.25; }
+    .tl-seg span { font-size:12px; font-weight:700; }
+    .tl-seg b { margin-top:3px; font-family:var(--sans); font-size:17px; font-weight:900; letter-spacing:-.02em; white-space:nowrap; }
+    .tl-side { background:#dcdcd7; color:var(--ink); }
+    .tl-main { background:var(--ink); color:var(--paper); }
+    .tl-bar .tl-seg:first-child { border-radius:0; }
+    .tl-desc { list-style:none; margin-top:14px; display:grid; gap:6px; font-family:var(--korean); font-size:14px; line-height:1.5; color:var(--muted); }
+    .tl-desc b { display:inline-block; min-width:52px; color:var(--ink); }
+    .tl-note { margin-top:10px; font-family:var(--korean); font-size:12px; line-height:1.5; color:var(--muted); }
+    .portfolio-grid { grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:6px; }
+    .tl-times { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin-top:3px; }
+    .tl-times p { display:flex; flex-direction:column; }
+    .tl-times p + p { padding-left:7px; border-left:1px solid rgba(239,239,237,.3); }
+    .tl-times b { margin-top:0 !important; }
+    .tl-times small { margin-top:2px; font-family:var(--sans); font-size:9px; font-weight:700; letter-spacing:-.01em; opacity:.75; white-space:nowrap; }
+    .step-info { margin-top:14px; border-top:1px solid var(--line); font-family:var(--korean); }
+    .step-info div { display:grid; grid-template-columns:76px minmax(0,1fr); gap:10px; padding:9px 0; border-bottom:1px solid #c9c9c2; font-size:14px; line-height:1.5; }
+    .step-info dt { font-weight:700; color:var(--ink); }
+    .step-info dd { color:var(--muted); }
+    /* 진행 과정 도식 (세로 단계선) */
+    .process-step { position:relative; grid-template-columns:34px minmax(0,1fr) !important; gap:14px !important; padding:0 0 30px !important; border:0 !important; }
+    .process-step::before { content:''; position:absolute; left:16px; top:38px; bottom:4px; width:2px; background:#c4c4bd; }
+    .process-step:last-child { padding-bottom:0 !important; border-bottom:0 !important; }
+    .process-step:last-child::before { display:none; }
+    .process-step .number { width:34px; height:34px; padding:0 !important; border-radius:50%; background:var(--ink); color:var(--paper); display:grid; place-items:center; font-family:var(--sans); font-size:12px; font-weight:800; }
+    .process-step h3 { padding-top:5px; }
+    .process-step p { margin-top:8px !important; }
+    .step-notes { list-style:none; margin-top:10px; padding:10px 12px; background:#e3e3df; font-family:var(--korean); font-size:13.5px; line-height:1.6; color:var(--muted); }
+    .step-notes li { position:relative; padding-left:14px; }
+    .step-notes li::before { content:'※'; position:absolute; left:0; font-size:11px; }
+    .step-notes li + li { margin-top:6px; }
+    .about-name-kr { font-family:var(--korean) !important; font-size:32px !important; font-weight:800; letter-spacing:-.04em !important; line-height:1.15 !important; text-transform:none !important; white-space:nowrap; }
+    .sticky-cta { position:fixed; left:50%; bottom:0; transform:translateX(-50%); width:100%; max-width:430px; z-index:50; display:flex; gap:8px; padding:10px 12px calc(10px + env(safe-area-inset-bottom)); background:rgba(239,239,237,.94); backdrop-filter:blur(8px); border-top:1px solid var(--line); transition:transform .25s ease; }
+    .sticky-cta.is-hidden { transform:translate(-50%,110%); }
+    .sticky-cta a { flex:1; display:flex; align-items:center; justify-content:center; min-height:50px; font-family:var(--korean); font-size:15px; font-weight:700; text-decoration:none; }
+    .sticky-cta .sticky-main { flex:2.2; background:var(--ink); color:var(--paper); }
+    .sticky-cta .sticky-sub { background:#fff; border:1px solid var(--ink); }
+    .sticky-cta { display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; padding-top:8px !important; }
+    .sticky-cta::before { content:'문의하기'; grid-column:1 / -1; padding:0 2px 2px; font-family:var(--korean); font-size:12px; font-weight:700; letter-spacing:.02em; color:var(--muted); }
+    .sticky-cta a { min-height:50px; padding:0 4px; font-size:14px; white-space:nowrap; letter-spacing:-.02em; }
+    .sc-ig { background:linear-gradient(110deg,#a82191,#c8274e); color:#fff; }
+    .sc-kakao { background:#fee500; color:#191600; }
+    .sc-naver { background:#03c75a; color:#fff; }
+  
+    .portfolio-photo { display:block; padding:0; border:0; background:none; min-width:0; cursor:zoom-in; }
+    .portfolio-photo:focus-visible { outline:2px solid #222; outline-offset:2px; }
+    .photo-viewer { position:fixed; inset:0; width:100%; height:100%; max-width:none; max-height:none; margin:0; padding:52px 20px 64px; border:0; background:rgba(0,0,0,.94); color:#fff; }
+    .photo-viewer[open] { display:flex; align-items:center; justify-content:center; }
+    .photo-viewer::backdrop { background:rgba(0,0,0,.9); }
+    .photo-viewer img { display:block; max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; touch-action:pan-y pinch-zoom; }
+    .photo-viewer button { position:absolute; border:0; background:rgba(0,0,0,.5); color:white; font:24px Arial,sans-serif; min-width:44px; min-height:44px; cursor:pointer; }
+    .photo-close { top:8px; right:8px; }
+    .photo-prev { left:4px; top:calc(50% - 22px); }
+    .photo-next { right:4px; top:calc(50% - 22px); }
+    .photo-count { position:absolute; bottom:20px; left:0; width:100%; text-align:center; font:14px Arial,sans-serif; pointer-events:none; }
+
+    .studio-track { display:flex; gap:8px; overflow-x:auto; scroll-snap-type:x mandatory; overscroll-behavior-x:contain; scrollbar-width:thin; }
+    .studio-track img { flex:0 0 100%; min-width:0; width:100%; aspect-ratio:4/3; object-fit:cover; scroll-snap-align:start; }
+    .studio-preview .studio-caption { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .studio-controls { display:flex; align-items:center; gap:8px; white-space:nowrap; }
+    .studio-controls button { border:0; background:none; color:inherit; font-size:24px; width:36px; height:36px; cursor:pointer; }
+</style>
+</head>
+
+<body>
+  <main>
+    <section class="sheet cover" aria-label="프로필 촬영">
+      <figure class="cover-art">
+        <span class="side-note" aria-hidden="true">Sunset Blvd. — PROFILE</span>
+        <img src="images/profile-selected/profile_011.jpg" alt="스튜디오 석양대로 밝은 표정의 프로필 촬영 작품" fetchpriority="high">
+        <figcaption><div class="cover-title">Sunset<br>Blvd.</div><div class="hero-copy"><p class="hero-eyebrow">Profile Session</p><h1 class="hero-headline">모델·배우·뷰티<br>프로필 촬영</h1><p class="hero-sub">뷰티·패션 <strong>10년 차</strong> 포토그래퍼의 <strong>1:1 촬영</strong><br><strong>160,000원</strong>부터 · 원본 전체 제공 · 송파 가락동</p></div></figcaption>
+      </figure>
+      <div class="hero-offer">
+        <a class="hero-cta" href="#book">예약 문의하기 <span aria-hidden="true">→</span></a>
+        <ul class="trust-strip">
+          <li><b>Original</b>촬영 원본 전체 제공</li>
+          <li><b>Tethering</b>실시간 모니터 확인</li>
+          <li><b>Studio</b>50평 호리존 단독 사용</li>
+          <li><b>Fast Delivery</b>사진 선택 후 약 3영업일 보정완료</li>
+          <li><b>Powder Room</b>촬영 중 단독 사용하는 파우더룸</li>
+          <li><b>Consulting</b>촬영 전 1:1 사전 상담</li>
+        </ul>
+      </div>
+      <div class="page-foot"><span>Sunset Blvd.</span><span>01 — Profile</span></div>
+    </section>
+    <section class="sheet about" aria-labelledby="about-title">
+      <div class="folio"><span>Sunset Blvd.</span><span>02 / About</span></div>
+      <h2 id="about-title"><span class="about-label">ABOUT</span><span class="about-name about-name-kr">스튜디오 석양대로</span></h2>
+      <div class="about-copy"><p><strong>사진 한 장이 만드는 기회의 무게</strong>를 잘 알고 있습니다.</p><p><strong>새로운 기회를 맞이할 사진</strong>을 담겠습니다.</p><ul class="studio-benefits"><li><strong>10년 차 인물 포토그래퍼</strong>가 직접 촬영</li><li>촬영 목적과 원하는 분위기를 함께 정리하는 <strong>사전 상담</strong></li><li><strong>50평 규모의 호리존 스튜디오 단독 사용</strong></li><li>촬영된 이미지를 바로 확인할 수 있는 <strong>테더링 시스템</strong></li><li>촬영 중 단독 사용하는 <strong>파우더룸과 탈의실</strong></li></ul></div>
+      <figure class="studio-preview"><div class="studio-track" id="studio-track" tabindex="0" role="region" aria-label="스튜디오 공간 사진 6장, 좌우 스크롤"><img src="images/studio-space/studio_0.jpeg" alt="스튜디오 석양대로 공간 사진 1" loading="lazy" decoding="async" width="1200" height="900"><img src="images/studio-space/studio_1.jpg" alt="스튜디오 석양대로 공간 사진 2" loading="lazy" decoding="async" width="1200" height="900"><img src="images/studio-space/studio_2.jpg" alt="스튜디오 석양대로 공간 사진 3" loading="lazy" decoding="async" width="1200" height="900"><img src="images/studio-space/studio_3.jpg" alt="스튜디오 석양대로 공간 사진 4" loading="lazy" decoding="async" width="1200" height="900"><img src="images/studio-space/studio_4.jpg" alt="스튜디오 석양대로 공간 사진 5" loading="lazy" decoding="async" width="1200" height="900"><img src="images/studio-space/studio_5.jpg" alt="스튜디오 석양대로 공간 사진 6" loading="lazy" decoding="async" width="1200" height="900"></div><figcaption class="studio-caption"><span>스튜디오 석양대로 · 촬영 공간</span><span class="studio-controls"><button type="button" data-studio-dir="-1" aria-label="이전 공간 사진">‹</button><span id="studio-count" aria-live="polite">1 / 6</span><button type="button" data-studio-dir="1" aria-label="다음 공간 사진">›</button></span></figcaption></figure>
+      <div class="page-foot"><span class="ghost" aria-hidden="true">Sunset Blvd.</span><span>Profile<br>Photography</span></div>
+    </section>
+    <section class="sheet portfolio" aria-labelledby="portfolio-title">
+      <div class="folio"><span>Sunset Blvd.</span><span>03 / Portfolio</span></div>
+      <h2 id="portfolio-title">PORTFOLIO</h2>
+      <div class="portfolio-grid" id="portfolio-grid" aria-label="포트폴리오 사진">
+        <button class="portfolio-photo" type="button" aria-label="사진 확대 보기"><img src="images/profile-selected/profile_07.jpg" alt="스튜디오 석양대로 인물 촬영 포트폴리오 01" loading="lazy" decoding="async" style="object-position:50% 35%"></button>
+        <button class="portfolio-photo" type="button" aria-label="사진 확대 보기"><img src="images/profile-selected/profile_05.jpg" alt="스튜디오 석양대로 인물 촬영 포트폴리오 02" loading="lazy" decoding="async" style="object-position:50% 35%"></button>
+        <button class="portfolio-photo" type="button" aria-label="사진 확대 보기"><img src="images/profile-selected/profile_03.jpg" alt="스튜디오 석양대로 인물 촬영 포트폴리오 03" loading="lazy" decoding="async" style="object-position:50% 35%"></button>
+        <button class="portfolio-photo" type="button" aria-label="사진 확대 보기"><img src="images/profile-selected/profile_04.jpg" alt="스튜디오 석양대로 인물 촬영 포트폴리오 04" loading="lazy" decoding="async" style="object-position:50% 35%"></button>
+        <button class="portfolio-photo" type="button" aria-label="사진 확대 보기"><img src="images/profile-selected/profile_06.jpg" alt="스튜디오 석양대로 인물 촬영 포트폴리오 05" loading="lazy" decoding="async" style="object-position:50% 35%"></button>
+        <button class="portfolio-photo" type="button" aria-label="사진 확대 보기"><img src="images/profile-selected/profile_010.jpg" alt="스튜디오 석양대로 인물 촬영 포트폴리오 06" loading="lazy" decoding="async" style="object-position:50% 35%"></button>
+        <button class="portfolio-photo" type="button" aria-label="사진 확대 보기"><img src="images/profile-selected/profile_09.jpg" alt="스튜디오 석양대로 인물 촬영 포트폴리오 07" loading="lazy" decoding="async" style="object-position:50% 35%"></button>
+        <button class="portfolio-photo" type="button" aria-label="사진 확대 보기"><img src="images/profile-selected/profile_08.jpg" alt="스튜디오 석양대로 인물 촬영 포트폴리오 08" loading="lazy" decoding="async" style="object-position:50% 35%"></button>
+        <button class="portfolio-photo" type="button" aria-label="사진 확대 보기"><img src="images/profile-selected/profile_01.jpg" alt="스튜디오 석양대로 인물 촬영 포트폴리오 09" loading="lazy" decoding="async" style="object-position:50% 35%"></button>
+        <button class="portfolio-photo" type="button" aria-label="사진 확대 보기"><img src="images/profile-selected/profile_02.jpg" alt="스튜디오 석양대로 인물 촬영 포트폴리오 10" loading="lazy" decoding="async" style="object-position:50% 35%"></button>
+        <button class="portfolio-photo" type="button" aria-label="사진 확대 보기"><img src="images/profile-selected/0630_test0246.jpg" alt="스튜디오 석양대로 인물 촬영 포트폴리오 11" loading="lazy" decoding="async" style="object-position:50% 35%"></button>
+        <button class="portfolio-photo" type="button" aria-label="사진 확대 보기"><img src="images/profile-selected/profile_012.jpg" alt="스튜디오 석양대로 인물 촬영 포트폴리오 12" loading="lazy" decoding="async" style="object-position:50% 35%"></button>
+      </div>
+      <a class="portfolio-link" href="https://yoogeeone.kr/#work/portrait">포트폴리오 전체보기 <span aria-hidden="true">↗</span></a>
+      <div class="page-foot"><span class="ghost" aria-hidden="true">Sunset Blvd.</span><span>Profile works</span></div>
+    </section>
+    <section class="sheet reviews" aria-labelledby="reviews-title">
+      <h2 id="reviews-title">REVIEWS</h2>
+      <p class="review-intro">네이버 예약으로 촬영하신 분들이 남겨 주신 <strong>실제 후기</strong>입니다.</p>
+      <div class="review-keywords"><p class="kw-title">네이버 방문자 <strong>45명</strong>이 선택한 키워드</p><ul><li><span class="kw-label">"친절해요"</span><span class="kw-bar"><i style="width:89%"></i></span><span class="kw-num">40</span></li><li><span class="kw-label">"자연스럽게 연출해줘요"</span><span class="kw-bar"><i style="width:76%"></i></span><span class="kw-num">34</span></li><li><span class="kw-label">"분위기가 편안해요"</span><span class="kw-bar"><i style="width:73%"></i></span><span class="kw-num">33</span></li><li><span class="kw-label">"보정을 꼼꼼하게 해줘요"</span><span class="kw-bar"><i style="width:69%"></i></span><span class="kw-num">31</span></li><li><span class="kw-label">"시설이 깔끔해요"</span><span class="kw-bar"><i style="width:62%"></i></span><span class="kw-num">28</span></li></ul></div>
+      <div class="review-track" id="review-track" aria-label="네이버 예약 후기"></div>
+      <p class="review-count" id="review-count"></p>
+      <a class="portfolio-link" href="https://map.naver.com/p/entry/place/1321577995?placePath=/review" target="_blank" rel="noopener noreferrer">네이버에서 후기 전체 보기 <span aria-hidden="true">↗</span></a>
+    </section>
+    <section class="sheet services" id="services" aria-labelledby="services-title">
+      <div class="folio"><span>Profile sessions</span><span>04 / Services</span></div>
+      <h2 id="services-title">SERVICES</h2>
+      <div class="service-list">
+        <article class="service-row"><span class="service-number" role="img" aria-label="01"><svg viewBox="0 0 80 100" preserveAspectRatio="none" aria-hidden="true"><text x="0" y="98" textLength="80" lengthAdjust="spacingAndGlyphs">01</text></svg></span><div><span class="service-badge">포토그래퍼 추천</span><h3>ESSENTIAL</h3><p class="service-price">160,000원</p><p class="service-spec"><strong>1컨셉 / 30분 / 보정 2장</strong></p></div></article>
+        <article class="service-row"><span class="service-number" role="img" aria-label="02"><svg viewBox="0 0 80 100" preserveAspectRatio="none" aria-hidden="true"><text x="0" y="98" textLength="80" lengthAdjust="spacingAndGlyphs">02</text></svg></span><div><h3>STANDARD</h3><p class="service-price">280,000원</p><p class="service-spec"><strong>2컨셉 / 60분 / 보정 5장</strong></p></div></article>
+        <article class="service-row"><span class="service-number" role="img" aria-label="03"><svg viewBox="0 0 80 100" preserveAspectRatio="none" aria-hidden="true"><text x="0" y="98" textLength="80" lengthAdjust="spacingAndGlyphs">03</text></svg></span><div><h3>SIGNATURE</h3><p class="service-price">400,000원</p><p class="service-spec"><strong>3컨셉 / 90분 / 보정 8장</strong></p></div></article>
+      </div>
+      <p class="styling-note"><strong>컨셉 기준:</strong> 의상·배경·조명 중 하나라도 변경하면 새로운 컨셉으로 계산합니다.</p>
+      <div class="timeline" aria-label="촬영 1회 시간 구성">
+        <p class="tl-title">촬영 1회 구성</p>
+        <div class="tl-bar">
+          <div class="tl-seg tl-side"><span>준비</span><b>10분</b></div>
+          <div class="tl-seg tl-main"><span>촬영</span><div class="tl-times"><p><b>30분</b><small>ESSENTIAL</small></p><p><b>60분</b><small>STANDARD</small></p><p><b>90분</b><small>SIGNATURE</small></p></div></div>
+          <div class="tl-seg tl-side"><span>마무리</span><b>10분</b></div>
+        </div>
+        <ol class="tl-desc">
+          <li><b>준비</b>파우더룸에서 의상·메이크업 정리</li>
+          <li><b>촬영</b>상품별 촬영, 테더링 모니터로 함께 확인</li>
+          <li><b>마무리</b>환복·짐 정리 후 원하시면 현장 사진 선택</li>
+        </ol>
+        <p class="tl-note">준비가 10분을 넘으면 그만큼 촬영 시간이 줄어듭니다. (아티스트 동행 시 준비 시간 별도 조율)</p>
+      </div>
+      <aside class="addon" aria-labelledby="addon-title">
+        <div class="addon-head"><span class="addon-label">Add-on</span></div>
+        <h3 id="addon-title">DIGITALS <small>디지털 스냅</small></h3>
+        <p class="addon-desc">에이전시·캐스팅 제출용 <strong>노메이크업 · 무보정</strong> 촬영<br>클로즈업 · 상반신 · 전신 등 촬영한 사진 중 <strong>포토그래퍼가 5장을 선택해 컴카드를 제작</strong>합니다. <strong>A4 컬러 인쇄물 5장</strong>을 제공합니다. 컴카드에 사용된 <strong>사진 5장의 원본 JPEG 파일</strong>을 함께 제공하며, 그 외 촬영 파일은 제공하지 않습니다.</p>
+        <div class="addon-price">
+          <p class="addon-deal"><span>프로필 촬영에 추가 시</span><strong>+50,000원</strong></p>
+          <p><span>디지털 스냅만 단독 촬영 시</span><span>100,000원</span></p>
+        </div>
+        <p class="addon-note">프로필 상품에 추가할 수 있으며, 촬영 시간은 약 10분입니다. <strong>헤어·메이크업 전</strong>에 진행하거나, <strong>별도 날짜로 예약</strong>하여 방문하실 수 있습니다. 다른 날 방문하셔도 프로필 상품 추가 가격이 적용됩니다.</p>
+      </aside>
+      <p class="styling-note"><strong class="styling-title">헤어·메이크업</strong>요청 시 <strong>컨셉</strong>에 맞는 <strong>제휴 샵과 아티스트</strong>를 연결해 드립니다.<span class="styling-recommend"><strong>뷰티 촬영은 전문 헤어·메이크업을 권장합니다.</strong> 피부 표현과 세부 스타일링을 함께 준비할 수 있습니다.</span></p>
+      <div class="service-action"><p>모든 프로필 상품에 <strong>촬영 원본 전체 파일</strong>이 제공됩니다. <span class="file-spec"><strong>JPEG · 긴 축 4,000px · 72dpi</strong></span><br>상품별 보정 장수를 넘는 <strong>추가 보정은 1장당 30,000원</strong>입니다.</p><div class="inquiry-channels" id="book" aria-label="예약 및 상담"><a class="inquiry-channel channel-instagram" href="https://ig.me/m/sunsetblvd.seoul" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram DM</span><span class="channel-arrow" aria-hidden="true">↗</span></a><a class="inquiry-channel channel-naver" href="https://talk.naver.com/W5VG6T" target="_blank" rel="noopener noreferrer"><span class="naver-icon" aria-hidden="true">N</span><span>네이버 톡톡 상담</span><span class="channel-arrow" aria-hidden="true">↗</span></a><a class="inquiry-channel channel-kakao" href="https://pf.kakao.com/_QccGn/chat" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path fill="currentColor" stroke="none" d="M12 3C6.5 3 2 6.4 2 10.7c0 2.8 1.9 5.2 4.8 6.5L6 21l4.5-2.7H12c5.5 0 10-3.4 10-7.6S17.5 3 12 3Z"/></svg><span>카카오톡 상담</span><span class="channel-arrow" aria-hidden="true">↗</span></a><a class="inquiry-channel channel-phone" href="tel:0507-1302-3765"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3h4l2 5-3 2c1.4 3 3 4.6 6 6l2-3 5 2v4c0 1-1 2-2 2C10 21 3 14 3 5c0-1 1-2 2-2Z"/></svg><span>전화 문의 <small>0507-1302-3765</small></span></a></div></div>
+      <div class="page-foot"><span class="ghost" aria-hidden="true">Sunset Blvd.</span><span>SEOUL, KR</span></div>
+    </section>
+    <section class="sheet process" aria-labelledby="process-title">
+      <div class="folio"><span>From inquiry to shoot</span><span>05 / Process</span></div>
+      <h2 id="process-title">PROCESS</h2>
+      <ol class="process-list">
+        <li class="process-step"><span class="number" aria-hidden="true">01</span><div><h3>문의 및 상담</h3><p>인스타그램 DM, 네이버 톡톡, 카카오톡 또는 전화로 <strong>희망 촬영일과 상품</strong>을 말씀해 주세요. 접수 순서에 따라 <strong>1:1 상담</strong>을 진행합니다.</p></div></li>
+        <li class="process-step"><span class="number" aria-hidden="true">02</span><div><h3>예약 확정</h3><p>상담을 통해 <strong>촬영 일정과 상품</strong>, <strong>헤어·메이크업 선택 여부</strong>, <strong>최종 금액</strong>을 확인합니다. 상담 후 <strong>네이버 예약·결제 링크</strong>를 보내 드립니다. <strong>결제가 완료되면 예약이 확정됩니다.</strong></p></div></li>
+        <li class="process-step"><span class="number" aria-hidden="true">03</span><div><h3>사전 준비</h3><p>헤어·메이크업과 의상 준비 등 <strong>촬영 전에 확인하실 내용</strong>을 상담하신 채널로 안내해 드립니다.</p></div></li>
+        <li class="process-step"><span class="number" aria-hidden="true">04</span><div><h3>도착 및 준비</h3><p>도착하시면 <strong>파우더룸</strong>에서 의상과 메이크업을 정리해 주세요. 준비 시간은 <strong>10분</strong>입니다.</p><ul class="step-notes"><li><strong>아티스트와 함께 준비하시는 경우</strong> 헤어·메이크업에 약 <strong>1시간 30분</strong>이 소요됩니다. 오전·오후 각 한 팀씩 예약제로 운영하며, 헤어·메이크업을 마친 뒤 촬영을 시작할 수 있도록 준비와 촬영 시간을 사전에 조율합니다.</li></ul></div></li>
+        <li class="process-step"><span class="number" aria-hidden="true">05</span><div><h3>촬영</h3><p>촬영한 이미지를 <strong>모니터로 함께 확인</strong>하며, 표정과 포즈를 하나씩 맞춰 갑니다.</p></div></li>
+        <li class="process-step"><span class="number" aria-hidden="true">06</span><div><h3>사진 발송 및 보정할 사진 선택</h3><p><strong>마무리 10분</strong> 동안 옷을 갈아입고 짐을 챙겨 주세요. 남은 시간 동안 <strong>현장 사진 선택</strong>을 하실 수도 있습니다. 이후 <strong>원본 전체 파일</strong>을 보내 드리면, 확인하신 뒤 상품별 보정 장수만큼 <strong>보정할 사진</strong>을 선택해 주세요.</p></div></li>
+        <li class="process-step"><span class="number" aria-hidden="true">07</span><div><h3>보정본 전달</h3><p><strong>최종 사진 선택 후 약 3영업일 내 보정본</strong>을 전달합니다. <strong>제출 기한이 촉박한 경우</strong> 상담 시 알려 주세요.</p></div></li>
+      </ol>
+      <div class="page-foot"><span class="ghost" aria-hidden="true">Sunset Blvd.</span><span>Session process</span></div>
+    </section>
+    <section class="sheet faq" aria-labelledby="faq-title">
+      <div class="folio"><span>Before your session</span><span>06 / FAQ</span></div>
+      <h2 id="faq-title">FAQ</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>에이전시·캐스팅 제출용으로 촬영할 수 있나요?</summary>
+          <div class="faq-answer">
+            <p>네. 상담 시 <strong>제출처와 필요한 컷 구성</strong>(클로즈업, 상반신, 전신 등)을 알려 주세요. 제출 기준에 맞춰 촬영을 준비합니다.</p>
+            <p><strong>노메이크업·무보정 사진</strong>이 필요한 경우 디지털 스냅을 예약하실 수 있습니다. 구성과 제공 내역은 <a href="#addon-title">SERVICES의 DIGITALS 안내</a>에서 확인해 주세요.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>원본과 보정본은 어떻게 제공되나요?</summary>
+          <div class="faq-answer">
+            <ul>
+              <li><strong>프로필 촬영 원본 전체 파일</strong>을 촬영 다음 날 오전 중 <strong>클라우드 링크</strong>로 보내 드립니다. (JPEG · 긴 축 4,000px · 72dpi)</li>
+              <li>세부 리터칭을 마친 <strong>보정본은 원본과 동일한 JPEG · 긴 축 4,000px · 72dpi</strong>로 제공합니다.</li>
+              <li>상품별 보정 장수를 넘는 <strong>추가 보정은 1장당 30,000원</strong>입니다.</li>
+            </ul>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>예약 일정 변경이나 취소가 가능한가요?</summary>
+          <div class="faq-answer">
+            <p>모든 촬영은 <strong>100% 사전 예약제</strong>로 운영됩니다.</p>
+            <ul>
+              <li><strong>취소·환불:</strong> 촬영일 7일 전까지 취소 시 결제 금액 전액을 환불해 드립니다. <strong>촬영일 6일 전부터는 취소 및 환불이 불가</strong>합니다. 헤어·메이크업을 함께 예약하신 경우 <strong>해당 비용에도 동일한 기준</strong>이 적용됩니다.</li>
+              <li><strong>일정 변경:</strong> 촬영일까지 남은 기간과 관계없이 <strong>1회 무료</strong>로 가능합니다. 변경 날짜는 <strong>스튜디오와 출장 아티스트의 가능한 일정을 우선</strong>으로 조율합니다.</li>
+              <li><strong>두 번째 변경부터는 매회 총 예약 금액의 30%</strong>가 변경 수수료로 추가됩니다. 총 예약 금액에는 <strong>함께 예약한 헤어·메이크업 비용</strong>이 포함됩니다.</li>
+            </ul>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>예약 시간에 늦으면 어떻게 되나요?</summary>
+          <div class="faq-answer">
+            <p>예약 시간에 늦으시면 <strong>지각한 시간만큼 촬영 시간이 줄어들 수 있습니다.</strong></p>
+            <p>원활한 준비와 촬영을 위해 예약 시간을 지켜 주세요. 도착이 늦어질 경우 미리 연락 부탁드립니다.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>의상과 헤어·메이크업은 어떻게 준비하나요?</summary>
+          <div class="faq-answer">
+            <ul>
+              <li>헤어·메이크업을 직접 준비하시는 경우 <strong>방문 전에 마치고</strong> 와 주세요. 간단한 수정은 <strong>준비 시간 10분</strong> 동안 스튜디오 파우더룸에서 하실 수 있습니다.</li>
+              <li><strong>의상</strong>은 협의한 컨셉에 맞춰 준비해 주세요. 스튜디오에 <strong>스팀다리미</strong>가 있지만, 촬영 시간을 넉넉히 쓰실 수 있도록 <strong>가급적 구김 없이 가져와 주시는 것</strong>을 권해 드립니다.</li>
+              <li><strong>원하는 분위기나 참고 시안</strong>이 있다면 촬영 전에 공유해 주세요. 요청하신 방향을 함께 확인하고 촬영을 준비합니다.</li>
+            </ul>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>스튜디오 위치와 주차가 궁금해요.</summary>
+          <div class="faq-answer">
+            <p>스튜디오는 <strong>서울시 송파구 중대로20길 12, 지하 1층</strong>에 있습니다.</p>
+            <p>건물 내 <strong>주차는 1대</strong> 가능합니다. <strong>차량으로 방문하실 경우 미리 알려 주세요.</strong> 추가 차량은 <strong>인근 유료 주차장</strong>을 이용해 주세요.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="page-foot"><span class="ghost" aria-hidden="true">Sunset Blvd.</span><span>Session guide</span></div>
+    </section>
+    <section class="sheet contacts" id="contacts" aria-labelledby="contacts-title">
+      <div class="folio"><span>Sunset Blvd.</span><span>07 / Contact</span></div>
+      <figure class="portrait"><img src="images/profile-selected/06120497.jpg" alt="스튜디오 석양대로 흑백 인물 촬영 작품" width="3000" height="3750" loading="lazy"></figure>
+      <h2 id="contacts-title">CONTACT</h2>
+      <div class="inquiry-channels" aria-label="예약 및 상담"><a class="inquiry-channel channel-instagram" href="https://ig.me/m/sunsetblvd.seoul" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram DM</span><span class="channel-arrow" aria-hidden="true">↗</span></a><a class="inquiry-channel channel-naver" href="https://talk.naver.com/W5VG6T" target="_blank" rel="noopener noreferrer"><span class="naver-icon" aria-hidden="true">N</span><span>네이버 톡톡 상담</span><span class="channel-arrow" aria-hidden="true">↗</span></a><a class="inquiry-channel channel-kakao" href="https://pf.kakao.com/_QccGn/chat" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path fill="currentColor" stroke="none" d="M12 3C6.5 3 2 6.4 2 10.7c0 2.8 1.9 5.2 4.8 6.5L6 21l4.5-2.7H12c5.5 0 10-3.4 10-7.6S17.5 3 12 3Z"/></svg><span>카카오톡 상담</span><span class="channel-arrow" aria-hidden="true">↗</span></a><a class="inquiry-channel channel-phone" href="tel:0507-1302-3765"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3h4l2 5-3 2c1.4 3 3 4.6 6 6l2-3 5 2v4c0 1-1 2-2 2C10 21 3 14 3 5c0-1 1-2 2-2Z"/></svg><span>전화 문의 <small>0507-1302-3765</small></span></a></div><div class="contact-links"><a href="https://instagram.com/sunsetblvd.seoul" target="_blank" rel="noopener noreferrer">@sunsetblvd.seoul</a></div>
+      <p class="address">서울시 송파구 중대로20길 12<br>지하 1층, 스튜디오 석양대로</p>
+      <div class="studio-location">
+        <div id="studio-map" role="region" aria-label="스튜디오 석양대로 위치 지도"><p class="map-placeholder">스튜디오 석양대로<br>서울시 송파구 중대로20길 12</p></div>
+        <a class="map-link" href="https://map.naver.com/p/entry/place/1321577995" target="_blank" rel="noopener noreferrer">네이버 지도에서 보기 <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="page-foot"><span class="ghost" aria-hidden="true">Sunset Blvd.</span><span>SEOUL, KR</span></div>
+    </section>
+  </main>
+  <footer class="site-foot"><a class="nav-logo" href="/" aria-label="스튜디오 석양대로 홈"><img src="images/SSBLVD_black.png" alt="Sunset Blvd."></a>
+    <address class="biz-info">
+      <span>상호 스튜디오 석양대로</span><span>대표 유지원</span><br>
+      <span>사업자등록번호 777-55-00231</span><br>
+      <span>통신판매업신고 2021-서울강남-00258</span><br>
+      <span>서울시 송파구 가락동 154-4 지하 1층</span><br>
+      <span>전화 0507-1302-3765</span><span>이메일 <a href="mailto:shotz@naver.com">shotz@naver.com</a></span><br>
+      <span>호스팅 제공 GitHub, Inc.</span><br>
+    </address>
+  </footer>
+  <nav class="sticky-cta is-hidden" id="sticky-cta" aria-label="빠른 상담">
+    <a class="sc-ig" href="https://ig.me/m/sunsetblvd.seoul" target="_blank" rel="noopener noreferrer">인스타그램 DM</a>
+    <a class="sc-kakao" href="https://pf.kakao.com/_QccGn/chat" target="_blank" rel="noopener noreferrer">카카오톡</a>
+    <a class="sc-naver" href="https://talk.naver.com/W5VG6T" target="_blank" rel="noopener noreferrer">네이버 톡톡</a>
+  </nav>
+<script>
+/* ===== 네이버 예약 후기 =====
+   받은 후기를 아래 배열에 그대로 붙여 넣으세요. 배열이 비어 있으면 예시 카드가 표시됩니다.
+   { text:'후기 원문', name:'작성자(마스킹)', date:'2026.09', product:'ESSENTIAL' } */
+var REVIEWS = [
+  {
+    "name": "an***",
+    "product": "프로필 촬영",
+    "date": "2024.06",
+    "text": "정말 오랜만에 프로필 촬영을 했어요. 카메라 앞에 서는 게 너무 어색하고 어떻게 해야 할지 몰라서 걱정이 많았는데, 작가님이 편안한 분위기를 만들어주셔서 긴장을 풀 수 있었어요!! 덕분에 자연스러운 표정과 포즈를 잡을 수 있었어요. … 특히 메이크업 및 의상실도 너무 너무 쾌적하고 잘 갖춰져 있었어요!"
+  },
+  {
+    "name": "po***",
+    "product": "비즈니스 프로필",
+    "date": "2026.07",
+    "text": "한국 방문 중 프로필사진을 찍고 싶어서 스튜디오 검색을 많이 했었는데, 그중에 인스타그램, 웹사이트의 사진이 압도적으로 너무 돋보였고 그래서 꼭 이곳에서 찍고 싶었습니다. 촬영이 처음이라 어색했는데 어떻게 움직이거나 포즈를 취해야 상반신을 최대한 다양하고 자연스럽게 보일 수 있는지 알려주셔서 많이 도움이 됐습니다. 취향을 많이 고려해주시고 물어봐주시면서 촬영을 진행해주셔서 마음이 편했어요. 전문적인 퀄리티 높은 사진을 원하시는 분들은 이곳을 추천드려요."
+  },
+  {
+    "name": "na***",
+    "product": "프로필 촬영",
+    "date": "2024.07",
+    "text": "촬영 사진들은 자연스러운 제 모습이 녹여져 있고, 저의 분위기는 돋보이면서 저의 장점들을 잘 담아주셨습니다! 사진을 찍을 때마다 조명 세팅, 카메라 렌즈 등 하나하나 바꿔주시고 정말 열심히 잘 찍어주시려는게 보여서 감사했어요."
+  },
+  {
+    "name": "뽀**",
+    "product": "프로필 촬영",
+    "date": "2024.06",
+    "text": "헤어메이크업 출장쌤도 원하는 메이크업으로 착착 해주시고 편안하게 해주셔서 즐겁게 촬영했습니다. 보정본도 빠르게 나오는 게 제일 좋은 것 같아요!!"
+  },
+  {
+    "name": "da***",
+    "product": "프로필 촬영",
+    "date": "2024.06",
+    "text": "작가님이 정말 프로페셔널 하셔서 편안하게 촬영할 수 있어 너무 좋았어요!! 원본 받았는데 다 너무 마음에 들어서 추가 보정까지 요청드렸습니다!!!! 진짜… 프로필 이렇게 예쁠 수 없어요."
+  },
+  {
+    "name": "ri***",
+    "product": "프로필 촬영",
+    "date": "2024.07",
+    "text": "작가님이 조명 하나하나 너무 꼼꼼하게 저한테 잘 어울리게 맞춰주시고 사진 컷수도 상상할 수 없을 만큼 많이 찍어주세요. 프로필사진 찍으실 거면 무조건 석양대로입니다."
+  },
+  {
+    "name": "sa***",
+    "product": "프로필 촬영",
+    "date": "2024.06",
+    "text": "작가님이 찐 실력자십니다! 딱 제가 원했던 용도에 맞게 금방금방 모든 것들을 설정해주셔서 보정하기 전의 사진도 이미 마음에 쏙 들었었어요. 어떤 분위기의 사진을 원하든 바로 캐치하실 거라 믿어요."
+  },
+  {
+    "name": "흠***",
+    "product": "프로필 촬영",
+    "date": "2024.11",
+    "text": "섬세하게 조명도 하나하나 다 맞춰주시고 편하게 촬영할 수 있도록 대화도 이끌어주셔서 촬영하는 내내 너무 편안했어요. 제 장점이 잘 살아날 수 있도록 다양한 각도로 꼼꼼히 촬영해주셔서 너무 마음에 들었습니다."
+  }
+];
+(function () {
+  var track = document.getElementById('review-track');
+  var list = REVIEWS.length ? REVIEWS : [
+    { text:'[후기 원문 1] 네이버 예약에서 받은 후기를 여기에 넣어 주세요.', name:'작성자', date:'YYYY.MM', product:'상품명', ph:true },
+    { text:'[후기 원문 2]', name:'작성자', date:'YYYY.MM', product:'상품명', ph:true },
+    { text:'[후기 원문 3]', name:'작성자', date:'YYYY.MM', product:'상품명', ph:true }
+  ];
+  list.forEach(function (r) {
+    var card = document.createElement('article');
+    card.className = 'review-card' + (r.ph ? ' is-placeholder' : '');
+    var src = document.createElement('p'); src.className = 'review-source'; src.innerHTML = '<i>N</i>네이버 예약 후기';
+    var txt = document.createElement('p'); txt.className = 'review-text'; txt.textContent = r.text;
+    var meta = document.createElement('p'); meta.className = 'review-meta';
+    meta.textContent = [r.name, r.product, r.date].filter(Boolean).join(' · ');
+    card.appendChild(src); card.appendChild(txt); card.appendChild(meta); track.appendChild(card);
+  });
+  if (REVIEWS.length > 1) document.getElementById('review-count').textContent = '← 옆으로 넘겨 보세요 · 후기 ' + REVIEWS.length + '개';
+})();
+
+/* 하단 고정 버튼: 첫 화면 CTA를 지난 뒤 표시, 상담 채널이 보일 때는 숨김 */
+(function () {
+  var bar = document.getElementById('sticky-cta');
+  var heroCta = document.querySelector('.hero-cta');
+  var blocks = [document.getElementById('book'), document.querySelector('.contacts .inquiry-channels'), document.querySelector('.site-foot')];
+  var ticking = false;
+  function visible(el) { var r = el.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; }
+  function update() {
+    ticking = false;
+    var hide = heroCta.getBoundingClientRect().bottom > 0 || blocks.some(visible);
+    bar.classList.toggle('is-hidden', hide);
+  }
+  addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive:true });
+  addEventListener('resize', update);
+  update();
+})();
+
+/* 페이지 안 이동 링크: 주소 변경 없이 해당 섹션으로 부드럽게 스크롤 */
+document.addEventListener('click', function (e) {
+  var a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  var target = document.getElementById(a.getAttribute('href').slice(1));
+  if (!target) return;
+  e.preventDefault();
+  target.scrollIntoView({ behavior:'smooth', block:'start' });
+});
+
+(function () {
+  // Reuse the homepage's Naver Maps client and studio coordinates.
+  // Downloaded file previews retain the address and place link.
+  if (location.protocol === 'file:') return;
+  var loader = document.createElement('script');
+  loader.src = 'https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=jxliu0otlu';
+  loader.async = true;
+  loader.onload = function () {
+    if (!window.naver || !window.naver.maps) return;
+    var el = document.getElementById('studio-map');
+    var fallback = el.innerHTML;
+    try {
+      el.innerHTML = '';
+      var center = new naver.maps.LatLng(37.498428, 127.127065);
+      var map = new naver.maps.Map(el, { center: center, zoom: 17, scrollWheel: false });
+      var marker = new naver.maps.Marker({ position: center, map: map });
+      var info = new naver.maps.InfoWindow({ content: '<div style="padding:8px 12px;font-size:13px;color:#252522;">스튜디오 석양대로</div>' });
+      info.open(map, marker);
+    } catch (error) {
+      el.innerHTML = fallback;
+    }
+  };
+  document.head.appendChild(loader);
+})();
+</script>
+
+<dialog class="photo-viewer" id="photo-viewer" aria-label="포트폴리오 확대 보기">
+  <img id="photo-viewer-image" alt="">
+  <button class="photo-close" type="button" aria-label="닫기">×</button>
+  <button class="photo-prev" type="button" aria-label="이전 사진">‹</button>
+  <button class="photo-next" type="button" aria-label="다음 사진">›</button>
+  <span class="photo-count" aria-live="polite"></span>
+</dialog>
+<script>
+(function () {
+  const viewer = document.getElementById('photo-viewer');
+  const full = document.getElementById('photo-viewer-image');
+  const buttons = Array.from(document.querySelectorAll('.portfolio-photo'));
+  let index = 0, scrollY = 0, previousOverflow = '', startX = null, startY = null;
+  function show(next) {
+    index = (next + buttons.length) % buttons.length;
+    const image = buttons[index].querySelector('img');
+    full.src = image.getAttribute('src');
+    full.alt = image.alt;
+    viewer.querySelector('.photo-count').textContent = (index + 1) + ' / ' + buttons.length;
+  }
+  buttons.forEach((button, i) => button.addEventListener('click', function () {
+    scrollY = window.scrollY;
+    previousOverflow = document.body.style.overflow;
+    show(i);
+    viewer.showModal();
+    document.body.style.overflow = 'hidden';
+    viewer.querySelector('.photo-close').focus();
+  }));
+  viewer.querySelector('.photo-close').addEventListener('click', () => viewer.close());
+  viewer.addEventListener('click', event => { if (event.target === viewer) viewer.close(); });
+  viewer.querySelector('.photo-prev').addEventListener('click', () => show(index - 1));
+  viewer.querySelector('.photo-next').addEventListener('click', () => show(index + 1));
+  viewer.addEventListener('keydown', event => {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.preventDefault(); show(index + (event.key === 'ArrowRight' ? 1 : -1));
+    }
+  });
+  viewer.addEventListener('close', () => {
+    document.body.style.overflow = previousOverflow;
+    full.removeAttribute('src');
+    window.scrollTo(0, scrollY);
+    buttons[index].focus({preventScroll:true});
+  });
+  full.addEventListener('touchstart', event => {
+    if (event.touches.length !== 1) { startX = null; return; }
+    startX = event.touches[0].clientX; startY = event.touches[0].clientY;
+  }, {passive:true});
+  full.addEventListener('touchend', event => {
+    if (startX === null) return;
+    const dx = event.changedTouches[0].clientX - startX;
+    const dy = event.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) show(index + (dx < 0 ? 1 : -1));
+    startX = null;
+  }, {passive:true});
+  full.addEventListener('touchcancel', () => { startX = null; });
+})();
+</script>
+<script>
+(function () {
+ const track = document.getElementById('studio-track');
+ const images = Array.from(track.querySelectorAll('img'));
+ const count = document.getElementById('studio-count');
+ function current() { return Math.max(0, Math.min(images.length - 1, Math.round(track.scrollLeft / (track.clientWidth + 8)))); }
+ document.querySelectorAll('[data-studio-dir]').forEach(button => button.addEventListener('click', () => {
+   const next = Math.max(0, Math.min(images.length - 1, current() + Number(button.dataset.studioDir)));
+   track.scrollTo({left:next * (track.clientWidth + 8), behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+ }));
+ track.addEventListener('scroll', () => { count.textContent = (current() + 1) + ' / ' + images.length; }, {passive:true});
+ track.addEventListener('keydown', event => {
+   if(event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+     event.preventDefault();
+     document.querySelector('[data-studio-dir="' + (event.key === 'ArrowRight' ? '1' : '-1') + '"]').click();
+   }
+ });
+})();
+</script>
+</body>
+</html>
