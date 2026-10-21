@@ -552,63 +552,55 @@
 <script>
 /* ===== 네이버 예약 후기 =====
    받은 후기를 아래 배열에 그대로 붙여 넣으세요. 배열이 비어 있으면 예시 카드가 표시됩니다.
-   { text:'후기 원문', name:'작성자(마스킹)', date:'2026.09', product:'ESSENTIAL' } */
+   { text:'후기 원문', name:'작성자(마스킹)', product:'ESSENTIAL' } */
 var REVIEWS = [
   {
     "name": "an***",
     "product": "프로필 촬영",
-    "date": "2024.06",
     "text": "정말 오랜만에 프로필 촬영을 했어요. 카메라 앞에 서는 게 너무 어색하고 어떻게 해야 할지 몰라서 걱정이 많았는데, 작가님이 편안한 분위기를 만들어주셔서 긴장을 풀 수 있었어요!! 덕분에 자연스러운 표정과 포즈를 잡을 수 있었어요. … 특히 메이크업 및 의상실도 너무 너무 쾌적하고 잘 갖춰져 있었어요!"
   },
   {
     "name": "po***",
     "product": "비즈니스 프로필",
-    "date": "2026.07",
     "text": "한국 방문 중 프로필사진을 찍고 싶어서 스튜디오 검색을 많이 했었는데, 그중에 인스타그램, 웹사이트의 사진이 압도적으로 너무 돋보였고 그래서 꼭 이곳에서 찍고 싶었습니다. 촬영이 처음이라 어색했는데 어떻게 움직이거나 포즈를 취해야 상반신을 최대한 다양하고 자연스럽게 보일 수 있는지 알려주셔서 많이 도움이 됐습니다. 취향을 많이 고려해주시고 물어봐주시면서 촬영을 진행해주셔서 마음이 편했어요. 전문적인 퀄리티 높은 사진을 원하시는 분들은 이곳을 추천드려요."
   },
   {
     "name": "na***",
     "product": "프로필 촬영",
-    "date": "2024.07",
     "text": "촬영 사진들은 자연스러운 제 모습이 녹여져 있고, 저의 분위기는 돋보이면서 저의 장점들을 잘 담아주셨습니다! 사진을 찍을 때마다 조명 세팅, 카메라 렌즈 등 하나하나 바꿔주시고 정말 열심히 잘 찍어주시려는게 보여서 감사했어요."
   },
   {
     "name": "뽀**",
     "product": "프로필 촬영",
-    "date": "2024.06",
     "text": "헤어메이크업 출장쌤도 원하는 메이크업으로 착착 해주시고 편안하게 해주셔서 즐겁게 촬영했습니다. 보정본도 빠르게 나오는 게 제일 좋은 것 같아요!!"
   },
   {
     "name": "da***",
     "product": "프로필 촬영",
-    "date": "2024.06",
     "text": "작가님이 정말 프로페셔널 하셔서 편안하게 촬영할 수 있어 너무 좋았어요!! 원본 받았는데 다 너무 마음에 들어서 추가 보정까지 요청드렸습니다!!!! 진짜… 프로필 이렇게 예쁠 수 없어요."
   },
   {
     "name": "ri***",
     "product": "프로필 촬영",
-    "date": "2024.07",
     "text": "작가님이 조명 하나하나 너무 꼼꼼하게 저한테 잘 어울리게 맞춰주시고 사진 컷수도 상상할 수 없을 만큼 많이 찍어주세요. 프로필사진 찍으실 거면 무조건 석양대로입니다."
   },
   {
     "name": "sa***",
     "product": "프로필 촬영",
-    "date": "2024.06",
     "text": "작가님이 찐 실력자십니다! 딱 제가 원했던 용도에 맞게 금방금방 모든 것들을 설정해주셔서 보정하기 전의 사진도 이미 마음에 쏙 들었었어요. 어떤 분위기의 사진을 원하든 바로 캐치하실 거라 믿어요."
   },
   {
     "name": "흠***",
     "product": "프로필 촬영",
-    "date": "2024.11",
     "text": "섬세하게 조명도 하나하나 다 맞춰주시고 편하게 촬영할 수 있도록 대화도 이끌어주셔서 촬영하는 내내 너무 편안했어요. 제 장점이 잘 살아날 수 있도록 다양한 각도로 꼼꼼히 촬영해주셔서 너무 마음에 들었습니다."
   }
 ];
 (function () {
   var track = document.getElementById('review-track');
   var list = REVIEWS.length ? REVIEWS : [
-    { text:'[후기 원문 1] 네이버 예약에서 받은 후기를 여기에 넣어 주세요.', name:'작성자', date:'YYYY.MM', product:'상품명', ph:true },
-    { text:'[후기 원문 2]', name:'작성자', date:'YYYY.MM', product:'상품명', ph:true },
-    { text:'[후기 원문 3]', name:'작성자', date:'YYYY.MM', product:'상품명', ph:true }
+    { text:'[후기 원문 1] 네이버 예약에서 받은 후기를 여기에 넣어 주세요.', name:'작성자', product:'상품명', ph:true },
+    { text:'[후기 원문 2]', name:'작성자', product:'상품명', ph:true },
+    { text:'[후기 원문 3]', name:'작성자', product:'상품명', ph:true }
   ];
   list.forEach(function (r) {
     var card = document.createElement('article');
@@ -616,7 +608,7 @@ var REVIEWS = [
     var src = document.createElement('p'); src.className = 'review-source'; src.innerHTML = '<i>N</i>네이버 예약 후기';
     var txt = document.createElement('p'); txt.className = 'review-text'; txt.textContent = r.text;
     var meta = document.createElement('p'); meta.className = 'review-meta';
-    meta.textContent = [r.name, r.product, r.date].filter(Boolean).join(' · ');
+    meta.textContent = [r.name, r.product].filter(Boolean).join(' · ');
     card.appendChild(src); card.appendChild(txt); card.appendChild(meta); track.appendChild(card);
   });
   if (REVIEWS.length > 1) document.getElementById('review-count').textContent = '← 옆으로 넘겨 보세요 · 후기 ' + REVIEWS.length + '개';
