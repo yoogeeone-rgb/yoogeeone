@@ -1259,7 +1259,7 @@ body.modern #input-panel input{min-width:0}
 const bridge=window.compcardBridge, $=id=>document.getElementById(id);
 const layouts=[
  {id:'centered',name:'센터 클래식',pages:1,detail:'상단 중앙 이름·스펙 / 사진 4장',slots:4},
- {id:'editorial',name:'에디토리얼',pages:1,detail:'좌측 이름 / 우측 스펙·연락처 / 사진 4장',slots:4},
+ {id:'editorial',name:'에디토리얼',pages:1,detail:'상단 대형 이름 / 좌측 사진 4장 / 우측 정보',slots:4},
  {id:'mono',name:'모노 프레임',pages:1,detail:'흑백 프레임 4장 / 중앙 대형 이름',slots:4},
  {id:'fullbleed',name:'풀블리드',pages:2,detail:'전면 인물 / 전신 사진·스펙·연락처',slots:2},
  {id:'ruled',name:'라인 클래식',pages:2,detail:'상단 가로선·정보 / 대형 사진 + 2×2',slots:5}
@@ -1301,10 +1301,11 @@ function lines(ctx,value,x,y,size,width,align='left',family='Arial',color='#111'
  for(const word of value.split(' ')){if(ctx.measureText(line+' '+word).width>width&&line){text(ctx,line,x,y+row*size*1.5,size,width,align,family,'400',color);row++;line=word;}else line+=(line?' ':'')+word;}
  text(ctx,line,x,y+row*size*1.5,size,width,align,family,'400',color);
 }
+function pageHeight(){return layout.id==='editorial'?900:990;}
 function frame(page,index,x,y,w,h){return {page,index,x,y,w,h};}
 function geometry(){
  if(layout.id==='centered')return [frame(0,0,64,148,274,357),frame(0,1,362,148,274,357),frame(0,2,64,539,274,357),frame(0,3,362,539,274,357)];
- if(layout.id==='editorial')return [frame(0,0,30,190,314,329),frame(0,1,356,190,314,329),frame(0,2,30,531,314,344),frame(0,3,356,531,314,344)];
+ if(layout.id==='editorial')return [frame(0,0,10,165,266,370),frame(0,1,276,165,266,370),frame(0,2,10,535,266,355),frame(0,3,276,535,266,355)];
  if(layout.id==='mono')return [frame(0,0,30,30,303,369),frame(0,1,367,30,303,369),frame(0,2,30,540,303,369),frame(0,3,367,540,303,369)];
  if(layout.id==='fullbleed')return [frame(0,0,0,0,700,990),frame(1,1,58,20,565,706)];
  return [frame(0,0,42,174,616,774),frame(1,1,42,42,296,435),frame(1,2,362,42,296,435),frame(1,3,42,512,296,436),frame(1,4,362,512,296,436)];
@@ -1321,7 +1322,7 @@ function logo(ctx,x,y,w,h,color='#111',align='left'){
  const d=info(),im=getImage(agencyLogo);if(im&&im.complete&&im.naturalWidth){const scale=Math.min(w/im.naturalWidth,h/im.naturalHeight);ctx.drawImage(im,x+(align==='center'?(w-im.naturalWidth*scale)/2:0),y,im.naturalWidth*scale,im.naturalHeight*scale);}else text(ctx,d.agency,x+(align==='center'?w/2:0),y,Math.min(h,38),w,align,layout.id==='centered'?'Arial':'Georgia','700',color);
 }
 function draw(canvas,page,editing=true,width=700){
- const h=990;canvas.width=width;canvas.height=Math.round(width*h/700);const ctx=canvas.getContext('2d');ctx.scale(width/700,canvas.height/h);ctx.fillStyle=theme.bg;ctx.fillRect(0,0,700,h);
+ const h=pageHeight();canvas.width=width;canvas.height=Math.round(width*h/700);const ctx=canvas.getContext('2d');ctx.scale(width/700,canvas.height/h);ctx.fillStyle=theme.bg;ctx.fillRect(0,0,700,h);
  const d=info(),fs=geometry().filter(f=>f.page===page);
  if(layout.id==='mono'){ctx.fillStyle=theme.id==='clean'?'#f5f4f0':theme.mat;for(const f of fs)ctx.fillRect(f.x-20,f.y-20,f.w+40,f.h+75);}
  if(layout.id==='centered'){ctx.fillStyle=theme.mat;for(const f of fs)ctx.fillRect(f.x-12,f.y-12,f.w+24,f.h+24);}
@@ -1334,10 +1335,11 @@ function draw(canvas,page,editing=true,width=700){
  }else if(layout.id==='editorial'){
  const name=d.name||(editing?'YOUR NAME':'');const words=name.split(/\s+/).filter(Boolean);
  const nameRows=words.length>1?[words.slice(0,-1).join(' '),words[words.length-1]]:[name];
- nameRows.forEach((row,i)=>text(ctx,row,30,20+i*77,80,440,'left','Arial','900'));
+ nameRows.forEach((row,i)=>text(ctx,row,4,i*80,94,680,'left','Archivo, Arial','900'));
  const specs=[['HEIGHT',meta('height')],['BUST',meta('bust')],['WAIST',meta('waist')],['HIPS',meta('hips')],['SHOES',meta('shoes')],['EYES',meta('eyes')],['HAIR',meta('hair')],['NAT.',meta('nat')]].filter(r=>r[1]||editing);
- specs.forEach((r,i)=>text(ctx,r[0]+' '+(r[1]||'—'),670,26+i*17,11,180,'right','Arial','700'));
- d.contact.forEach((v,i)=>text(ctx,v,670,899+i*23,13,450,'right','Arial','700'));
+ specs.forEach((r,i)=>text(ctx,r[0]+' '+(r[1]||'—'),558,165+i*12,11,132,'left','Arial','700'));
+ d.contact.forEach((v,i)=>text(ctx,v,558,795+i*16,10,132,'left','Arial','700'));
+ lines(ctx,d.agency,558,855,10,132,'left');
  }else if(layout.id==='mono'){
  text(ctx,d.name||(editing?'YOUR NAME':''),350,419,108,660,'center','Arial','900');
  text(ctx,d.spec,350,940,11,650,'center','Arial','700');text(ctx,d.contact.join(' · '),350,961,10,650,'center');
@@ -1363,7 +1365,7 @@ function render(){
  const canvas=document.createElement('canvas');canvas.className='artwork';canvas.tabIndex=step===1?0:-1;canvas.setAttribute('aria-label',`${page+1}페이지 ${step===1?'편집 화면':'미리보기'}`);canvas.dataset.page=page;bindCanvas(canvas);wrapper.appendChild(canvas);
  const overlays=[];
  if(step===1)for(const f of geometry().filter(f=>f.page===page)){
- const overlay=document.createElement('div');overlay.className='photo-overlay';overlay.style.left=f.x/7+'%';overlay.style.top=f.y/9.9+'%';overlay.style.width=f.w/7+'%';overlay.style.height=f.h/9.9+'%';
+ const overlay=document.createElement('div');overlay.className='photo-overlay';overlay.style.left=f.x/7+'%';overlay.style.top=f.y/pageHeight()*100+'%';overlay.style.width=f.w/7+'%';overlay.style.height=f.h/pageHeight()*100+'%';
  const replace=document.createElement('button');replace.type='button';replace.className='inline-replace';replace.textContent='↻';replace.setAttribute('aria-label',`사진 ${f.index+1} 교체`);replace.onclick=()=>{selected=f.index;$('upload-one').onclick();};
  const slider=document.createElement('input');slider.type='range';slider.min=1;slider.max=4;slider.step=.01;slider.className='inline-zoom';slider.setAttribute('aria-label',`사진 ${f.index+1} 확대/축소`);
  slider.addEventListener('input',()=>{selected=f.index;cropStates[layout.id][f.index].z=Number(slider.value);render();});
@@ -1375,17 +1377,17 @@ function render(){
 }
 window.renderTemplates=render;
 function thumbnail(t){
- const current=layout;layout=t;const rects=geometry();layout=current;
+ const current=layout;layout=t;const rects=geometry(),h=pageHeight();layout=current;
  function type(value,x,y,size=30,anchor='middle',color=theme.ink){return `<text x="${x}" y="${y}" text-anchor="${anchor}" fill="${color}" font-family="Arial" font-size="${size}" font-weight="700">${value}</text>`;}
  function rules(x,y,w,n=3){return Array.from({length:n},(_,i)=>`<path d="M${x} ${y+i*13}h${w}" stroke="${theme.ink}" stroke-width="5"/>`).join('');}
  return `<span class="layout-thumbnails">${Array.from({length:t.pages},(_,page)=>{
  let labels='';
  if(t.id==='centered')labels=type('YOUR NAME',350,48,36)+rules(310,65,80,5)+type('AGENCY',350,963,26);
- if(t.id==='editorial')labels=type('YOUR',30,86,80,'start')+type('NAME',30,163,80,'start')+rules(510,35,160,8)+rules(470,905,200,3);
+ if(t.id==='editorial')labels=type('YOUR',4,72,94,'start')+type('NAME',4,152,94,'start')+rules(558,172,122,7)+rules(558,805,122,3);
  if(t.id==='mono')labels=type('YOUR NAME',350,502,95)+rules(85,950,530,2);
  if(t.id==='fullbleed')labels=page===0?type('AGENCY',25,60,32,'start','#fff')+type('YOUR NAME',350,960,40,'middle','#fff'):rules(110,790,480,3)+type('AGENCY',85,920,32,'start')+rules(470,905,170,3);
  if(t.id==='ruled'&&page===0)labels=rules(42,42,616,1)+type('YOUR NAME',42,86,22,'start')+rules(42,106,360,2)+rules(520,80,138,4)+rules(42,145,616,1);
- return `<svg viewBox="0 0 700 990" aria-hidden="true"><rect width="700" height="990" fill="${theme.bg}"/>${rects.filter(f=>f.page===page).map(f=>`<rect x="${f.x}" y="${f.y}" width="${f.w}" height="${f.h}" fill="${theme.mat}" stroke="${theme.bg}" stroke-width="8"/>`).join('')}${labels}</svg>`;
+ return `<svg viewBox="0 0 700 ${h}" aria-hidden="true"><rect width="700" height="${h}" fill="${theme.bg}"/>${rects.filter(f=>f.page===page).map(f=>`<rect x="${f.x}" y="${f.y}" width="${f.w}" height="${f.h}" fill="${theme.mat}" stroke="${theme.bg}" stroke-width="8"/>`).join('')}${labels}</svg>`;
  }).join('')}</span>`;
 }
 function choices(){
@@ -1438,14 +1440,14 @@ $('text-sheet').addEventListener('click',e=>{if(e.target===$('text-sheet'))close
 $('text-sheet').addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();closeText();}if(e.key==='Tab'){const controls=Array.from($('text-sheet').querySelectorAll('button,input')),first=controls[0],last=controls[controls.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
 function textHit(q,page){
  if(layout.id==='centered'){if(q.y<58)return 'name';if(q.y<135)return 'spec';if(q.y>925)return q.y>966?'contact':'agency';}
- if(layout.id==='editorial'){if(q.y<190)return q.x<490?'name':'spec';if(q.y>875)return 'contact';}
+ if(layout.id==='editorial'){if(q.y<165)return 'name';if(q.x>=550)return q.y>=780?'contact':'spec';}
  if(layout.id==='mono'){if(q.y>410&&q.y<535)return 'name';if(q.y>935)return q.y>958?'contact':'spec';}
  if(layout.id==='fullbleed'){if(page===0){if(q.y>935)return 'name';if(q.y<75&&q.x<380)return 'agency';}else{if(q.y>765&&q.y<870)return 'spec';if(q.y>=870)return q.x<375?'agency':'contact';}}
  if(layout.id==='ruled'&&page===0&&q.y<165)return q.x>510?'contact':q.y<95?'name':'spec';
  return null;
 }
 function bindCanvas(canvas){let drag=null;
- function coords(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)*700/r.width,y:(e.clientY-r.top)*990/r.height};}
+ function coords(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)*700/r.width,y:(e.clientY-r.top)*pageHeight()/r.height};}
  canvas.addEventListener('pointerdown',e=>{if(busy||step!==1)return;const q=coords(e),page=Number(canvas.dataset.page),field=textHit(q,page);if(field){drag={field,start:q};return;}const f=frames.find(f=>f.page===page&&q.x>=f.x&&q.x<=f.x+f.w&&q.y>=f.y&&q.y<=f.y+f.h);if(!f)return;selected=f.index;const p=cropStates[layout.id][selected];drag={f,start:q,x:p.x,y:p.y,canDrag:!!photoAt(selected)};if(photoAt(selected))canvas.setPointerCapture(e.pointerId);render();});
  canvas.addEventListener('pointermove',e=>{if(!drag||!drag.f)return;const q=coords(e);drag.moved=Math.hypot(q.x-drag.start.x,q.y-drag.start.y)>8;if(!drag.canDrag)return;const im=getImage(photoAt(selected));if(!im||!im.naturalWidth)return;const f=drag.f,p=cropStates[layout.id][selected],scale=Math.max(f.w/im.naturalWidth,f.h/im.naturalHeight)*p.z,dx=im.naturalWidth*scale-f.w,dy=im.naturalHeight*scale-f.h;
  p.x=dx?Math.max(-1,Math.min(1,drag.x+2*(q.x-drag.start.x)/dx)):0;p.y=dy?Math.max(-1,Math.min(1,drag.y+2*(q.y-drag.start.y)/dy)):0;render();});
@@ -1478,7 +1480,7 @@ async function run(fn){if(busy)return;busy=true;const controls=Array.from(root.q
 $('new-jpg').onclick=()=>run(async()=>{for(let p=0;p<layout.pages;p++)download(await asBlob(canvasPage(p)),`${filename()}_${p+1}.jpg`);});
 function spread(pages){const c=document.createElement('canvas');c.width=pages.reduce((w,p)=>w+p.width,0);c.height=pages[0].height;const ctx=c.getContext('2d');let x=0;pages.forEach(p=>{ctx.drawImage(p,x,0);x+=p.width;});return c;}
 $('new-spread').onclick=()=>run(async()=>download(await asBlob(spread(Array.from({length:layout.pages},(_,p)=>canvasPage(p)))),filename()+'_spread.jpg'));
-async function pdfOf(pages){await bridge.ensureSaveLibs();const pdf=new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:[148,148*990/700]});for(let p=0;p<pages.length;p++){if(p)pdf.addPage([148,148*990/700],'portrait');pdf.addImage(pages[p].toDataURL('image/png'),'PNG',0,0,148,148*990/700,undefined,'FAST');}return pdf;}
+async function pdfOf(pages){await bridge.ensureSaveLibs();const pdf=new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:[148,148*pageHeight()/700]});for(let p=0;p<pages.length;p++){if(p)pdf.addPage([148,148*pageHeight()/700],'portrait');pdf.addImage(pages[p].toDataURL('image/png'),'PNG',0,0,148,148*pageHeight()/700,undefined,'FAST');}return pdf;}
 $('new-pdf').onclick=()=>run(async()=>{const pdf=await pdfOf(Array.from({length:layout.pages},(_,p)=>canvasPage(p)));download(pdf.output('blob'),filename()+'.pdf');});
 // Explicit user action sends the selected artwork through the existing studio endpoint.
 $('new-submit').onclick=()=>run(async()=>{const pages=Array.from({length:layout.pages},(_,p)=>canvasPage(p)),pdf=await pdfOf(pages),d=info();
