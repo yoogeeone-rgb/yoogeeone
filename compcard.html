@@ -1130,11 +1130,11 @@ body.modern #input-panel label{font-size:12px}
 'use strict';
 const bridge=window.compcardBridge, $=id=>document.getElementById(id);
 const layouts=[
- {id:'yoon',name:'Yoon Young Bae',pages:1,detail:'상단 중앙 이름·스펙 / 사진 4장',slots:4},
- {id:'bibi',name:'Bibi Breslin',pages:1,detail:'좌측 이름 / 우측 스펙·연락처 / 사진 4장',slots:4},
- {id:'gendler',name:'Gendler',pages:1,detail:'흑백 프레임 4장 / 중앙 대형 이름',slots:4},
- {id:'major',name:'Major',pages:2,detail:'전면 인물 / 전신 사진·스펙·연락처',slots:2},
- {id:'a4',name:'A4 Classic',pages:2,detail:'상단 가로선·정보 / 대형 사진 + 2×2',slots:5}
+ {id:'centered',name:'센터 클래식',pages:1,detail:'상단 중앙 이름·스펙 / 사진 4장',slots:4},
+ {id:'editorial',name:'에디토리얼',pages:1,detail:'좌측 이름 / 우측 스펙·연락처 / 사진 4장',slots:4},
+ {id:'mono',name:'모노 프레임',pages:1,detail:'흑백 프레임 4장 / 중앙 대형 이름',slots:4},
+ {id:'fullbleed',name:'풀블리드',pages:2,detail:'전면 인물 / 전신 사진·스펙·연락처',slots:2},
+ {id:'ruled',name:'라인 클래식',pages:2,detail:'상단 가로선·정보 / 대형 사진 + 2×2',slots:5}
 ];
 let layout=layouts[0],step=0,selected=0,busy=false,legacy=false,revision=0;
 const cropStates=Object.fromEntries(layouts.map(t=>[t.id,Array.from({length:t.slots},()=>({x:0,y:0,z:1}))]));
@@ -1143,7 +1143,7 @@ const root=document.createElement('section');root.className='wizard';root.setAtt
 root.innerHTML=`<nav class="wizard-nav" aria-label="제작 단계">${['레이아웃','사진 편집','정보 입력','저장'].map((n,i)=>`<button type="button" data-step="${i}">${i+1}. ${n}</button>`).join('')}</nav>
 <div id="layout-stage"><h2>나에게 맞는 컴카드</h2><div class="page-choice" aria-label="페이지 수"><button type="button" data-pages="1">1페이지</button><button type="button" data-pages="2">2페이지</button></div><div class="template-choice" id="template-choice"></div><p>레이아웃을 바꿔도 업로드한 사진과 입력한 정보는 유지됩니다. 구도는 레이아웃별로 보관됩니다.</p><p class="reference-note" id="reference-note"></p></div>
 <div id="photo-stage" hidden><h2>사진을 넣고 구도를 조정하세요</h2><p>사진 칸을 선택한 뒤 업로드하거나 끌어 이동하세요. 확대와 가로·세로 이동은 아래에서도 조정할 수 있습니다.</p><div class="editor-actions"><button type="button" id="upload-many">사진 여러 장 추가</button><button type="button" id="upload-one">선택 사진 교체</button></div><div id="photo-list" class="editor-photo-list" aria-label="사진 선택"></div><div class="photo-tools"><label>확대 <output id="zoom-value"></output><input id="photo-zoom" type="range" min="1" max="4" step="0.01" value="1"></label><label>가로 위치<input id="photo-x" type="range" min="-1" max="1" step="0.01" value="0"></label><label>세로 위치<input id="photo-y" type="range" min="-1" max="1" step="0.01" value="0"></label><div class="editor-actions"><button type="button" id="crop-reset">구도 초기화</button><button type="button" id="swap-photo">다음 칸과 사진 교환</button><button type="button" id="remove-photo">선택 사진 삭제</button></div></div></div>
-<div id="info-stage" hidden><h2>모델 정보</h2><div id="info-mount"></div><div class="field"><label for="agency-name">에이전시 / 로고 텍스트</label><input id="agency-name" type="text" maxlength="80" placeholder="Major"></div><div class="editor-actions"><button type="button" id="upload-logo">에이전시 로고 추가</button><button type="button" id="remove-logo">로고 삭제</button></div><p>이름과 연락처가 길면 글자 크기를 자동 조정합니다. 사진과 정보는 이 브라우저에서 처리됩니다.</p></div>
+<div id="info-stage" hidden><h2>모델 정보</h2><div id="info-mount"></div><div class="field"><label for="agency-name">에이전시 / 로고 텍스트</label><input id="agency-name" type="text" maxlength="80" placeholder="에이전시 이름"></div><div class="editor-actions"><button type="button" id="upload-logo">에이전시 로고 추가</button><button type="button" id="remove-logo">로고 삭제</button></div><p>이름과 연락처가 길면 글자 크기를 자동 조정합니다. 사진과 정보는 이 브라우저에서 처리됩니다.</p></div>
 <div id="save-stage" hidden><h2>컴카드 저장</h2><div class="field"><label for="export-size">저장 해상도</label><select id="export-size"><option value="1754">표준 · 페이지 가로 1,754px</option><option value="2480" selected>인쇄 · 페이지 가로 2,480px</option></select></div><div class="editor-actions"><button type="button" id="new-jpg">JPG 저장</button><button type="button" id="new-spread">한 장 합본 JPG</button><button type="button" id="new-pdf">PDF 저장</button><button type="button" id="new-submit">스튜디오로 제출</button></div><div id="download-links" class="editor-actions"></div><p>2페이지는 개별 JPG 또는 가로 합본으로 저장할 수 있습니다. PDF는 선택한 페이지 수로 저장됩니다.</p></div>
 <div class="template-preview" id="template-preview"></div><div class="editor-status" id="editor-status" role="status" aria-live="polite"></div><div class="editor-actions"><button type="button" id="previous-step">이전</button><button type="button" id="next-step">다음</button><button type="button" id="legacy-mode">기존 편집기 열기</button></div>`;
 document.querySelector('header.top').after(root);
@@ -1169,41 +1169,41 @@ function lines(ctx,value,x,y,size,width,align='left',family='Arial',color='#111'
 }
 function frame(page,index,x,y,w,h){return {page,index,x,y,w,h};}
 function geometry(){
- if(layout.id==='yoon')return [frame(0,0,64,148,274,357),frame(0,1,362,148,274,357),frame(0,2,64,539,274,357),frame(0,3,362,539,274,357)];
- if(layout.id==='bibi')return [frame(0,0,30,175,314,344),frame(0,1,356,175,314,344),frame(0,2,30,531,314,344),frame(0,3,356,531,314,344)];
- if(layout.id==='gendler')return [frame(0,0,30,30,303,369),frame(0,1,367,30,303,369),frame(0,2,30,540,303,369),frame(0,3,367,540,303,369)];
- if(layout.id==='major')return [frame(0,0,0,0,700,990),frame(1,1,58,20,565,706)];
+ if(layout.id==='centered')return [frame(0,0,64,148,274,357),frame(0,1,362,148,274,357),frame(0,2,64,539,274,357),frame(0,3,362,539,274,357)];
+ if(layout.id==='editorial')return [frame(0,0,30,175,314,344),frame(0,1,356,175,314,344),frame(0,2,30,531,314,344),frame(0,3,356,531,314,344)];
+ if(layout.id==='mono')return [frame(0,0,30,30,303,369),frame(0,1,367,30,303,369),frame(0,2,30,540,303,369),frame(0,3,367,540,303,369)];
+ if(layout.id==='fullbleed')return [frame(0,0,0,0,700,990),frame(1,1,58,20,565,706)];
  return [frame(0,0,42,174,616,774),frame(1,1,42,42,296,435),frame(1,2,362,42,296,435),frame(1,3,42,512,296,436),frame(1,4,362,512,296,436)];
 }
 function drawPhoto(ctx,f,editing){
  const im=getImage(photoAt(f.index)),p=cropStates[layout.id][f.index];ctx.save();ctx.beginPath();ctx.rect(f.x,f.y,f.w,f.h);ctx.clip();ctx.fillStyle='#efeeeb';ctx.fillRect(f.x,f.y,f.w,f.h);
  if(im&&im.complete&&im.naturalWidth){const scale=Math.max(f.w/im.naturalWidth,f.h/im.naturalHeight)*p.z,w=im.naturalWidth*scale,h=im.naturalHeight*scale;
- ctx.filter=layout.id==='gendler'?'grayscale(1)':'none';ctx.drawImage(im,f.x+(f.w-w)/2+p.x*(w-f.w)/2,f.y+(f.h-h)/2+p.y*(h-f.h)/2,w,h);
+ ctx.filter=layout.id==='mono'?'grayscale(1)':'none';ctx.drawImage(im,f.x+(f.w-w)/2+p.x*(w-f.w)/2,f.y+(f.h-h)/2+p.y*(h-f.h)/2,w,h);
  }else if(editing){text(ctx,`＋ 写真 ${f.index+1}`.replace('写真','사진'),f.x+f.w/2,f.y+f.h/2-12,16,f.w-20,'center','Arial','400','#aaa');}
  ctx.restore();
  if(editing&&step===1&&f.index===selected){ctx.save();ctx.strokeStyle='#1a7659';ctx.lineWidth=3;ctx.strokeRect(f.x+1.5,f.y+1.5,f.w-3,f.h-3);ctx.restore();}
 }
 function logo(ctx,x,y,w,h,color='#111',align='left'){
- const d=info(),im=getImage(agencyLogo);if(im&&im.complete&&im.naturalWidth){const scale=Math.min(w/im.naturalWidth,h/im.naturalHeight);ctx.drawImage(im,x+(align==='center'?(w-im.naturalWidth*scale)/2:0),y,im.naturalWidth*scale,im.naturalHeight*scale);}else text(ctx,d.agency,x+(align==='center'?w/2:0),y,Math.min(h,38),w,align,layout.id==='yoon'?'Arial':'Georgia','700',color);
+ const d=info(),im=getImage(agencyLogo);if(im&&im.complete&&im.naturalWidth){const scale=Math.min(w/im.naturalWidth,h/im.naturalHeight);ctx.drawImage(im,x+(align==='center'?(w-im.naturalWidth*scale)/2:0),y,im.naturalWidth*scale,im.naturalHeight*scale);}else text(ctx,d.agency,x+(align==='center'?w/2:0),y,Math.min(h,38),w,align,layout.id==='centered'?'Arial':'Georgia','700',color);
 }
 function draw(canvas,page,editing=true,width=700){
  const h=990;canvas.width=width;canvas.height=Math.round(width*h/700);const ctx=canvas.getContext('2d');ctx.scale(width/700,canvas.height/h);ctx.fillStyle='#fff';ctx.fillRect(0,0,700,h);
  const d=info(),fs=geometry().filter(f=>f.page===page);
- if(layout.id==='gendler'){ctx.fillStyle='#f5f4f0';for(const f of fs)ctx.fillRect(f.x-20,f.y-20,f.w+40,f.h+75);}
- if(layout.id==='yoon'){ctx.fillStyle='#e7e7e5';for(const f of fs)ctx.fillRect(f.x-12,f.y-12,f.w+24,f.h+24);}
+ if(layout.id==='mono'){ctx.fillStyle='#f5f4f0';for(const f of fs)ctx.fillRect(f.x-20,f.y-20,f.w+40,f.h+75);}
+ if(layout.id==='centered'){ctx.fillStyle='#e7e7e5';for(const f of fs)ctx.fillRect(f.x-12,f.y-12,f.w+24,f.h+24);}
  fs.forEach(f=>drawPhoto(ctx,f,editing));
- if(layout.id==='yoon'){
+ if(layout.id==='centered'){
  text(ctx,d.name|| (editing?'YOUR NAME':''),350,20,36,620,'center','Arial','700');
  const rows=[['HEIGHT',meta('height')],['BUST',meta('bust')],['WAIST',meta('waist')],['HIPS',meta('hips')],['SHOE',meta('shoes')],['HAIR',meta('hair')],['EYES',meta('eyes')]].filter(r=>r[1]||editing);
  rows.forEach((r,i)=>text(ctx,r[0]+' '+(r[1]||'—'),350,61+i*9,7.5,230,'center','Arial','700'));
  logo(ctx,125,935,450,28,'#111','center');text(ctx,d.contact.join(' · '),350,973,7,620,'center');
- }else if(layout.id==='bibi'){
+ }else if(layout.id==='editorial'){
  text(ctx,d.name||(editing?'YOUR NAME':''),30,35,52,330,'left','Arial','900');lines(ctx,d.spec,670,35,12,295,'right');
  d.contact.forEach((v,i)=>text(ctx,v,670,899+i*23,13,450,'right','Arial','700'));
- }else if(layout.id==='gendler'){
+ }else if(layout.id==='mono'){
  text(ctx,d.name||(editing?'YOUR NAME':''),350,419,108,660,'center','Arial','900');
  text(ctx,d.spec,350,940,11,650,'center','Arial','700');text(ctx,d.contact.join(' · '),350,961,10,650,'center');
- }else if(layout.id==='major'){
+ }else if(layout.id==='fullbleed'){
  if(page===0){logo(ctx,20,18,330,44,'#fff');text(ctx,d.name||(editing?'YOUR NAME':''),350,944,38,650,'center','Georgia','700','#fff');}
  else {lines(ctx,d.spec,350,780,19,600,'center','Georgia');logo(ctx,67,882,300,60);d.contact.forEach((v,i)=>text(ctx,v,652,882+i*28,17,280,'right','Georgia','700'));}
  }else if(page===0){
@@ -1224,7 +1224,7 @@ window.renderTemplates=render;
 function choices(){
  document.querySelectorAll('[data-pages]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.pages)===layout.pages)));
  $('template-choice').innerHTML=layouts.filter(t=>t.pages===layout.pages).map(t=>`<button type="button" data-layout="${t.id}" aria-pressed="${t.id===layout.id}">${t.name}<small>${t.detail}</small></button>`).join('');
- $('reference-note').textContent=layout.id==='bibi'?'구성 설명을 바탕으로 제작 중입니다. Bibi 원본 참조 이미지는 재첨부 후 정확한 간격·비율을 대조해야 합니다.':'이전 대화에서 복구한 원본 첨부 이미지를 기준으로 구성했습니다.';
+ $('reference-note').textContent=layout.id==='editorial'?'구성 설명을 바탕으로 제작 중입니다. 이 레이아웃의 원본 참조 이미지는 재첨부 후 정확한 간격·비율을 대조해야 합니다.':'이전 대화에서 복구한 원본 첨부 이미지를 기준으로 구성했습니다.';
 }
 function choose(id){layout=layouts.find(t=>t.id===id);selected=Math.min(selected,layout.slots-1);choices();render();}
 function go(n){step=Math.max(0,Math.min(3,n));['layout','photo','info','save'].forEach((v,i)=>$(v+'-stage').hidden=i!==step);root.querySelectorAll('[data-step]').forEach(b=>{if(Number(b.dataset.step)===step)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});$('previous-step').disabled=step===0;$('next-step').hidden=step===3;status('');render();}
