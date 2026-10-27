@@ -181,6 +181,32 @@
   body.is-mobile .desktop-only { display:none; }
   .mailnote { font-size:11px; color:var(--muted); margin-top:4px; line-height:1.6; }
 </style>
+<style>
+/* Canvas artwork uses the same coordinates in preview and exported files. */
+.wizard{margin:24px auto;max-width:1100px;background:#fff;border:1px solid #ddd;border-radius:12px;padding:22px}
+.wizard button,.wizard select{font:inherit;cursor:pointer;border:1px solid #ccc;border-radius:6px;background:white;padding:10px 14px;color:#111}
+.wizard button[aria-pressed=true],.wizard button[aria-current=step]{background:#111;color:#fff;border-color:#111}
+.wizard button:focus-visible,.wizard input:focus-visible{outline:3px solid #27765c;outline-offset:3px}
+.wizard-nav,.page-choice,.template-choice,.editor-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.wizard-nav button{flex:1;min-width:120px}
+.template-choice button{flex:1;min-width:145px;text-align:left}
+.template-choice small{display:block;opacity:.7;font-size:11px;margin-top:5px}
+.wizard h2{font-size:20px;margin:12px 0}.wizard p{font-size:13px;color:#666}
+.template-preview{display:grid;grid-template-columns:repeat(var(--pages,1),minmax(0,1fr));gap:18px;margin:22px 0;align-items:start}
+.artwork{width:100%;display:block;touch-action:none;box-shadow:0 2px 12px #0002;background:#fff;cursor:grab}
+.artwork:focus-visible{outline:3px solid #27765c}
+.photo-tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:16px;background:#f5f4f1;border-radius:8px}
+.photo-tools label{display:block;font-size:12px}.photo-tools input{width:100%;accent-color:#111}
+.photo-tools .editor-actions{grid-column:1/-1;margin:0}.wizard [hidden]{display:none!important}
+body.modern .layout,body.modern #inapp-banner{display:none!important}
+body.modern #input-panel{display:block!important;margin:16px 0!important;border:0;padding:0}
+body.modern #input-panel label{font-size:12px}
+.editor-status{min-height:24px;font-size:13px;color:#1a5c3a}
+.reference-note{font-size:12px;border-left:3px solid #999;padding-left:10px;margin:15px 0}
+.editor-photo-list{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.editor-photo-list button{padding:6px 12px}
+@media(max-width:650px){.wizard{padding:14px;margin:20px 8px}.wizard-nav{gap:4px}.wizard-nav button{min-width:0;padding:9px 3px;font-size:11px}.template-preview{gap:8px}.photo-tools{grid-template-columns:1fr}.photo-tools .editor-actions{grid-column:1}.template-choice button{min-width:120px}.wizard h2{font-size:18px}}
+
+</style>
 </head>
 <body>
 <script>
@@ -474,7 +500,7 @@
     function initSize(){
       p.nw=imgEl.naturalWidth; p.nh=imgEl.naturalHeight;
       const s=coverSize(wrap,p);
-      p.ty = Math.max(0,(s.h - s.ch)/2);
+      if(!p.initialized){ p.ty = Math.max(0,(s.h - s.ch)/2); p.initialized=true; }
       clampOffset(wrap,p); applyTransform(imgEl,p,wrap);
       forceRepaint(wrap);
     }
@@ -719,6 +745,7 @@
   }
 
   function buildBackGrid(){
+    queueMicrotask(()=>window.renderTemplates?.());
     renderGrid($('b-grid'), $('card-back'), 0);
     if(back2On){
       renderGrid($('b-grid2'), $('card-back2'), 4);
@@ -861,6 +888,7 @@
 
   // 앞면 메인 칸: 비었으면 클릭 업로드, 있으면 교체 버튼
   function renderMain(){
+    queueMicrotask(()=>window.renderTemplates?.());
     const box=$('p-main'); box.innerHTML='';
     if(imgData.main){
       const im=document.createElement('img'); im.src=imgData.main; box.appendChild(im); makeEditable(box, im, imgPos.main);
@@ -1077,6 +1105,9 @@
     }
   }));
 
+  window.compcardBridge = { imgData, imgPos, mk, renderMain, buildBackGrid, pickFile, pickFiles,
+    ensureSaveLibs:window.ensureSaveLibs, saveDataUrl, savePDF, getCC, txt, safeName };
+
   // 화면 크기에 따라 카드 직접편집 on/off (PC는 잠금, 모바일은 편집)
   function applyEditMode(){
     const editable = isMobile();
@@ -1093,5 +1124,159 @@
   try{ refresh(); }catch(e){ console.error('refresh',e); }
 })();
 </script>
+<script>
+/* Compcard templates. Local photo data stays in the browser until explicit submission. */
+(()=>{
+'use strict';
+const bridge=window.compcardBridge, $=id=>document.getElementById(id);
+const layouts=[
+ {id:'yoon',name:'Yoon Young Bae',pages:1,detail:'상단 중앙 이름·스펙 / 사진 4장',slots:4},
+ {id:'bibi',name:'Bibi Breslin',pages:1,detail:'좌측 이름 / 우측 스펙·연락처 / 사진 4장',slots:4},
+ {id:'gendler',name:'Gendler',pages:1,detail:'흑백 프레임 4장 / 중앙 대형 이름',slots:4},
+ {id:'major',name:'Major',pages:2,detail:'전면 인물 / 전신 사진·스펙·연락처',slots:2},
+ {id:'a4',name:'A4 Classic',pages:2,detail:'상단 가로선·정보 / 대형 사진 + 2×2',slots:5}
+];
+let layout=layouts[0],step=0,selected=0,busy=false,legacy=false,revision=0;
+const cropStates=Object.fromEntries(layouts.map(t=>[t.id,Array.from({length:t.slots},()=>({x:0,y:0,z:1}))]));
+const cache=new Map(), frames=[];
+const root=document.createElement('section');root.className='wizard';root.setAttribute('aria-label','컴카드 만들기');
+root.innerHTML=`<nav class="wizard-nav" aria-label="제작 단계">${['레이아웃','사진 편집','정보 입력','저장'].map((n,i)=>`<button type="button" data-step="${i}">${i+1}. ${n}</button>`).join('')}</nav>
+<div id="layout-stage"><h2>나에게 맞는 컴카드</h2><div class="page-choice" aria-label="페이지 수"><button type="button" data-pages="1">1페이지</button><button type="button" data-pages="2">2페이지</button></div><div class="template-choice" id="template-choice"></div><p>레이아웃을 바꿔도 업로드한 사진과 입력한 정보는 유지됩니다. 구도는 레이아웃별로 보관됩니다.</p><p class="reference-note" id="reference-note"></p></div>
+<div id="photo-stage" hidden><h2>사진을 넣고 구도를 조정하세요</h2><p>사진 칸을 선택한 뒤 업로드하거나 끌어 이동하세요. 확대와 가로·세로 이동은 아래에서도 조정할 수 있습니다.</p><div class="editor-actions"><button type="button" id="upload-many">사진 여러 장 추가</button><button type="button" id="upload-one">선택 사진 교체</button></div><div id="photo-list" class="editor-photo-list" aria-label="사진 선택"></div><div class="photo-tools"><label>확대 <output id="zoom-value"></output><input id="photo-zoom" type="range" min="1" max="4" step="0.01" value="1"></label><label>가로 위치<input id="photo-x" type="range" min="-1" max="1" step="0.01" value="0"></label><label>세로 위치<input id="photo-y" type="range" min="-1" max="1" step="0.01" value="0"></label><div class="editor-actions"><button type="button" id="crop-reset">구도 초기화</button><button type="button" id="swap-photo">다음 칸과 사진 교환</button><button type="button" id="remove-photo">선택 사진 삭제</button></div></div></div>
+<div id="info-stage" hidden><h2>모델 정보</h2><div id="info-mount"></div><div class="field"><label for="agency-name">에이전시 / 로고 텍스트</label><input id="agency-name" type="text" maxlength="80" placeholder="Major"></div><div class="editor-actions"><button type="button" id="upload-logo">에이전시 로고 추가</button><button type="button" id="remove-logo">로고 삭제</button></div><p>이름과 연락처가 길면 글자 크기를 자동 조정합니다. 사진과 정보는 이 브라우저에서 처리됩니다.</p></div>
+<div id="save-stage" hidden><h2>컴카드 저장</h2><div class="field"><label for="export-size">저장 해상도</label><select id="export-size"><option value="1754">표준 · 페이지 가로 1,754px</option><option value="2480" selected>인쇄 · 페이지 가로 2,480px</option></select></div><div class="editor-actions"><button type="button" id="new-jpg">JPG 저장</button><button type="button" id="new-spread">한 장 합본 JPG</button><button type="button" id="new-pdf">PDF 저장</button><button type="button" id="new-submit">스튜디오로 제출</button></div><div id="download-links" class="editor-actions"></div><p>2페이지는 개별 JPG 또는 가로 합본으로 저장할 수 있습니다. PDF는 선택한 페이지 수로 저장됩니다.</p></div>
+<div class="template-preview" id="template-preview"></div><div class="editor-status" id="editor-status" role="status" aria-live="polite"></div><div class="editor-actions"><button type="button" id="previous-step">이전</button><button type="button" id="next-step">다음</button><button type="button" id="legacy-mode">기존 편집기 열기</button></div>`;
+document.querySelector('header.top').after(root);
+document.body.classList.add('modern');
+const infoPanel=$('input-panel'), infoHome=infoPanel.parentElement;
+$('info-mount').appendChild(infoPanel);
+// One information form on desktop and mobile prevents metadata divergence.
+function photoAt(i){return i===0?bridge.imgData.main:bridge.imgData.quad[i-1];}
+function setPhoto(i,src){if(i===0){bridge.imgData.main=src;bridge.imgPos.main=bridge.mk();}else{bridge.imgData.quad[i-1]=src;bridge.imgPos.quad[i-1]=bridge.mk();}}
+const meta=key=>key==='name'?$('p-name').textContent.trim():$('e-'+key).textContent.trim();
+function info(){return {name:meta('name'),spec:[['Height',meta('height'),'cm'],['Bust',meta('bust'),''],['Waist',meta('waist'),''],['Hips',meta('hips'),''],['Shoes',meta('shoes'),'mm'],['Eyes',meta('eyes'),''],['Hair',meta('hair'),''],['Nat.',meta('nat'),'']].filter(a=>a[1]).map(a=>`${a[0]} ${a[1]}${a[2]}`).join(' · '),contact:[meta('phone')?[bridge.getCC(),meta('phone')].filter(Boolean).join(' '):'',meta('email'),meta('insta')].filter(Boolean),agency:$('agency-name').value.trim()};}
+function getImage(src){if(!src)return null;if(cache.has(src))return cache.get(src);const im=new Image();cache.set(src,im);im.onload=()=>render();im.onerror=()=>{status('사진을 읽지 못했습니다. JPG 또는 PNG 파일을 다시 선택해 주세요.');};im.src=src;return im;}
+let agencyLogo=null;
+function status(text){$('editor-status').textContent=text;}
+function text(ctx,value,x,y,size,maxWidth,align='left',family='Arial',weight='400',color='#111'){
+ if(!value)return;ctx.save();ctx.fillStyle=color;ctx.textAlign=align;ctx.textBaseline='top';let s=size;
+ ctx.font=`${weight} ${s}px ${family}`;while(ctx.measureText(value).width>maxWidth&&s>4){s-=.5;ctx.font=`${weight} ${s}px ${family}`;}ctx.fillText(value,x,y);ctx.restore();
+}
+function lines(ctx,value,x,y,size,width,align='left',family='Arial',color='#111'){
+ if(!value)return;let line='',row=0;ctx.font=`${size}px ${family}`;
+ for(const word of value.split(' ')){if(ctx.measureText(line+' '+word).width>width&&line){text(ctx,line,x,y+row*size*1.5,size,width,align,family,'400',color);row++;line=word;}else line+=(line?' ':'')+word;}
+ text(ctx,line,x,y+row*size*1.5,size,width,align,family,'400',color);
+}
+function frame(page,index,x,y,w,h){return {page,index,x,y,w,h};}
+function geometry(){
+ if(layout.id==='yoon')return [frame(0,0,64,148,274,357),frame(0,1,362,148,274,357),frame(0,2,64,539,274,357),frame(0,3,362,539,274,357)];
+ if(layout.id==='bibi')return [frame(0,0,30,175,314,344),frame(0,1,356,175,314,344),frame(0,2,30,531,314,344),frame(0,3,356,531,314,344)];
+ if(layout.id==='gendler')return [frame(0,0,30,30,303,369),frame(0,1,367,30,303,369),frame(0,2,30,540,303,369),frame(0,3,367,540,303,369)];
+ if(layout.id==='major')return [frame(0,0,0,0,700,990),frame(1,1,58,20,565,706)];
+ return [frame(0,0,42,174,616,774),frame(1,1,42,42,296,435),frame(1,2,362,42,296,435),frame(1,3,42,512,296,436),frame(1,4,362,512,296,436)];
+}
+function drawPhoto(ctx,f,editing){
+ const im=getImage(photoAt(f.index)),p=cropStates[layout.id][f.index];ctx.save();ctx.beginPath();ctx.rect(f.x,f.y,f.w,f.h);ctx.clip();ctx.fillStyle='#efeeeb';ctx.fillRect(f.x,f.y,f.w,f.h);
+ if(im&&im.complete&&im.naturalWidth){const scale=Math.max(f.w/im.naturalWidth,f.h/im.naturalHeight)*p.z,w=im.naturalWidth*scale,h=im.naturalHeight*scale;
+ ctx.filter=layout.id==='gendler'?'grayscale(1)':'none';ctx.drawImage(im,f.x+(f.w-w)/2+p.x*(w-f.w)/2,f.y+(f.h-h)/2+p.y*(h-f.h)/2,w,h);
+ }else if(editing){text(ctx,`＋ 写真 ${f.index+1}`.replace('写真','사진'),f.x+f.w/2,f.y+f.h/2-12,16,f.w-20,'center','Arial','400','#aaa');}
+ ctx.restore();
+ if(editing&&step===1&&f.index===selected){ctx.save();ctx.strokeStyle='#1a7659';ctx.lineWidth=3;ctx.strokeRect(f.x+1.5,f.y+1.5,f.w-3,f.h-3);ctx.restore();}
+}
+function logo(ctx,x,y,w,h,color='#111',align='left'){
+ const d=info(),im=getImage(agencyLogo);if(im&&im.complete&&im.naturalWidth){const scale=Math.min(w/im.naturalWidth,h/im.naturalHeight);ctx.drawImage(im,x+(align==='center'?(w-im.naturalWidth*scale)/2:0),y,im.naturalWidth*scale,im.naturalHeight*scale);}else text(ctx,d.agency,x+(align==='center'?w/2:0),y,Math.min(h,38),w,align,layout.id==='yoon'?'Arial':'Georgia','700',color);
+}
+function draw(canvas,page,editing=true,width=700){
+ const h=990;canvas.width=width;canvas.height=Math.round(width*h/700);const ctx=canvas.getContext('2d');ctx.scale(width/700,canvas.height/h);ctx.fillStyle='#fff';ctx.fillRect(0,0,700,h);
+ const d=info(),fs=geometry().filter(f=>f.page===page);
+ if(layout.id==='gendler'){ctx.fillStyle='#f5f4f0';for(const f of fs)ctx.fillRect(f.x-20,f.y-20,f.w+40,f.h+75);}
+ if(layout.id==='yoon'){ctx.fillStyle='#e7e7e5';for(const f of fs)ctx.fillRect(f.x-12,f.y-12,f.w+24,f.h+24);}
+ fs.forEach(f=>drawPhoto(ctx,f,editing));
+ if(layout.id==='yoon'){
+ text(ctx,d.name|| (editing?'YOUR NAME':''),350,20,36,620,'center','Arial','700');
+ const rows=[['HEIGHT',meta('height')],['BUST',meta('bust')],['WAIST',meta('waist')],['HIPS',meta('hips')],['SHOE',meta('shoes')],['HAIR',meta('hair')],['EYES',meta('eyes')]].filter(r=>r[1]||editing);
+ rows.forEach((r,i)=>text(ctx,r[0]+' '+(r[1]||'—'),350,61+i*9,7.5,230,'center','Arial','700'));
+ logo(ctx,125,935,450,28,'#111','center');text(ctx,d.contact.join(' · '),350,973,7,620,'center');
+ }else if(layout.id==='bibi'){
+ text(ctx,d.name||(editing?'YOUR NAME':''),30,35,52,330,'left','Arial','900');lines(ctx,d.spec,670,35,12,295,'right');
+ d.contact.forEach((v,i)=>text(ctx,v,670,899+i*23,13,450,'right','Arial','700'));
+ }else if(layout.id==='gendler'){
+ text(ctx,d.name||(editing?'YOUR NAME':''),350,419,108,660,'center','Arial','900');
+ text(ctx,d.spec,350,940,11,650,'center','Arial','700');text(ctx,d.contact.join(' · '),350,961,10,650,'center');
+ }else if(layout.id==='major'){
+ if(page===0){logo(ctx,20,18,330,44,'#fff');text(ctx,d.name||(editing?'YOUR NAME':''),350,944,38,650,'center','Georgia','700','#fff');}
+ else {lines(ctx,d.spec,350,780,19,600,'center','Georgia');logo(ctx,67,882,300,60);d.contact.forEach((v,i)=>text(ctx,v,652,882+i*28,17,280,'right','Georgia','700'));}
+ }else if(page===0){
+ ctx.fillStyle='#111';ctx.fillRect(42,42,616,4);ctx.fillRect(42,145,616,4);
+ text(ctx,d.name||(editing?'YOUR NAME':''),42,61,23,460,'left','Arial','700');lines(ctx,d.spec,42,99,10,460);
+ text(ctx,'Contact Info.',658,65,12,135,'right','Arial','700');d.contact.forEach((v,i)=>text(ctx,v,658,87+i*17,9,140,'right'));
+ }
+}
+function syncControls(){const p=cropStates[layout.id][selected];$('photo-zoom').value=p.z;$('photo-x').value=p.x;$('photo-y').value=p.y;$('zoom-value').textContent=`${Math.round(p.z*100)}%`;
+ $('photo-list').innerHTML=Array.from({length:layout.slots},(_,i)=>`<button type="button" data-photo="${i}" aria-pressed="${i===selected}">写真 ${i+1}${photoAt(i)?' ✓':''}</button>`.replace('写真','사진')).join('');}
+function render(){
+ if(legacy)return;revision++;frames.splice(0,frames.length,...geometry());
+ const area=$('template-preview');area.style.setProperty('--pages',layout.pages);
+ if(area.children.length!==layout.pages){area.replaceChildren();for(let page=0;page<layout.pages;page++){const canvas=document.createElement('canvas');canvas.className='artwork';canvas.tabIndex=0;canvas.setAttribute('aria-label',`${page+1}페이지 미리보기. 사진 편집 단계에서 사진을 선택해 구도를 조정할 수 있습니다.`);canvas.dataset.page=page;bindCanvas(canvas);area.appendChild(canvas);}}
+ Array.from(area.children).forEach((canvas,page)=>draw(canvas,page));syncControls();
+}
+window.renderTemplates=render;
+function choices(){
+ document.querySelectorAll('[data-pages]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.pages)===layout.pages)));
+ $('template-choice').innerHTML=layouts.filter(t=>t.pages===layout.pages).map(t=>`<button type="button" data-layout="${t.id}" aria-pressed="${t.id===layout.id}">${t.name}<small>${t.detail}</small></button>`).join('');
+ $('reference-note').textContent=layout.id==='bibi'?'구성 설명을 바탕으로 제작 중입니다. Bibi 원본 참조 이미지는 재첨부 후 정확한 간격·비율을 대조해야 합니다.':'이전 대화에서 복구한 원본 첨부 이미지를 기준으로 구성했습니다.';
+}
+function choose(id){layout=layouts.find(t=>t.id===id);selected=Math.min(selected,layout.slots-1);choices();render();}
+function go(n){step=Math.max(0,Math.min(3,n));['layout','photo','info','save'].forEach((v,i)=>$(v+'-stage').hidden=i!==step);root.querySelectorAll('[data-step]').forEach(b=>{if(Number(b.dataset.step)===step)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});$('previous-step').disabled=step===0;$('next-step').hidden=step===3;status('');render();}
+root.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.step)go(Number(b.dataset.step));if(b.dataset.pages)choose(layouts.find(t=>t.pages===Number(b.dataset.pages)).id);if(b.dataset.layout)choose(b.dataset.layout);if(b.dataset.photo){selected=Number(b.dataset.photo);render();}});
+$('previous-step').onclick=()=>go(step-1);$('next-step').onclick=()=>go(step+1);
+function bindCanvas(canvas){let drag=null;
+ function coords(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)*700/r.width,y:(e.clientY-r.top)*990/r.height};}
+ canvas.addEventListener('pointerdown',e=>{if(step!==1||busy)return;const q=coords(e),f=frames.find(f=>f.page===Number(canvas.dataset.page)&&q.x>=f.x&&q.x<=f.x+f.w&&q.y>=f.y&&q.y<=f.y+f.h);if(!f)return;selected=f.index;const p=cropStates[layout.id][selected];drag={f,start:q,x:p.x,y:p.y};canvas.setPointerCapture(e.pointerId);render();});
+ canvas.addEventListener('pointermove',e=>{if(!drag)return;const im=getImage(photoAt(selected));if(!im||!im.naturalWidth)return;const q=coords(e),f=drag.f,p=cropStates[layout.id][selected],scale=Math.max(f.w/im.naturalWidth,f.h/im.naturalHeight)*p.z,dx=im.naturalWidth*scale-f.w,dy=im.naturalHeight*scale-f.h;
+ p.x=dx?Math.max(-1,Math.min(1,drag.x+2*(q.x-drag.start.x)/dx)):0;p.y=dy?Math.max(-1,Math.min(1,drag.y+2*(q.y-drag.start.y)/dy)):0;render();});
+ const end=()=>{drag=null;};canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',end);canvas.addEventListener('lostpointercapture',end);
+ canvas.addEventListener('keydown',e=>{if(step!==1)return;const p=cropStates[layout.id][selected],moves={ArrowLeft:['x',-.02],ArrowRight:['x',.02],ArrowUp:['y',-.02],ArrowDown:['y',.02]};if(moves[e.key]){e.preventDefault();const [k,v]=moves[e.key];p[k]=Math.max(-1,Math.min(1,p[k]+v));render();}});
+}
+['zoom','x','y'].forEach(k=>$('photo-'+k).addEventListener('input',e=>{cropStates[layout.id][selected][k==='zoom'?'z':k]=Number(e.target.value);render();}));
+$('crop-reset').onclick=()=>{cropStates[layout.id][selected]={x:0,y:0,z:1};render();};
+function changed(){bridge.renderMain();bridge.buildBackGrid();render();}
+// The file chooser is attached to the DOM and cleaned up on cancel and failure.
+function pick(multiple,onDone){const input=document.createElement('input');input.type='file';input.accept='image/jpeg,image/png,image/webp';input.multiple=multiple;input.hidden=true;root.appendChild(input);input.oncancel=()=>input.remove();input.onchange=async()=>{try{const files=Array.from(input.files);const sources=await Promise.all(files.map(file=>new Promise((resolve,reject)=>{if(!/^image\/(jpeg|png|webp)$/.test(file.type)){reject(new Error('JPG, PNG, WebP 사진을 선택해 주세요.'));return;}const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(new Error('파일을 읽지 못했습니다.'));r.readAsDataURL(file);})));await Promise.all(sources.map(src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=resolve;im.onerror=()=>reject(new Error('사진 파일을 해석하지 못했습니다.'));im.src=src;})));onDone(sources);}catch(e){status(e.message);}finally{input.remove();}};input.click();}
+function resetSlot(i){for(const t of layouts)if(i<t.slots)cropStates[t.id][i]={x:0,y:0,z:1};}
+$('upload-one').onclick=()=>{const target=selected;pick(false,sources=>{if(!sources.length)return;setPhoto(target,sources[0]);resetSlot(target);changed();});};
+$('upload-many').onclick=()=>pick(true,sources=>{let count=0;for(let i=0;i<13&&count<sources.length;i++)if(!photoAt(i)){setPhoto(i,sources[count++]);resetSlot(i);}changed();status(`${count}장 추가했습니다.${sources.length>count?' 보관 가능한 사진은 최대 13장입니다.':''}`);});
+$('remove-photo').onclick=()=>{setPhoto(selected,null);resetSlot(selected);changed();};
+$('swap-photo').onclick=()=>{const next=(selected+1)%layout.slots,a=photoAt(selected),b=photoAt(next);setPhoto(selected,b);setPhoto(next,a);for(const t of layouts)if(next<t.slots&&selected<t.slots){const temp=cropStates[t.id][next];cropStates[t.id][next]=cropStates[t.id][selected];cropStates[t.id][selected]=temp;}changed();};
+$('upload-logo').onclick=()=>pick(false,s=>{agencyLogo=s[0]||agencyLogo;render();});$('remove-logo').onclick=()=>{agencyLogo=null;render();};
+root.addEventListener('input',e=>{if(e.target.closest('#info-stage'))render();});root.addEventListener('change',e=>{if(e.target.closest('#info-stage'))render();});
+// Keep country codes in sync with the preserved legacy editor on all devices.
+['i-cc','i-cc-custom'].forEach(id=>$(id).addEventListener(id==='i-cc'?'change':'input',()=>{const other=$(id==='i-cc'?'i-cc-m':'i-cc-custom-m');other.value=$(id).value;render();}));
+$('legacy-mode').onclick=()=>{legacy=!legacy;document.body.classList.toggle('modern',!legacy);if(legacy){infoHome.appendChild(infoPanel);root.querySelectorAll(':scope > :not(.editor-actions)').forEach(el=>el.hidden=true);$('previous-step').hidden=true;$('next-step').hidden=true;$('legacy-mode').textContent='새 템플릿 편집기로 돌아가기';}else{for(const k of ['name','height','bust','waist','hips','shoes','eyes','hair','nat','phone','email','insta'])$('i-'+k).value=meta(k);$('info-mount').appendChild(infoPanel);root.querySelectorAll(':scope > *').forEach(el=>el.hidden=false);$('legacy-mode').textContent='기존 편집기 열기';$('previous-step').hidden=false;go(step);}};
+async function ready(){await document.fonts.ready;await Promise.all([...Array(layout.slots)].map(async(_,i)=>{const im=getImage(photoAt(i));if(im&&!im.complete)await im.decode();}));const logoImage=getImage(agencyLogo);if(logoImage&&!logoImage.complete)await logoImage.decode();}
+function canvasPage(page){const c=document.createElement('canvas');draw(c,page,false,Number($('export-size').value));return c;}
+function filename(){return (meta('name')||'compcard').replace(/[^\p{L}\p{N}_-]/gu,'_').slice(0,80)+'_'+layout.id;}
+function asBlob(c,type='image/jpeg',q=.98){return new Promise((resolve,reject)=>c.toBlob(b=>b?resolve(b):reject(new Error('이미지 생성에 실패했습니다.')),type,q));}
+const links=[];
+function clearLinks(){links.splice(0).forEach(URL.revokeObjectURL);$('download-links').replaceChildren();}
+function download(blob,name){const url=URL.createObjectURL(blob);links.push(url);const a=document.createElement('a');a.href=url;a.download=name;a.textContent=name+' 다시 저장';$('download-links').appendChild(a);a.click();}
+async function run(fn){if(busy)return;busy=true;const controls=Array.from(root.querySelectorAll('button,input,select'));const states=controls.map(c=>c.disabled);controls.forEach(c=>c.disabled=true);status('파일을 준비하고 있습니다…');clearLinks();try{await ready();const result=await fn();status(result||'완료했습니다. 다운로드가 시작되지 않으면 저장 링크를 눌러 주세요.');}catch(e){status('저장하지 못했습니다. '+e.message);}finally{controls.forEach((c,i)=>c.disabled=states[i]);busy=false;}}
+$('new-jpg').onclick=()=>run(async()=>{for(let p=0;p<layout.pages;p++)download(await asBlob(canvasPage(p)),`${filename()}_${p+1}.jpg`);});
+function spread(pages){const c=document.createElement('canvas');c.width=pages.reduce((w,p)=>w+p.width,0);c.height=pages[0].height;const ctx=c.getContext('2d');let x=0;pages.forEach(p=>{ctx.drawImage(p,x,0);x+=p.width;});return c;}
+$('new-spread').onclick=()=>run(async()=>download(await asBlob(spread(Array.from({length:layout.pages},(_,p)=>canvasPage(p)))),filename()+'_spread.jpg'));
+async function pdfOf(pages){await bridge.ensureSaveLibs();const pdf=new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:[148,148*990/700]});for(let p=0;p<pages.length;p++){if(p)pdf.addPage([148,148*990/700],'portrait');pdf.addImage(pages[p].toDataURL('image/png'),'PNG',0,0,148,148*990/700,undefined,'FAST');}return pdf;}
+$('new-pdf').onclick=()=>run(async()=>{const pdf=await pdfOf(Array.from({length:layout.pages},(_,p)=>canvasPage(p)));download(pdf.output('blob'),filename()+'.pdf');});
+// Explicit user action sends the selected artwork through the existing studio endpoint.
+$('new-submit').onclick=()=>run(async()=>{const pages=Array.from({length:layout.pages},(_,p)=>canvasPage(p)),pdf=await pdfOf(pages),d=info();
+ const files=pages.map((c,p)=>({filename:`${filename()}_${p+1}.jpg`,dataUrl:c.toDataURL('image/jpeg',.98)}));files.push({filename:filename()+'.pdf',dataUrl:pdf.output('datauristring')});
+ const fields=Object.fromEntries(['name','height','bust','waist','hips','shoes','eyes','hair','nat','phone','email','insta'].map(k=>[k,meta(k)]));fields.phone=[bridge.getCC(),fields.phone].join(' ').trim();
+ await fetch('https://script.google.com/macros/s/AKfycbwMiFv0N-f4W-kEhapKTslL62GiMk3v5_nnH7X0N9OX5yvvmG6YymrcrmFzRQTvnJyt/exec',{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({key:'910909',name:d.name||'noname',info:[d.name,d.spec,...d.contact].join('\n'),fields,thumbFile:files[0].filename,files})});
+ // An opaque response cannot confirm receipt by the destination.
+ return '전송을 요청했습니다. 스튜디오 수신 여부는 이 화면에서 확인할 수 없습니다.';});
+window.addEventListener('pagehide',clearLinks);choices();go(0);
+})();
+
+</script>
 </body>
 </html>
+
