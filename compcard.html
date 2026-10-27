@@ -319,6 +319,12 @@ body.modern #input-panel input{min-width:0}
 .inspector-pagination{display:flex;align-items:center;justify-content:center;gap:18px;flex:0 0 auto;font-size:12px}
 .inspector-pagination button{width:44px;padding:6px}
 #inspector-select{background:#111;color:#fff;border:0;font-size:14px;font-weight:800;flex:0 0 auto}
+/* Enlargement is a quiet corner action; layout descriptions stay readable. */
+.layout-option{position:relative;gap:0}
+.template-choice .layout-enlarge{position:absolute;top:12px;right:12px;width:44px;height:44px;min-height:44px;min-width:0;padding:6px;border:0;border-radius:50%;background:transparent;color:#222;display:flex;align-items:center;justify-content:center;flex:none}
+.template-choice .layout-enlarge span{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#fffffff0;box-shadow:0 1px 5px #0002;font-size:22px;font-weight:400;line-height:1}
+.template-choice .layout-enlarge:hover span{background:#fff;box-shadow:0 1px 7px #0003}
+.template-choice button[data-layout] small{display:block;font-size:12px;line-height:1.55;color:#555;opacity:1;margin:7px 0 2px;min-height:38px;white-space:normal}
 
 </style>
 </head>
@@ -1373,7 +1379,7 @@ function thumbnail(t){
 function choices(){
  document.querySelectorAll('[data-pages]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.pages)===layout.pages)));
  $('theme-choice').innerHTML=themes.map(t=>`<button type="button" data-theme="${t.id}" aria-pressed="${t.id===theme.id}"><span class="theme-swatch" style="background:${t.bg};color:${t.ink}">Aa</span>${t.name}<span class="selection-check">${t.id===theme.id?'✓':''}</span></button>`).join('');
- $('template-choice').innerHTML=layouts.filter(t=>t.pages===layout.pages).map(t=>`<article class="layout-option"><button type="button" data-layout="${t.id}" aria-pressed="${t.id===layout.id}">${thumbnail(t)}<span class="layout-name">${t.name}<span class="selection-check">${t.id===layout.id?'✓':''}</span></span><small>${t.detail}</small></button><button type="button" class="layout-enlarge" data-enlarge="${t.id}" aria-label="${t.name} 크게보기">⤢ 크게보기</button></article>`).join('');
+ $('template-choice').innerHTML=layouts.filter(t=>t.pages===layout.pages).map(t=>`<article class="layout-option"><button type="button" data-layout="${t.id}" aria-pressed="${t.id===layout.id}">${thumbnail(t)}<span class="layout-name">${t.name}<span class="selection-check">${t.id===layout.id?'✓':''}</span></span><small>${t.detail}</small></button><button type="button" class="layout-enlarge" data-enlarge="${t.id}" aria-label="${t.name} 크게보기" title="크게보기"><span aria-hidden="true">⤢</span></button></article>`).join('');
 }
 let inspectedLayout=null,inspectedPage=0,inspectorTrigger=null,previousOverflow='';
 function paintInspector(){
