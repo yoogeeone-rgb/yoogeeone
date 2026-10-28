@@ -1566,7 +1566,7 @@ async function submitStudio(){return run(async()=>{const pages=Array.from({lengt
 $('studio-info').onclick=()=>{const open=$('studio-info-panel').hidden;$('studio-info-panel').hidden=!open;$('studio-info').setAttribute('aria-expanded',String(open));};
 $('new-submit').onclick=()=>{if(busy)return;window.compcardConsent={version:'2026-10-28-v2',collectedAt:new Date().toISOString(),acknowledgementMethod:'submit_button_notice',notice:$('submission-notice').textContent};return submitStudio();};
 const intro=document.createElement('div');intro.id='studio-intro';intro.className='studio-intro';intro.tabIndex=0;intro.setAttribute('role','button');intro.setAttribute('aria-label','터치하거나 스크롤해서 컴카드 생성기 시작');
-intro.innerHTML='<img src="images/SSBLVD_black.png" alt="스튜디오 석양대로"><p>터치하거나 스크롤해서 시작</p>';
+intro.innerHTML='<img src="images/sunset-logo.png" alt="스튜디오 석양대로"><p>터치하거나 스크롤해서 시작</p>';
 document.body.appendChild(intro);document.body.classList.add('intro-pending');root.inert=true;document.querySelector('header.top').inert=true;
 let introDone=false;
 function revealGenerator(e){if(introDone)return;introDone=true;if(e?.cancelable)e.preventDefault();e?.stopPropagation();intro.inert=true;intro.classList.add('intro-out');document.body.classList.remove('intro-pending');root.inert=false;document.querySelector('header.top').inert=false;window.removeEventListener('wheel',revealGenerator);window.removeEventListener('touchstart',revealGenerator);setTimeout(()=>{intro.remove();$('next-step').focus({preventScroll:true});},450);}
