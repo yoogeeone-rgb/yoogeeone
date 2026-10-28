@@ -1365,7 +1365,6 @@ function logo(ctx,x,y,w,h,color='#111',align='left'){
 function draw(canvas,page,editing=true,width=700){
  const h=pageHeight();canvas.width=width;canvas.height=Math.round(width*h/700);const ctx=canvas.getContext('2d');ctx.scale(width/700,canvas.height/h);ctx.fillStyle=theme.bg;ctx.fillRect(0,0,700,h);
  const d=info(),fs=geometry().filter(f=>f.page===page);
- if(layout.id==='centered'||layout.id==='linegrid'){ctx.fillStyle=theme.mat;for(const f of fs)ctx.fillRect(f.x-12,f.y-12,f.w+24,f.h+24);}
  fs.forEach(f=>drawPhoto(ctx,f,editing));
  if(layout.id==='centered'){
  text(ctx,d.name|| (editing?'YOUR NAME':''),350,20,36,620,'center','Arial','700');
