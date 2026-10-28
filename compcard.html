@@ -1391,14 +1391,18 @@ function draw(canvas,page,editing=true,width=700){
  const second=`Eyes: ${value('eyes')} / Hair: ${value('hair')} / Nationality: ${value('nat')}`;
  measuredText(first,'HEIGHT: 165cm / Sizes: 34-24-36 / Shoes: 240mm',218,385,36,500,781,30,1450);
  measuredText(second,'Eyes: Brown / Hair: Brown / Nationality: Korean',218,429,36,500,733,32,1450);
- measuredText('Conact Info.','Conact Info.',1808,233,54,900,292,39,455);
+ measuredText('Contact Info.','Conact Info.',1808,233,54,900,292,39,455);
  const contacts=[meta('phone')?[bridge.getCC(),meta('phone')].filter(Boolean).join(' '):'',meta('email'),meta('insta')];
- contacts.forEach((value,i)=>{if(!value&&!editing)return;const y=[300,355,410][i];measuredText(value,'sample@example.com',1880,y,36,500,382,37,382);});
- // Vector icons retain their position and proportions at every export resolution.
- ctx.fillStyle=theme.ink;
- if(contacts[0]||editing){for(let i=0;i<4;i++)ctx.fillRect(1810+i*12,346-(13+i*7),9,13+i*7);}
- if(contacts[1]||editing){ctx.beginPath();ctx.roundRect(1808,364,50,35,4);ctx.fill();ctx.save();ctx.strokeStyle=theme.bg;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(1810,366);ctx.lineTo(1833,383);ctx.lineTo(1856,366);ctx.stroke();ctx.restore();}
- if(contacts[2]||editing){ctx.beginPath();ctx.roundRect(1815,416,43,44,9);ctx.fill();ctx.save();ctx.strokeStyle=theme.bg;ctx.lineWidth=5;ctx.beginPath();ctx.arc(1836.5,438,11,0,Math.PI*2);ctx.stroke();ctx.fillStyle=theme.bg;ctx.beginPath();ctx.arc(1849,425,3,0,Math.PI*2);ctx.fill();ctx.restore();}
+ // Shared row centers align icon and text; all values use one font size and left edge.
+ const rowCenters=[322,388,454];
+ contacts.forEach((value,i)=>{
+  if(!value&&!editing)return;const center=rowCenters[i];
+  if(value){ctx.save();ctx.font=`500 36px ${family}`;ctx.textBaseline='alphabetic';ctx.textAlign='left';ctx.fillStyle=theme.ink;const m=ctx.measureText(value),width=m.actualBoundingBoxLeft+m.actualBoundingBoxRight||m.width,fit=Math.min(1,382/width);ctx.translate(1880,center);ctx.scale(fit,fit);ctx.fillText(value,m.actualBoundingBoxLeft,(m.actualBoundingBoxAscent-m.actualBoundingBoxDescent)/2);ctx.restore();}
+  ctx.fillStyle=theme.ink;
+  if(i===0){for(let bar=0;bar<4;bar++){const height=13+bar*7;ctx.fillRect(1810+bar*12,center+17-height,9,height);}}
+  if(i===1){ctx.beginPath();ctx.roundRect(1810,center-18,48,36,4);ctx.fill();ctx.save();ctx.strokeStyle=theme.bg;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(1812,center-16);ctx.lineTo(1834,center+1);ctx.lineTo(1856,center-16);ctx.stroke();ctx.restore();}
+  if(i===2){ctx.beginPath();ctx.roundRect(1810,center-22,44,44,9);ctx.fill();ctx.save();ctx.strokeStyle=theme.bg;ctx.lineWidth=5;ctx.beginPath();ctx.arc(1832,center,11,0,Math.PI*2);ctx.stroke();ctx.fillStyle=theme.bg;ctx.beginPath();ctx.arc(1845,center-13,3,0,Math.PI*2);ctx.fill();ctx.restore();}
+ });
  ctx.restore();
  }else if(layout.id==='editorial'){
  const name=d.name||(editing?'YOUR NAME':'');const words=name.split(/\s+/).filter(Boolean);
@@ -1449,7 +1453,7 @@ function thumbnail(t){
  return `<span class="layout-thumbnails">${Array.from({length:t.pages},(_,page)=>{
  let labels='';
  if(t.id==='centered')labels=type('YOUR NAME',350,48,36)+rules(310,65,80,5)+type('AGENCY',350,963,26);
- if(t.id==='linegrid')labels=rules(214*referenceScale,166*referenceScale,2049*referenceScale,1)+type('YOUR NAME',215*referenceScale,353*referenceScale,155*referenceScale,'start')+rules(215*referenceScale,366*referenceScale,1107*referenceScale,1)+rules(218*referenceScale,400*referenceScale,781*referenceScale,2)+type('Conact Info.',1808*referenceScale,272*referenceScale,54*referenceScale,'start')+rules(1880*referenceScale,320*referenceScale,382*referenceScale,3)+rules(214*referenceScale,512*referenceScale,2049*referenceScale,1);
+ if(t.id==='linegrid')labels=rules(214*referenceScale,166*referenceScale,2049*referenceScale,1)+type('YOUR NAME',215*referenceScale,353*referenceScale,155*referenceScale,'start')+rules(215*referenceScale,366*referenceScale,1107*referenceScale,1)+rules(218*referenceScale,400*referenceScale,781*referenceScale,2)+type('Contact Info.',1808*referenceScale,272*referenceScale,54*referenceScale,'start')+rules(1880*referenceScale,320*referenceScale,382*referenceScale,3)+rules(214*referenceScale,512*referenceScale,2049*referenceScale,1);
  if(t.id==='editorial')labels=type('YOUR',4,72,94,'start')+type('NAME',4,152,94,'start')+rules(558,172,122,7)+rules(558,805,122,3);
  if(t.id==='fullbleed')labels=page===0?type('AGENCY',25,60,32,'start','#fff')+type('YOUR NAME',350,960,40,'middle','#fff'):rules(110,790,480,3)+type('AGENCY',85,920,32,'start')+rules(470,905,170,3);
  if(t.id==='ruled'&&page===0)labels=rules(42,42,616,1)+type('YOUR NAME',42,86,22,'start')+rules(42,106,360,2)+rules(520,80,138,4)+rules(42,145,616,1);
