@@ -1,0 +1,16 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: images
+public_folder: /images
+
+collections:
+  - name: portfolio
+    label: Portfolio
+    folder: _portfolio
+    create: true
+    fields:
+      - { label: 제목, name: title, widget: string }
+      - { label: 카테고리, name: category, widget: select, options: [archive, ads, portrait, fashion] }
+      - { label: 사진, name: image, widget: image }
