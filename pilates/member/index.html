@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>스튜디오 석양대로 — PILATES PORTRAIT DAY</title><meta name="description" content="스튜디오 석양대로 필라테스 멤버 프로필 데이. 1인 12만 원, 유료 신청 8명부터. 예약 15분, 보정 2장과 전체 원본 제공."><meta property="og:image" content="https://yoogeeone.kr/pilates/photos/pilates_10_resize.jpg"><style>
+:root{--paper:#fff;--ink:#171715;--line:#aaa9a2;--quiet:#62625c}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;padding:24px;background:#20201e;color:var(--ink);font-family:Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+.sheet{max-width:1320px;margin:auto;background:var(--paper);padding:10px;border:1px solid #95958d}
+.frame{border:1px solid var(--line)}
+header{display:flex;justify-content:space-between;min-height:46px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;padding:10px 18px;font-size:15px;font-weight:700;letter-spacing:-.06em}
+.brand-mark{width:27px;height:16px;background:var(--ink)}
+nav{display:flex}
+nav a{font-size:10px;display:flex;align-items:center;padding:0 20px;border-left:1px solid var(--line)}
+nav a:hover{background:var(--ink);color:var(--paper)}
+.hero{position:relative;padding:27px 25px 22px}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;min-height:160px}
+.eyebrow{font-size:11px;line-height:1.45;letter-spacing:.01em;margin:0}
+.star{width:100px;height:100px;margin:2px 6px}
+h1{font-size:clamp(68px,11.4vw,153px);font-weight:800;letter-spacing:-.075em;line-height:.82;margin:0 0 25px}
+h1 span{display:block}
+.hero-bottom{display:flex;justify-content:space-between;align-items:end;gap:28px}
+.hero-bottom h2{font-size:19px;letter-spacing:-.045em;font-weight:500;margin:0}
+.hero-bottom p{font-size:16px;line-height:1.7;margin:0;max-width:330px;word-break:keep-all}
+.chapter{border-top:1px solid var(--line)}
+.chapter>summary{display:grid;grid-template-columns:52px 1fr auto;align-items:center;padding:10px 18px;list-style:none;cursor:pointer;font-size:11px;min-height:39px}
+.chapter>summary::-webkit-details-marker{display:none}
+.chapter>summary:hover{background:#e3e2dc}
+.chapter>summary .symbol{font-size:23px;line-height:1}
+.chapter>summary .symbol::after{content:"+"}
+.chapter[open]>summary .symbol::after{content:"−"}
+.chapter>summary:focus-visible,a:focus-visible,button:focus-visible{outline:2px solid #555;outline-offset:-3px}
+.gallery{padding:0 18px 34px}
+.gallery-row{display:grid;grid-template-columns:1fr 1.9fr;gap:34px;padding:34px 0;border-top:1px solid var(--line)}
+.gallery-copy{display:flex;flex-direction:column;align-items:start}
+.gallery-copy h3{font-size:clamp(27px,4.2vw,54px);font-weight:700;letter-spacing:-.055em;line-height:.95;margin:0 0 18px}
+.gallery-copy p{font-size:16px;line-height:1.65;max-width:260px;word-break:keep-all;margin:0}
+.gallery-copy .count{margin-top:auto;padding-top:30px;font:10px/1.4 monospace;color:var(--quiet)}
+.photo-group{display:grid;grid-template-columns:1.8fr 1fr;gap:14px;align-items:start}
+figure{margin:0;min-width:0}
+.photo-group figure:first-child{grid-row:span 2}
+.photo-group figure:first-child .slot{aspect-ratio:3/4}
+.slot{aspect-ratio:1;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:13px;overflow:hidden;background:#dcdcd5;color:#54554e}
+.slot b{font:400 11px/1 monospace}
+.slot span{font-size:10px;line-height:1.4;max-width:21ch;word-break:keep-all}
+.slot::after{content:"";width:19px;height:19px;border:1px solid #a4a59b;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.slot:has(img)::after{display:none}
+.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+figure:nth-child(even) .slot{background:#cfd0c8}
+.gallery-row:nth-child(2) .photo-group{grid-template-columns:1fr 1.8fr}
+.gallery-row:nth-child(2) figure:first-child{grid-row:auto;grid-column:1}
+.gallery-row:nth-child(2) figure:first-child .slot{aspect-ratio:1}
+.gallery-row:nth-child(2) figure:nth-child(2){grid-column:2;grid-row:span 2}
+.gallery-row:nth-child(2) figure:nth-child(2) .slot{aspect-ratio:3/4}
+.gallery-row:nth-child(2) figure:nth-child(3){grid-column:1}
+.gallery-row:last-child{padding-bottom:0}
+.gallery-row:last-child .photo-group{grid-template-columns:repeat(2,1fr)}
+.gallery-row:last-child figure:first-child{grid-row:auto}
+.gallery-row:last-child figure:first-child .slot{aspect-ratio:1}
+.package{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;padding:30px 18px 40px;border-top:1px solid var(--line)}
+.package h3{font-size:clamp(35px,5vw,68px);line-height:1;letter-spacing:-.065em;margin:0 0 20px}
+.package p{font-size:15px;margin:8px 0}
+.spec{margin:0}
+.spec div{display:grid;grid-template-columns:90px 1fr;padding:10px 0;border-bottom:1px solid var(--line);font-size:16px}
+.spec dt{color:var(--quiet)}.spec dd{margin:0}
+.process{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.process article{padding:25px 18px 30px}
+.process article+article{border-left:1px solid var(--line)}
+.process small{font:10px monospace}
+.process h3{font-size:19px;margin:24px 0 8px;font-weight:700}
+.process p{font-size:16px;line-height:1.7;margin:0;word-break:keep-all}
+.booking{padding:35px 18px 42px;border-top:1px solid var(--line)}
+.booking h3{font-size:clamp(30px,4.8vw,60px);font-weight:700;letter-spacing:-.065em;line-height:1.15;margin:0 0 20px}
+.booking p{font-size:16px;line-height:1.65;margin:0}
+footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding:15px 18px;font-size:10px}
+footer strong{font-size:15px;letter-spacing:-.07em}
+.edit{max-width:1320px;margin:18px auto 0;color:#dddcd6;font-size:12px}
+.edit summary{cursor:pointer}
+.edit button{padding:8px 12px;margin:6px 7px 0 0;background:#efeeea;border:0;cursor:pointer}
+.edit-on .slot{cursor:pointer}
+.edit-on .slot:hover,.edit-on .slot:focus-visible{outline:2px solid #111;outline-offset:-3px}
+@media(max-width:700px){
+body{padding:10px}
+.sheet{padding:5px}
+header{min-height:36px}
+.brand{padding:8px 10px;font-size:13px}
+.brand-mark{width:20px;height:12px}
+nav a{padding:0 9px;font-size:8px}
+.hero{padding:19px 12px 18px}
+.hero-top{min-height:130px}
+.star{width:65px;height:65px}
+h1{font-size:clamp(59px,15.5vw,106px);margin-bottom:23px}
+.hero-bottom{display:block}
+.hero-bottom h2{font-size:17px;margin-bottom:11px}
+.hero-bottom p{font-size:15px;max-width:32ch}
+.chapter>summary{padding:9px 11px;grid-template-columns:32px 1fr auto;font-size:10px}
+.gallery{padding:0 11px 24px}
+.gallery-row{grid-template-columns:1.35fr 1fr;gap:14px;padding:22px 0}
+.gallery-copy h3{font-size:clamp(21px,6.2vw,41px);margin-bottom:14px}
+.gallery-copy p{font-size:15px;line-height:1.6}
+.gallery-copy .count{font-size:9px;padding-top:20px}
+.photo-group,.gallery-row:nth-child(2) .photo-group,.gallery-row:last-child .photo-group{grid-template-columns:1fr;gap:7px}
+.photo-group figure:first-child,.gallery-row:nth-child(2) figure:nth-child(2),.gallery-row:nth-child(2) figure:nth-child(3){grid-row:auto;grid-column:auto}
+.photo-group figure:first-child .slot,.gallery-row:nth-child(2) figure:nth-child(2) .slot{aspect-ratio:1}
+.slot{padding:8px}
+.slot span{font-size:9px}
+.package{grid-template-columns:1fr;gap:18px;padding:24px 12px}
+.package h3{font-size:45px}
+.process{grid-template-columns:1fr}
+.process article{padding:18px 12px}
+.process article+article{border-left:0;border-top:1px solid var(--line)}
+.process h3{margin:10px 0 6px}
+.booking{padding:25px 12px}
+footer{padding:13px 11px}
+}
+@media print{
+body{background:white;padding:0}
+.sheet{max-width:none;border:0}
+.edit,nav{display:none}
+.gallery-row,.package,.process{break-inside:avoid}
+}
+
+.package{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0;border-top:1px solid var(--line)}
+.session-price{padding:36px 28px 40px}
+.package .session-kicker{font:11px/1.4 Arial,sans-serif;letter-spacing:.02em;margin:0 0 28px}
+.package h3{font-size:clamp(43px,6vw,78px);line-height:1;letter-spacing:-.065em;margin:0;white-space:nowrap}
+.package h3 span{font-size:.28em;letter-spacing:0;margin-left:8px;font-weight:500}
+.package .session-tax{font-size:14px;margin:16px 0 0;line-height:1.5;color:#555}
+.session-details{border-left:1px solid var(--line);padding:18px 28px 22px}
+.session-metric{display:grid;grid-template-columns:110px 1fr;align-items:center;gap:14px;padding:20px 0}
+.session-metric+.session-metric{border-top:1px solid var(--line)}
+.session-metric h4{font-size:clamp(42px,4.2vw,57px);letter-spacing:-.06em;line-height:1;margin:0}
+.session-metric h4 span{font-size:.33em;font-weight:500;margin-left:6px;letter-spacing:0}
+.session-metric strong{font-size:16px;font-weight:600}
+.session-metric p{font-size:14px;line-height:1.6;margin:5px 0 0;word-break:keep-all}
+.session-bottom{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-top:15px}
+.session-bottom p{font-size:12px;line-height:1.5;margin:0;color:#555}
+@media(max-width:900px){
+.session-price{padding:28px 18px}
+.session-details{padding:10px 18px 18px}
+.session-metric{grid-template-columns:80px 1fr;gap:8px}
+}
+@media(max-width:700px){
+.package{grid-template-columns:1fr}
+.session-price{padding:25px 12px 28px}
+.package .session-kicker{margin-bottom:18px}
+.package h3{font-size:55px}
+.session-details{border-left:0;border-top:1px solid var(--line);padding:0 12px 18px}
+.session-metric{grid-template-columns:100px 1fr;padding:22px 0;gap:12px}
+.session-metric h4{font-size:46px}
+.session-bottom p{font-size:12px}
+}
+
+/* Preserve the photographs’ full composition. */
+.photo-group figure .slot{aspect-ratio:auto!important;padding:0;background:white}
+.slot img{position:static;display:block;width:100%;height:auto;object-fit:contain}
+@media(max-width:700px){
+.gallery-row{grid-template-columns:1fr;gap:22px}
+.gallery-copy .count{padding-top:12px}
+.photo-group,.gallery-row:nth-child(2) .photo-group{grid-template-columns:1fr 1fr;gap:10px}
+.photo-group figure:first-child{grid-column:1/-1}
+.gallery-row:last-child .photo-group{grid-template-columns:1fr 1fr;gap:10px}
+.gallery-row:last-child figure:first-child{grid-column:auto}
+}
+
+.slot:has(img){cursor:zoom-in}
+.photo-viewer{position:fixed;inset:0;width:100vw;max-width:none;height:100dvh;max-height:none;margin:0;padding:64px 64px 52px;border:0;background:rgba(15,15,14,.97);color:white;overflow:hidden}
+.photo-viewer::backdrop{background:#111}
+.photo-viewer[open]{display:flex;align-items:center;justify-content:center}
+.photo-viewer img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.photo-viewer button{position:absolute;border:0;background:transparent;color:white;cursor:pointer;min-width:48px;min-height:48px;font-size:32px}
+.photo-viewer button:hover{background:#ffffff22}
+.photo-viewer button:focus-visible{outline:2px solid white}
+.photo-close{right:16px;top:10px}
+.photo-prev{left:8px;top:calc(50% - 24px)}
+.photo-next{right:8px;top:calc(50% - 24px)}
+.photo-count{position:absolute;bottom:18px;left:0;width:100%;text-align:center;font-size:13px;letter-spacing:.1em}
+@media(max-width:700px){.photo-viewer{padding:62px 12px 68px}.photo-prev{top:auto;bottom:8px;left:18px}.photo-next{top:auto;bottom:8px;right:18px}.photo-count{bottom:25px}}
+
+/* Member guide: 15 photographs and confirmed package terms. */
+body{background:#fff}
+.gallery-row .photo-group,.gallery-row:nth-child(2) .photo-group,.gallery-row:last-child .photo-group{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.gallery-row .photo-group figure,.gallery-row:nth-child(2) .photo-group figure{grid-column:auto;grid-row:auto}
+.gallery-row .photo-group figure:first-child,.gallery-row:nth-child(2) .photo-group figure:first-child,.gallery-row:last-child .photo-group figure:first-child{grid-column:1/-1;grid-row:auto}
+.package .session-condition{font-size:16px;line-height:1.7;margin-top:24px;word-break:keep-all}
+.originals h4{font-size:36px}
+.center-package{border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr}
+.center-package>div{padding:28px}.center-package>div+div{border-left:1px solid var(--line)}
+.center-package .session-kicker{font-size:15px;margin:0 0 20px}
+.center-package h3{font-size:clamp(34px,4.7vw,60px);letter-spacing:-.05em;line-height:1.2;margin:0}
+.center-package h3 span{display:block;font-size:20px;font-weight:500;letter-spacing:0;margin-top:8px}
+.center-package p,.center-terms p{font-size:16px;line-height:1.7;word-break:keep-all}
+.center-terms{border-top:1px solid var(--line);padding:20px 28px}.center-terms summary{cursor:pointer;font-size:15px}
+@media(max-width:700px){.center-package{grid-template-columns:1fr}.center-package>div{padding:24px 12px}.center-package>div+div{border-left:0;border-top:1px solid var(--line)}.center-terms{padding:18px 12px}.center-package h3{font-size:44px}.edit{color:#62625c}}
+#editor{display:none}
+</style><link rel="canonical" href="https://yoogeeone.kr/pilates/member/"><meta property="og:url" content="https://yoogeeone.kr/pilates/member/"></head><body>
+<div class="sheet"><div class="frame">
+<header><a class="brand" href="#" aria-label="스튜디오 석양대로 처음으로"><span class="brand-mark" aria-hidden="true"></span>스튜디오 석양대로</a><nav aria-label="페이지 메뉴"><a href="#work">PHOTOS</a><a href="#package">INFO</a><a href="#booking">BOOKING ↗</a></nav></header>
+<main>
+<div class="hero"><div class="hero-top"><p class="eyebrow">MEMBER PROFILE DAY<br>PILATES EDITION<br><br>PHOTOGRAPHY<br>BY 스튜디오 석양대로</p>
+<svg class="star" viewBox="0 0 100 100" aria-hidden="true"><g stroke="currentColor" stroke-width="13"><path d="M50 0V100M0 50H100M15 15L85 85M15 85L85 15"/></g></svg></div>
+<h1><span>PILATES</span><span>PORTRAIT</span><span>DAY.</span></h1>
+<div class="hero-bottom"><h2>오늘은 수업 대신, 사진 찍는 날.</h2><p>늘 가던 센터에서 만나요.<br>평소 입는 운동복을 가져오시면 편한 자세부터 같이 잡아드려요.</p></div></div>
+<details class="chapter" id="work" open><summary><span>01/</span><span>SELECTED PHOTOS · 촬영 이미지</span><span class="symbol" aria-hidden="true"></span></summary><div class="gallery"><div class="gallery-row"><div class="gallery-copy"><h3>PORTRAIT<br>OF YOU.</h3><p>운동복 차림 그대로.<br>표정과 자세는 찍으면서 같이 잡아드려요.</p><span class="count">PILATES / 01—05</span></div><div class="photo-group"><figure data-slot="1" data-label="대표 이미지 · 필라테스 촬영 사진"><div class="slot"><img src="/pilates/photos/pilates_10_resize.jpg" alt="대표 이미지 · 필라테스 촬영 사진" decoding="async"></div></figure><figure data-slot="2" data-label="필라테스 촬영 사진 2"><div class="slot"><img src="/pilates/photos/0731_2728_resize.jpg" alt="필라테스 촬영 사진 2" decoding="async"></div></figure><figure data-slot="3" data-label="필라테스 촬영 사진 3"><div class="slot"><img src="/pilates/photos/07231395_resize.jpg" alt="필라테스 촬영 사진 3" decoding="async"></div></figure><figure data-slot="4" data-label="필라테스 촬영 사진 4"><div class="slot"><img src="/pilates/photos/0731_2634_resize.jpg" alt="필라테스 촬영 사진 4" decoding="async"></div></figure><figure data-slot="5" data-label="필라테스 촬영 사진 5"><div class="slot"><img src="/pilates/photos/0731_2706_resize.jpg" alt="필라테스 촬영 사진 5" decoding="async"></div></figure></div></div><div class="gallery-row"><div class="gallery-copy"><h3>IN<br>MOTION.</h3><p>동작 사진도 원하시면, 평소 자주 하는 자세 하나를 함께 골라요.</p><span class="count">PILATES / 06—10</span></div><div class="photo-group"><figure data-slot="6" data-label="필라테스 촬영 사진 6"><div class="slot"><img src="/pilates/photos/pilates_1_resize.jpg" alt="필라테스 촬영 사진 6" decoding="async"></div></figure><figure data-slot="7" data-label="필라테스 촬영 사진 7"><div class="slot"><img src="/pilates/photos/pilates_2_resize.jpg" alt="필라테스 촬영 사진 7" decoding="async"></div></figure><figure data-slot="8" data-label="필라테스 촬영 사진 8"><div class="slot"><img src="/pilates/photos/pilates_3_resize.jpg" alt="필라테스 촬영 사진 8" decoding="async"></div></figure><figure data-slot="9" data-label="필라테스 촬영 사진 9"><div class="slot"><img src="/pilates/photos/pilates_4_resize.jpg" alt="필라테스 촬영 사진 9" decoding="async"></div></figure><figure data-slot="10" data-label="필라테스 촬영 사진 10"><div class="slot"><img src="/pilates/photos/pilates_5_resize.jpg" alt="필라테스 촬영 사진 10" decoding="async"></div></figure></div></div><div class="gallery-row"><div class="gallery-copy"><h3>A CLOSER<br>LOOK.</h3><p>기구를 잡은 손, 동작에 집중한 표정. 가까이서도 담아봅니다.</p><span class="count">PILATES / 11—15</span></div><div class="photo-group"><figure data-slot="11" data-label="필라테스 촬영 사진 11"><div class="slot"><img src="/pilates/photos/pilates_6_resize.jpg" alt="필라테스 촬영 사진 11" decoding="async"></div></figure><figure data-slot="12" data-label="필라테스 촬영 사진 12"><div class="slot"><img src="/pilates/photos/pilates_7_resize.jpg" alt="필라테스 촬영 사진 12" decoding="async"></div></figure><figure data-slot="13" data-label="필라테스 촬영 사진 13"><div class="slot"><img src="/pilates/photos/pilates_8_resize.jpg" alt="필라테스 촬영 사진 13" decoding="async"></div></figure><figure data-slot="14" data-label="필라테스 촬영 사진 14"><div class="slot"><img src="/pilates/photos/pilates_9_resize.jpg" alt="필라테스 촬영 사진 14" decoding="async"></div></figure><figure data-slot="15" data-label="필라테스 촬영 사진 15"><div class="slot"><img src="/pilates/photos/yoogeeone_3_resize.jpg" alt="필라테스 촬영 사진 15" decoding="async"></div></figure></div></div></div></details>
+<details class="chapter" id="package" open><summary><span>02/</span><span>THE SESSION · 촬영 구성</span><span class="symbol" aria-hidden="true"></span></summary><div class="package">
+<div class="session-price"><p class="session-kicker">MEMBER PROFILE DAY</p><h3>120,000<span>원</span></h3><p class="session-tax">회원 모집형 · 1인 · 출장 및 부가세 포함</p><p class="session-condition">최소 유료 신청자 8명부터 진행합니다.</p></div>
+<div class="session-details"><div class="session-metric"><h4>15<span>분</span></h4><div><strong>1인 예약 시간</strong><p>편한 자세의 인물사진 · 동작 사진은 선택</p></div></div><div class="session-metric"><h4>2<span>장</span></h4><div><strong>보정 사진</strong><p>온라인에서 직접 선택</p></div></div><div class="session-metric originals"><h4>ALL</h4><div><strong>원본 모두 제공</strong><p>JPEG · 72dpi · 긴 변 3000px</p></div></div><div class="session-bottom"><p>운동복 1벌</p><p>주말 촬영 가능</p></div></div>
+</div><div class="center-package"><div><p class="session-kicker">센터 일괄 구매형</p><h3>1,200,000<span>원 / 6시간</span></h3><p>출장 및 부가세 포함 · 센터 수수료 없음</p></div><div><p>센터가 촬영 시간을 구매해 회원에게 촬영 혜택을 제공하는 방식입니다. 촬영 운영 6시간 안에서는 추가 인원 요금이 없습니다.</p><p>설치 시간은 촬영 6시간에 포함하지 않습니다. 참여 대상과 신청 방법은 센터 공지에서 확인해 주세요.</p></div></div><details class="center-terms"><summary>센터 제휴 조건</summary><p>회원 모집형에만 센터 수수료 20%가 적용됩니다. 환불을 제외한 실제 결제액의 부가세 제외 금액을 기준으로 계산하며, 원장님·강사님 촬영권 2장을 추가 제공합니다. 무료 촬영권 사용 인원은 최소 유료 신청자 8명에 포함하지 않습니다.</p><p>센터 일괄 구매형에는 센터 수수료가 없습니다.</p></details></details>
+<details class="chapter" open><summary><span>03/</span><span>HOW IT WORKS · 촬영 순서</span><span class="symbol" aria-hidden="true"></span></summary><div class="process"><article><small>STEP 01</small><h3>시간 예약</h3><p>센터 공지에서 원하는 시간대를 골라주세요.</p></article><article><small>STEP 02</small><h3>센터에서 촬영</h3><p>운동복을 준비해 주세요. 도착 시간과 장소는 예약 안내에서 확인할 수 있어요.</p></article><article><small>STEP 03</small><h3>사진 선택</h3><p>촬영 후 온라인으로 사진을 확인하고, 보정할 두 장을 골라주세요.</p></article></div></details>
+<details class="chapter" id="booking" open><summary><span>04/</span><span>BOOKING · 예약 안내</span><span class="symbol" aria-hidden="true"></span></summary><div class="booking"><h3>촬영 날,<br>센터에서 만나요.</h3><p>날짜와 예약 방법은 다니시는 센터 공지에서 확인해 주세요. <a href="https://sunset-pilates-booking.yoogeeone465391.chatgpt.site" target="_blank" rel="noopener" style="display:inline-block;border-bottom:1px solid;margin:12px 0;font-weight:700">촬영 예약 페이지 ↗</a><br>회원 모집형은 최소 유료 신청자 8명부터 진행하며, 미달 시 일정 변경 또는 취소·환불을 안내합니다. 예약 인원은 센터 공간과 운영 시간에 맞춰 산정합니다. 주말 촬영도 가능합니다.</p></div></details>
+</main><footer><strong>스튜디오 석양대로</strong><span>PILATES / MEMBER PROFILE DAY</span></footer></div></div>
+<details class="edit" id="editor"><summary>사진 편집 · 제작용</summary><p>편집을 켜고 각 슬롯을 눌러 사진을 선택하세요. 저장한 HTML에는 선택한 사진이 포함됩니다.</p><button id="toggle" type="button">사진 편집 켜기</button><button id="download" type="button">사진을 포함한 HTML 저장</button><input id="picker" type="file" accept="image/*" hidden></details>
+<dialog class="photo-viewer" aria-label="사진 크게 보기"><button class="photo-close" type="button" aria-label="닫기">×</button><button class="photo-prev" type="button" aria-label="이전 사진">‹</button><img alt=""><button class="photo-next" type="button" aria-label="다음 사진">›</button><span class="photo-count" aria-live="polite"></span></dialog>
+<script>
+const slots = [...document.querySelectorAll('figure[data-slot]')];
+for (const figure of slots) {
+  if (figure.firstElementChild) continue;
+  const slot = document.createElement('div');
+  slot.className = 'slot';
+  const number = document.createElement('b');
+  number.textContent = figure.dataset.slot.padStart(2, '0');
+  const label = document.createElement('span');
+  label.textContent = figure.dataset.label;
+  slot.append(number, label);
+  figure.append(slot);
+}
+const picker = document.querySelector('#picker');
+if (picker) {
+  let selected;
+  const toggle = document.querySelector('#toggle');
+  toggle.onclick = () => {
+    const editing = document.body.classList.toggle('edit-on');
+    toggle.textContent = editing ? '사진 편집 끄기' : '사진 편집 켜기';
+    for (const figure of slots) {
+      const slot = figure.firstElementChild;
+      if (editing) {
+        slot.tabIndex = 0;
+        slot.setAttribute('role', 'button');
+        slot.setAttribute('aria-label', figure.dataset.label + ' 사진 선택');
+      } else {
+        for (const name of ['tabindex','role','aria-label']) slot.removeAttribute(name);
+      }
+    }
+  };
+  for (const figure of slots) {
+    const slot = figure.firstElementChild;
+    slot.onclick = () => {
+      if (!document.body.classList.contains('edit-on')) return;
+      selected = figure;
+      picker.value = '';
+      picker.click();
+    };
+    slot.onkeydown = event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        slot.click();
+      }
+    };
+  }
+  picker.onchange = () => {
+    const file = picker.files[0];
+    if (!file || !selected) return;
+    const figure = selected;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const photo = new Image();
+      photo.onload = () => {
+        const scale = Math.min(1, 1800 / Math.max(photo.width, photo.height));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(photo.width * scale));
+        canvas.height = Math.max(1, Math.round(photo.height * scale));
+        canvas.getContext('2d').drawImage(photo, 0, 0, canvas.width, canvas.height);
+        const img = document.createElement('img');
+        img.alt = figure.dataset.label;
+        img.src = canvas.toDataURL('image/jpeg', .9);
+        figure.firstElementChild.replaceChildren(img);
+      };
+      photo.onerror = () => alert('이 사진을 열 수 없습니다. JPG 또는 PNG 파일로 다시 시도해 주세요.');
+      photo.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  };
+  document.querySelector('#download').onclick = () => {
+    const copy = document.documentElement.cloneNode(true);
+    copy.querySelector('body').classList.remove('edit-on');
+    copy.querySelector('#editor').removeAttribute('open');
+    copy.querySelector('#toggle').textContent = '사진 편집 켜기';
+    for (const slot of copy.querySelectorAll('.slot')) {
+      for (const name of ['tabindex','role','aria-label']) slot.removeAttribute(name);
+    }
+    const url = URL.createObjectURL(new Blob(['<!doctype html>\n', copy.outerHTML], {type:'text/html;charset=utf-8'}));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = '스튜디오 석양대로-멤버프로필데이.html';
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+}
+
+document.querySelectorAll('nav a').forEach(link => {
+  link.addEventListener('click', () => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.open = true;
+  });
+});
+
+const viewer = document.querySelector('.photo-viewer');
+const largePhoto = viewer.querySelector('img');
+let photoIndex = 0, previousOverflow = '';
+function showPhoto(index) {
+  photoIndex = (index + slots.length) % slots.length;
+  const source = slots[photoIndex].querySelector('img');
+  largePhoto.src = source.src;
+  largePhoto.alt = source.alt;
+  viewer.querySelector('.photo-count').textContent = `${photoIndex + 1} / ${slots.length}`;
+}
+slots.forEach((figure, index) => {
+  // The existing editor keeps its own click handler.
+  const slot = figure.firstElementChild;
+  slot.tabIndex = 0;
+  slot.setAttribute('role', 'button');
+  slot.setAttribute('aria-label', '사진 크게 보기');
+  slot.addEventListener('click', () => {
+    if (document.body.classList.contains('edit-on')) return;
+    showPhoto(index);
+    previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    viewer.showModal();
+  });
+});
+viewer.querySelector('.photo-close').onclick = () => viewer.close();
+viewer.querySelector('.photo-prev').onclick = () => showPhoto(photoIndex - 1);
+viewer.querySelector('.photo-next').onclick = () => showPhoto(photoIndex + 1);
+viewer.addEventListener('click', event => { if (event.target === viewer) viewer.close(); });
+viewer.addEventListener('close', () => { document.body.style.overflow = previousOverflow; });
+viewer.addEventListener('keydown', event => {
+  if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+    event.preventDefault();
+    showPhoto(photoIndex + (event.key === 'ArrowRight' ? 1 : -1));
+  }
+});
+let swipeStart = null;
+viewer.addEventListener('touchstart', event => { swipeStart = event.touches[0].clientX; }, {passive:true});
+viewer.addEventListener('touchend', event => {
+  if (swipeStart === null) return;
+  const distance = event.changedTouches[0].clientX - swipeStart;
+  if (Math.abs(distance) > 60) showPhoto(photoIndex + (distance < 0 ? 1 : -1));
+  swipeStart = null;
+}, {passive:true});
+
+</script></body></html>
