@@ -1,5 +1,5 @@
 :root {
-  --site-wordmark-width: clamp(164px, 18.5vw, 272px);
+  --site-wordmark-width: clamp(360px, 30vw, 540px);
   --site-wordmark-top: var(--am-nav-top);
   --site-wordmark-left: calc(var(--am-nav-pad) + .5vw);
 }
@@ -19,8 +19,17 @@
   height: auto;
 }
 
-.logo-spacer {
-  width: var(--site-wordmark-width);
+#container #header {
+  height: auto;
+}
+
+#container #header .am-header__inner {
+  flex-wrap: wrap;
+  row-gap: clamp(8px, 1.25vw, 22px);
+}
+
+#container #header .logo-spacer {
+  flex: 0 0 100%;
   height: calc(var(--site-wordmark-width) * 167 / 782);
 }
 
@@ -162,7 +171,7 @@
 
 @media (max-width: 1024px) {
   :root {
-    --site-wordmark-width: clamp(150px, 50vw, 240px);
+    --site-wordmark-width: clamp(180px, 65vw, 360px);
     --site-wordmark-top: var(--am-nav-top-mo);
     --site-wordmark-left: var(--am-page-pad-mo);
   }
